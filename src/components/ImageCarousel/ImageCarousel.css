@@ -1,0 +1,20 @@
+/* Add this CSS to your styles */
+.image-container {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .fade-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: opacity 0.3s ease-in-out;
+    opacity: 0;
+  }
+  
+  .fade-image.show {
+    opacity: 1;
+  }
+  

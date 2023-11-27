@@ -1,0 +1,6 @@
+.gm-ui-hover-effect>span {
+    transform: scale(2);
+    position: absolute;
+    right: 30%;
+    top: 30%;
+}
