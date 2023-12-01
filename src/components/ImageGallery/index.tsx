@@ -7,7 +7,7 @@ interface ImageGalleryProps {
 
 const ImageGallery = ({ images } : ImageGalleryProps) => {
   const [currentImage, setCurrentImage] = useState(images[0]);
-
+  
   return (
     <div className="max-w-3xl mx-auto">
       <div className="mb-4">

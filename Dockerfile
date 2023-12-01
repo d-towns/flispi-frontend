@@ -1,29 +1,19 @@
-# frontend/Dockerfile
+FROM node:13.12.0-alpine
 
-# We are using the Node image as our base image.
-FROM node:16 AS build
-
-# Set the working directory inside the container.
+# set working directory
 WORKDIR /app
 
-# Copy the `package.json` and `package-lock.json` to the working directory.
-COPY package*.json ./
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
 
-# Install dependencies.
-RUN npm install
+# install app dependencies
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm install --silent
+RUN npm install react-scripts@3.4.1 -g --silent
 
-# Copy the rest of the code into the container.
+# add app
 COPY . ./
 
-# Build the React app.
-RUN npm run build
-
-### Stage 2 - Serve using Nginx ###
-
-FROM nginx:alpine
-
-# Copy the build folder from React in the previous stage into the container.
-COPY --from=build /app/build/ /usr/share/nginx/html
-
-# Set the command to run when the image is used as a container.
-CMD ["nginx", "-g", "daemon off;"]
+# start app
+CMD ["npm", "start"]

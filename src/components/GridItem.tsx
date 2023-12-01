@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { Property } from '../models/Property.model';
 import { useNavigate } from 'react-router-dom';
 import ImageGallery from './ImageGallery';
+import {parseImages}  from '../utils/utils';
 
 interface GridItemProps {
   property: Property;
@@ -24,7 +25,7 @@ const GridItem: FC<GridItemProps> = ({ property }) => {
       <div className="rounded-lg">
       <div className="relative flex h-60 justify-center overflow-hidden rounded-lg">
         <div className="w-full h-auto transform transition-transform duration-500 rounded-lg ease-in-out">
-          {property.images?.length ?  <img src={JSON.parse(property.images)[0]} className='w-full h-full' alt="" /> : <img src='/no_image_dark.jpeg' className='w-full h-full' alt="" /> }
+          {property.images?.length ?  <img src={parseImages(property.images)[0]} className='w-full h-full' alt="" /> : <img src='/no_image_dark.jpeg' className='w-full h-full' alt="" /> }
         </div>
 
 

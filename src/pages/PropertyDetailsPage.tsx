@@ -19,13 +19,19 @@ const PropertyDetailsPage = () => {
     fetchProperty()
   }, [])
 
+  const parseImages = (images: string) : string[] => {
+    const imagesArray = ['']
+    const parsedImages = JSON.parse(images).replace(/\\/g, '').replace(/"/g, '').replace('[', '').replace(']', '').split(',')
+    return Array.from(parsedImages)
+  }
+
 
   return (
     <div>
       <div className=" w-3/4 mt-10 mx-auto">
         <div className="grid xl:grid-cols-3 xl:grid-rows-1 grid-cols-1 grid-rows-auto gap-2 col-span-3 my-4 h-fit">
           <div className="lg:col-span-2 col-span-1 h-fit sm:h-full bg-white rounded-lg relative overflow-hidden my-10 sm:my-0 mx-10">
-            {property?.images ? <ImageGallery images={JSON.parse(property?.images ?? '')} /> :
+            {property?.images ? <ImageGallery images={parseImages(property.images)} /> :
               <img src='/no_image_dark.jpeg'
                 className="absolute inset-0 object-cover object-center w-full h-full"
                 alt="Property Thumbnail" />

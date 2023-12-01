@@ -97,6 +97,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
   }
 
   useEffect(() => {
+    console.log(currentPage[0]);
     updatePageList();
   }, [page])
 
