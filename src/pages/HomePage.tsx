@@ -6,6 +6,7 @@ import FeaturedCarousel from "../components/FeaturedCarousel";
 import axios from 'axios';
 import { Property } from "../models/Property.model";
 import GridItem from "../components/GridItem";
+import { getEnvionmentApiUrl } from "../utils/utils";
 
 const HomePage = () => {
 
@@ -15,7 +16,7 @@ const HomePage = () => {
 
   const fetchData = async () => {
     setIsLoading(true);
-    const response = await axios.get('http://localhost:4000/properties', {
+    const response = await axios.get(getEnvionmentApiUrl()  + '/properties', {
       params: {
         price: 50000,
         limit: 4,

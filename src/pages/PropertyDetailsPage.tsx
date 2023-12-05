@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { Property } from "../models/Property.model"
 import { useParams } from 'react-router-dom';
 import ImageGallery from "../components/ImageGallery";
+import { getEnvionmentApiUrl } from "../utils/utils";
 
 const PropertyDetailsPage = () => {
 
@@ -10,7 +11,7 @@ const PropertyDetailsPage = () => {
 
 
   const fetchProperty = async () => {
-    const response = await fetch(`http://localhost:4000/properties/${id}`)
+    const response = await fetch(getEnvionmentApiUrl() + `/properties/${id}`)
     const data = await response.json()
     setProperty(data)
   }

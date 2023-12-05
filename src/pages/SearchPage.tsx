@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Property } from '../models/Property.model';
 import FilterSection from '../components/FilterSection';
 import { useSearchParams } from 'react-router-dom';
+import * as dotenv from 'dotenv';
+import { getEnvionmentApiUrl } from '../utils/utils';
 
 
 const sortOptions = [
@@ -40,10 +42,12 @@ const SearchPage: FC = () => {
   const [zipCodes, setZipCodes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   let [searchParams, setSearchParams] = useSearchParams()
+  dotenv.config();
+
 
   const fetchData = async () => {
     setIsLoading(true);
-    const response = await axios.get('http://localhost:4000/properties', {
+    const response = await axios.get( getEnvionmentApiUrl() + '/properties', {
       params: {
         searchTerm: searchParams.get("searchTerm")?.replace('-', ''),
         city: searchParams.get("city"),
@@ -61,7 +65,7 @@ const SearchPage: FC = () => {
   };
 
   const fetchZipCodes = async () => {
-    const response = await axios.get('http://localhost:4000/zip');
+    const response = await axios.get(getEnvionmentApiUrl() + '/zip');
     setZipCodes(response.data);
   }
 

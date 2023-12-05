@@ -1,3 +1,5 @@
+
+
 export enum cities {
     GrandBlanc = 'Grand Blanc',
     Flint = 'Flint',
@@ -16,3 +18,7 @@ export const parseImages = (images: string) : string[] => {
     console.log(parsedImages);
     return Array.from(parsedImages)
   }
+
+export const getEnvionmentApiUrl = () => {
+    return process.env.NODE_ENV === 'development' ? process.env.API_URL : process.env.PROD_API_URL
+}
