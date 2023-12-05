@@ -1,4 +1,4 @@
-
+import * as dotenv from 'dotenv'
 
 export enum cities {
     GrandBlanc = 'Grand Blanc',
@@ -20,5 +20,6 @@ export const parseImages = (images: string) : string[] => {
   }
 
 export const getEnvionmentApiUrl = () => {
+    dotenv.config()
     return process.env.NODE_ENV === 'development' ? process.env.API_URL : process.env.PROD_API_URL
 }
