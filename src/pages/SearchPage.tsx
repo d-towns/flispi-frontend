@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Property } from '../models/Property.model';
 import FilterSection from '../components/FilterSection';
 import { useSearchParams } from 'react-router-dom';
-import * as dotenv from 'dotenv';
 import { getEnvionmentApiUrl } from '../utils/utils';
 
 
@@ -42,7 +41,6 @@ const SearchPage: FC = () => {
   const [zipCodes, setZipCodes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   let [searchParams, setSearchParams] = useSearchParams()
-  dotenv.config();
 
 
   const fetchData = async () => {

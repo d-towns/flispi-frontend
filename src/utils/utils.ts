@@ -1,5 +1,3 @@
-import * as dotenv from 'dotenv'
-
 export enum cities {
     GrandBlanc = 'Grand Blanc',
     Flint = 'Flint',
@@ -20,6 +18,5 @@ export const parseImages = (images: string) : string[] => {
   }
 
 export const getEnvionmentApiUrl = () => {
-    dotenv.config()
     return process.env.REACT_APP_NODE_ENV === 'development' ? process.env.REACT_APP_API_URL : process.env.REACT_APP_PROD_API_URL
 }
