@@ -20,6 +20,5 @@ export const parseImages = (images: string) : string[] => {
   }
 
 export const getEnvionmentApiUrl = () => {
-    dotenv.config()
-    return process.env.NODE_ENV === 'development' ? process.env.API_URL : process.env.PROD_API_URL
+    return process.env.REACT_APP_NODE_ENV === 'development' ? process.env.REACT_APP_API_URL : process.env.REACT_APP_PROD_API_URL
 }
