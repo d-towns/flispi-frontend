@@ -5,13 +5,12 @@ FROM node:alpine AS development
 ENV NODE_ENV development
 
 # Setting up the work directory
-WORKDIR /home/node/app
+WORKDIR /home/react/app
 
 # Installing dependencies
-COPY ./package*.json /home/node/app
+COPY ./package*.json /home/react/app
 
 RUN npm install
-RUN npm install react-scripts@5.0.1 -g  
 
 # Copying all the files in our project
 COPY . .
