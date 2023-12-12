@@ -48,7 +48,7 @@ const GridItem: FC<GridItemProps> = ({ property }) => {
           </div>
         </div>
 
-        { (property.price !== 0 || property.price) && <span className="absolute left-0 top-0 z-10 ml-3 mt-3 inline-flex select-none rounded-lg bg-red-500 px-3 py-2 text-sm font-medium text-white"> Featured </span>}
+        { (property.price !== 0 || property.price && <span className="absolute left-0 top-0 z-10 ml-3 mt-3 inline-flex select-none rounded-lg bg-red-500 px-3 py-2 text-sm font-medium text-white"> Featured </span>)}
       </div>
 
       <div className="">
