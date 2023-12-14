@@ -280,9 +280,33 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                       </Disclosure.Panel>
                           </>
                         )}
-                      </Disclosure>
-
-
+                    </Disclosure>
+                    <Disclosure as="div" className="border-t border-gray-200 px-4 py-6">
+                        {({ open }) => (
+                          <>
+                            <h3 className="-mx-2 -my-3 flow-root">
+                              <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
+                                <span className="font-medium text-gray-900">Price</span>
+                                <span className="ml-6 flex items-center">
+                                  {open ? (
+                                    <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                                  ) : (
+                                    <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                                  )}
+                                </span>
+                              </Disclosure.Button>
+                            </h3>
+                            <Disclosure.Panel className="pt-6">
+                            <div className="space-y-4">
+                          <Slider initialValue={[searchParams.get('price') ?? 50000]} defaultValue={[50000]} max={50000} step={500} unit='' formatter={new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                          })} onValueCommit={setPriceFilterParams} />
+                        </div>
+                      </Disclosure.Panel>
+                          </>
+                        )}
+                    </Disclosure>
                   </form>
                 </Dialog.Panel>
               </Transition.Child>

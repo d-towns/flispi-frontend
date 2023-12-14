@@ -21,8 +21,7 @@ const PropertyDetailsPage = () => {
   }, [])
 
   const parseImages = (images: string) : string[] => {
-    const imagesArray = ['']
-    const parsedImages = JSON.parse(images).replace(/\\/g, '').replace(/"/g, '').replace('[', '').replace(']', '').split(',')
+    const parsedImages = JSON.parse(images)
     return Array.from(parsedImages)
   }
 

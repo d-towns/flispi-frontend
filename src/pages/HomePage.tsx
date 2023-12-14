@@ -74,7 +74,7 @@ const HomePage = () => {
             <img className="h-5 rounded-lg hidden lg:block" src="DT_BULB_DARK.png" alt="logo" />
             <h4 className="ml-2 text-sm font-bold tracking-widest text-primary uppercase">Explore the latest vacant land and rehab opportunites</h4>
           </div>
-          <h1 className="mb-8 text-4xl font-extrabold leading-tight lg:text-6xl text-dark-grey-900"> <span className="text-[#8ba2be]">FliSpi</span> Flint Property Lookup</h1>
+          <h1 className="mb-8 text-4xl font-extrabold leading-tight lg:text-6xl text-dark-grey-900"> <span className="text-[#8ba2be]">Genesee County </span> Land Search</h1>
           <p className="mb-6 text-base font-normal leading-7 lg:w-3/4 text-grey-900">
             Our mission is to restore value to the community by making Flint's abandoned land & properties easy to locate and acquire in cooperation with stakeholders who value responsible land ownership.
           </p>

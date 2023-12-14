@@ -16,7 +16,7 @@ const GridItem: FC<GridItemProps> = ({ property }) => {
   });
 
   const navigate = useNavigate();
-  
+
   return (
     <div className='flex items-center justify-center bg-transparent px-2'>
       <div className='border border-black border transform hover:scale-105 hover:cursor-pointer transition-all duration-300 hover:border-[#8ba2be] w-full max-w-md  mx-auto bg-gray-100 rounded-3xl shadow-xl overflow-hidden p-3'
@@ -48,7 +48,7 @@ const GridItem: FC<GridItemProps> = ({ property }) => {
           </div>
         </div>
 
-        { (property.price !== 0 || property.price && <span className="absolute left-0 top-0 z-10 ml-3 mt-3 inline-flex select-none rounded-lg bg-red-500 px-3 py-2 text-sm font-medium text-white"> Featured </span>)}
+        { property.price && property.price !== 0 ? <span className="absolute left-0 top-0 z-10 ml-3 mt-3 inline-flex select-none rounded-lg bg-red-500 px-3 py-2 text-sm font-medium text-white"> Featured </span> : null }
       </div>
 
       <div className="">
