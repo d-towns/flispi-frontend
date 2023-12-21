@@ -200,10 +200,10 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                   <form className="mt-4 border-t border-gray-200">
                     <h3 className="sr-only">Categories</h3>
 
-                    <ul role="list" className="px-2 py-3 font-medium text-gray-900 bg-gray-500">
+                    <ul role="list" className="px-2 py-3 font-medium text-gray-900">
                       {subCategories.map((category) => (
                         <li key={category.name} className={``}>
-                          <Link to={category.href} className={`block px-2 py-3`}>
+                          <Link to={category.href} className={`block px-2 py-3 rounded-lg w-fit ${window.location.toString().includes(category.href) ? 'bg-[#003366] text-white' : ''}`}>
                             {category.name}
                           </Link>
                         </li>
