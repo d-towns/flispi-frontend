@@ -13,12 +13,16 @@ export enum cities {
 }
 
 export const parseImages = (images: string) : string[] => {
-    const imagesArray = ['']
+    if(Array.isArray(images)) return images
     const parsedImages = JSON.parse(images)
-    console.log(parsedImages);
     return parsedImages
   }
 
 export const getEnvionmentApiUrl = () => {
     return process.env.REACT_APP_NODE_ENV === 'development' ? process.env.REACT_APP_API_URL : process.env.REACT_APP_PROD_API_URL
 }
+
+export const currencyFormat = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });

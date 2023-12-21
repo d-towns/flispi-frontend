@@ -1,33 +1,35 @@
 import React, {useEffect, useState } from "react";
 import ImageCarousel from "../components/ImageCarousel";
 import { Link } from "react-router-dom";
-import Footer from "../components/Footer";
-import FeaturedCarousel from "../components/FeaturedCarousel";
-import axios from 'axios';
 import { Property } from "../models/Property.model";
 import GridItem from "../components/GridItem";
-import { getEnvionmentApiUrl } from "../utils/utils";
+import {fetchFeaturedProperties} from '../services/property.service';
+import { fetchBlogs } from "../services/blog.service";
+import { Blog } from "../models/Blog.model";
+
+import { format, formatISO, parseISO } from "date-fns";
 
 const HomePage = () => {
 
   const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
-  const [zipCodes, setZipCodes] = useState([]);
+  const [blogs, setBlogs] = useState<Blog[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchData = async () => {
+  const fetchFeaturedData = async () => {
     setIsLoading(true);
-    const response = await axios.get(getEnvionmentApiUrl()  + '/properties', {
-      params: {
-        price: 50000,
-        limit: 4,
-      }
-    });
-    setFeaturedProperties(response.data);
+    const response = await fetchFeaturedProperties();
+    setFeaturedProperties(response);
     setIsLoading(false);
   };
 
+  const fetchBlogData = async () => {
+    const response = await fetchBlogs();
+    setBlogs(response);
+  }
+
   useEffect(() => {
-    fetchData();
+    fetchFeaturedData();
+    fetchBlogData();
   }, []);
 
   return (
@@ -71,12 +73,15 @@ const HomePage = () => {
       <div className="grid xl:m-auto xl:w-[1500px] w-full grid-cols-1 my-auto mt-12 mb-8 md:grid-cols-2 xl:gap-14 pr-8">
         <div className="mx-10 flex flex-col justify-center col-span-1 text-left lg:text-start">
           <div className="flex items-start mb-4 lg:justify-normal">
-            <img className="h-5 rounded-lg hidden lg:block" src="DT_BULB_DARK.png" alt="logo" />
+            <img className="h-5 rounded-lg hidden lg:block" src="/map_medium.png" alt="logo" />
             <h4 className="ml-2 text-sm font-bold tracking-widest text-primary uppercase">Explore the latest vacant land and rehab opportunites</h4>
           </div>
-          <h1 className="mb-8 text-4xl font-extrabold leading-tight lg:text-6xl text-dark-grey-900"> <span className="text-[#8ba2be]">Genesee County </span> Land Search</h1>
+          <h1 className="mb-8 text-4xl font-extrabold leading-tight lg:text-6xl text-dark-grey-900"> <span className="text-[#8ba2be]">Flint </span> Property Search</h1>
           <p className="mb-6 text-base font-normal leading-7 lg:w-3/4 text-grey-900">
             Our mission is to restore value to the community by making Flint's abandoned land & properties easy to locate and acquire in cooperation with stakeholders who value responsible land ownership.
+          </p>
+          <p className="mb-6 text-xs font-semibold leading-7 lg:w-3/4 text-grey-900">
+            **Disclaimer: Flint Propterty Search is in no way affiliated with the Genesee County Land Bank. This is a independent project for the purpose of showcasing the properties available for purchase in the City of Flint.**
           </p>
           <div className="flex items-center gap-4 flex-row ">
             <Link to="/search" className="flex items-center py-4 text-xs sm:text-sm font-bold text-white px-7 bg-gradient-to-br from-[#8ba2be] to-[#A9A9A9] focus:ring-4 shadow-lg hover:scale-105 focus:bg-purple-100 transition duration-300 rounded-xl">Find Properties</Link>
@@ -123,7 +128,7 @@ const HomePage = () => {
       <div className="bg-gray-200 mx-auto py-16 sm:py-32 text-sm">
         <div className="mx-auto xl:max-w-[100rem] px-6 lg:px-8">
           <div className="mx-auto max-w-4xl lg:text-center">
-            <h2 className="sm:text-base text-base font-semibold leading-7 text-[#8ba2be]"> FliSpi Flint Property Lookup</h2>
+            <h2 className="sm:text-base text-base font-semibold leading-7 text-[#8ba2be]">Flint Property Search</h2>
             <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">Featued properties of the week </p>
             <p className="mt-6 mx-autos sm:text-lg text-lg leading-8 text-gray-600">The Genesee County Land Bank works with partners to address challenges on tax-foreclosed properties received from the Genesee County Treasurer and position them for re-use when feasible. Some of the best available are listed below:</p>
           </div>
@@ -143,19 +148,21 @@ const HomePage = () => {
             <p className="mt-2 sm:text-lg  text-base leading-8 text-gray-600">Learn how you can get involved in mission to activate vacant land, promote affordable homeownership and fight blight</p>
           </div>
           <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-            <article className="flex max-w-xl flex-col items-start justify-between">
+            {blogs.map((blog) => {
+              return (
+                <article className="flex max-w-xl flex-col items-start justify-between">
               <div className="flex items-center gap-x-4 text-xs">
-                <time dateTime="2020-03-16" className="text-gray-500">Mar 16, 2020</time>
-                <a href="#" className="relative z-10 rounded-full bg-gray-100 shadow px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Maintain Vacant Properties</a>
+                <span className="text-gray-500">{format(parseISO(blog.created_at), 'yyyy-MM-d')}</span>
+                <a href="#" className="relative z-10 rounded-full bg-gray-100 shadow px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">{blog.tag}</a>
               </div>
               <div className="group relative">
                 <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                  <a href="#">
+                  <a href={''}>
                     <span className="absolute inset-0"></span>
-                    Clean & Green
+                    {blog.title}
                   </a>
                 </h3>
-                <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">The program began in 2004 as the Land Bank sought to partner with community-based organizations in order to advance community-based capacity, neighborhood health, youth engagement, the reuse of vacant land, and the Land Bank’s relationships with the community. Clean & Green is at the heart of the Land Bank’s community engagement. Block clubs, schools, churches, neighborhood associations and local non-profits are some of the roughly 100 community-based organizations who have participated in Clean & Green during more than a decade. Through the program, community-based groups seasonally maintain concentrated clusters of vacant properties. Each participating group receives a stipend for its maintenance work, much of which is used to employ local youth in improving their neighborhood conditions.</p>
+                <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">{blog.subtitle}</p>
               </div>
               <div className="relative mt-8 flex items-center gap-x-4">
                 <img src="DT_BULB_DARK.png" alt="" className="h-16 w-16 rounded-full bg-gray-50" />
@@ -163,64 +170,14 @@ const HomePage = () => {
                   <p className="font-semibold text-gray-900 text-lg">
                     <a href="#">
                       <span className="absolute inset-0 text-xl"></span>
-                      Dennis Towns
+                      {blog.author}
                     </a>
                   </p>
                 </div>
               </div>
             </article>
-            <article className="flex max-w-xl flex-col items-start justify-between">
-              <div className="flex items-center gap-x-4 text-xs">
-                <time dateTime="2020-03-16" className="text-gray-500">Mar 16, 2020</time>
-                <a href="#" className="relative z-10 rounded-full shadow bg-gray-100 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Maintain Vacant Properties</a>
-              </div>
-              <div className="group relative">
-                <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                  <a href="#">
-                    <span className="absolute inset-0"></span>
-                    Demolition Funding
-                  </a>
-                </h3>
-                <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">The American Rescue Plan Act (ARPA) creates a unique opportunity to leverage funding from multiple sources to clear blight in neighborhoods. So far, we have secured $43.7 million: $16 million in ARPA from the City of Example City, $8 million in ARPA from the County, $10 million in grant funding from the Charles Stewart Mott Foundation, $4.5 million from the Land</p>
-              </div>
-              <div className="relative mt-8 flex items-center gap-x-4">
-                <img src="DT_BULB_DARK.png" alt="" className="h-16 w-16 rounded-full bg-gray-50" />
-                <div className="text-sm leading-6">
-                  <p className="font-semibold text-gray-900 text-lg">
-                    <a href="#">
-                      <span className="absolute inset-0 text-xl"></span>
-                      Dennis Towns
-                    </a>
-                  </p>
-                </div>
-              </div>
-            </article>
-            <article className="flex max-w-xl flex-col items-start justify-between">
-              <div className="flex items-center gap-x-4 text-xs">
-                <time dateTime="2020-03-16" className="text-gray-500">Mar 16, 2020</time>
-                <a href="#" className="relative z-10 rounded-full bg-gray-100 shadow px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Vacant Land</a>
-              </div>
-              <div className="group relative">
-                <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                  <a href="#">
-                    <span className="absolute inset-0"></span>
-                    Property Maintenance
-                  </a>
-                </h3>
-                <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">The Land Bank’s seasonal crews mow grass and remove trash from vacant properties in Example City and Example County. We secure vacant properties by boarding windows and doors.</p>
-              </div>
-              <div className="relative mt-8 flex items-center gap-x-4">
-                <img src="DT_BULB_DARK.png" alt="" className="h-16 w-16 rounded-full bg-gray-50" />
-                <div className="text-sm leading-6">
-                  <p className="font-semibold text-gray-900 text-lg">
-                    <a href="#">
-                      <span className="absolute inset-0 text-xl"></span>
-                      Dennis Towns
-                    </a>
-                  </p>
-                </div>
-              </div>
-            </article>
+              )
+            })}
           </div>
         </div>
       </div>

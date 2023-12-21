@@ -14,11 +14,13 @@
     "@vis.gl/react-google-maps": "^0.2.1",
     "axios": "^1.5.1",
     "bootstrap-icons": "^1.11.1",
+    "date-fns": "^2.30.0",
     "heroicons": "^2.0.18",
     "lodash": "^4.17.21",
     "postcss": "^8.4.31",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-markdown": "^9.0.1",
     "react-router-dom": "^6.17.0",
     "react-scripts": "5.0.1",
     "tailwind": "^4.0.0",
@@ -55,6 +57,7 @@
     "@types/react-dom": "^18.2.14",
     "@types/react-router-dom": "^5.3.3",
     "tailwindcss": "^3.3.3",
-    "typescript": "^4.4.4"
+    "typescript": "^4.4.4",
+    "date-fns": "^2.30.0"
   }
 }

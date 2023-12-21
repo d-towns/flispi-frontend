@@ -17,4 +17,7 @@ export type Property = {
   garage: string;
   coords: string;
   images: string;
+  next_showtime: string;
+  exterior_repairs: Array<string>;
+  interior_repairs: Array<string>;
 }

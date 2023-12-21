@@ -4,6 +4,7 @@ import { Property } from '../models/Property.model';
 import FilterSection from '../components/FilterSection';
 import { useSearchParams } from 'react-router-dom';
 import { getEnvionmentApiUrl } from '../utils/utils';
+import { fetchPropertySearchData, fetchZipCodes} from '../services/property.service';
 
 
 const sortOptions = [
@@ -45,30 +46,18 @@ const SearchPage: FC = () => {
 
   const fetchData = async () => {
     setIsLoading(true);
-    const response = await axios.get( getEnvionmentApiUrl() + '/properties', {
-      params: {
-        searchTerm: searchParams.get("searchTerm")?.replace('-', ''),
-        city: searchParams.get("city"),
-        zip: searchParams.get("zip"),
-        price: searchParams.get("price"),
-        propertyClass: searchParams.get("propertyClass"),
-        sqft: searchParams.get("sqft"),
-        lotSize: searchParams.get("lotSize"),
-        sort: searchParams.get("sort"),
-        limit: 10000,
-      }
-    });
-    setData(response.data);
+    const properties = await fetchPropertySearchData(searchParams);
+    setData(properties);
     setIsLoading(false);
   };
 
-  const fetchZipCodes = async () => {
-    const response = await axios.get(getEnvionmentApiUrl() + '/zip');
-    setZipCodes(response.data);
+  const fetchZipCodeData = async () => {
+    const response = await fetchZipCodes();
+    setZipCodes(response);
   }
 
   useEffect(() => {
-    fetchZipCodes();
+    fetchZipCodeData();
     sortOptions.forEach((option) => {
       if(searchParams.get("sort") === option.sortFilter) {
         option.current = true;

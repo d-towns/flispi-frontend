@@ -4,7 +4,7 @@ import { HomeIcon, StarIcon, FlagIcon, WrenchScrewdriverIcon, MagnifyingGlassIco
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon, XMarkIcon, Bars3Icon, BuildingOffice2Icon, BuildingOfficeIcon } from '@heroicons/react/20/solid'
 
 const ourProperties = [
-  { name: 'Featured Lots for Development', description: 'Our best properties with scheduled showings', href: '/search?price=50000', icon: StarIcon },
+  { name: 'Featured Lots for Development', description: 'Our best properties with scheduled showings', href: '/search?featured=true', icon: StarIcon },
   { name: 'Ready for Rehab', description: 'Homes with structure ready to be restored', href: '/search?propertyClass=Res+Imp', icon: WrenchScrewdriverIcon },
   { name: 'Commercial Opportunites', description: 'Prime properties and lots for commercial development', href: '/search?propertyClass=Res+Imp%2CCom+Vac+Lot', icon: BuildingOffice2Icon },
   { name: 'Search All Properties', description: '', href: '/search', icon: MagnifyingGlassIcon },
@@ -31,8 +31,8 @@ const whoWeWAre = [
 ]
 
 const callsToAction = [
-  { name: 'Watch Info video', href: '#', icon: PlayCircleIcon },
-  { name: 'Contact sales', href: '#', icon: PhoneIcon },
+  { name: 'Watch Info video', href: 'https://www.youtube.com/watch?v=_Fj4QM5bXAI', icon: PlayCircleIcon },
+  { name: 'Contact sales', href: 'tel:8102573088', icon: PhoneIcon },
 ]
 
 function classNames(...classes: string[]) {
@@ -48,7 +48,10 @@ export default function Navbar() {
         <div className="flex lg:flex-1">
           <a href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
-            <img className="h-8 w-auto rounded-lg" src='/DT_BULB_DARK.png' alt="LOGO" />
+            <div className='flex flex-row gap-4'>
+            <img className="h-8 w-auto rounded-lg" src='/map_medium.png' alt="LOGO" />
+            <span className='font-xl mt-1 font-semibold'><i>Flint Property Search</i></span>
+            </div>
           </a>
         </div>
         <div className="flex lg:hidden">

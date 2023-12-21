@@ -3,6 +3,8 @@ FROM node:alpine AS development
 
 # Declaring env
 ENV NODE_ENV development
+ENV CHOKIDAR_USEPOLLING true
+
 
 # Setting up the work directory
 WORKDIR /home/react/app

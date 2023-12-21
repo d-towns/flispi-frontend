@@ -15,9 +15,9 @@ import * as Tabs from '@radix-ui/react-tabs';
 import PropertyMap from './PropertyMap';
 
 const subCategories = [
-  { name: 'Featured Properties ', href: '?price=50000' },
+  { name: 'Featured Properties ', href: '?featured=true' },
   { name: 'Ready For Rehab', href: '?propertyClass=Res+Imp' },
-  { name: 'Commercial Opportunities', href: '?propertyClass=Res+Imp%2CCom+Vac+Lot' },
+  { name: 'Commercial Opportunities', href: '?propertyClass=Com+Imp%2CCom+Vac+Lot' },
 ]
 const filters = [
 
@@ -97,7 +97,6 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
   }
 
   useEffect(() => {
-    console.log(currentPage[0]);
     updatePageList();
   }, [page])
 
@@ -201,10 +200,10 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                   <form className="mt-4 border-t border-gray-200">
                     <h3 className="sr-only">Categories</h3>
 
-                    <ul role="list" className="px-2 py-3 font-medium text-gray-900">
+                    <ul role="list" className="px-2 py-3 font-medium text-gray-900 bg-gray-500">
                       {subCategories.map((category) => (
-                        <li key={category.name}>
-                          <Link to={category.href} className="block px-2 py-3">
+                        <li key={category.name} className={``}>
+                          <Link to={category.href} className={`block px-2 py-3`}>
                             {category.name}
                           </Link>
                         </li>
@@ -343,7 +342,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                 <ul role="list" className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
                   {subCategories.map((category) => (
                     <li key={category.name}>
-                      <a href={category.href}>{category.name}</a>
+                      <a href={category.href} className={` p-2 rounded-lg ${window.location.toString().includes(category.href) ? 'bg-[#003366] text-white' : ''}`}>{category.name}</a>
                     </li>
                   ))}
                 </ul>
@@ -375,7 +374,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                       </Disclosure.Panel>
                     </>
                   )}
-                </Disclosure>
+              </Disclosure>
 
                 {/* <Disclosure as="div" key={'zip'} className="border-b border-gray-200 py-6">
                   {({ open }) => (

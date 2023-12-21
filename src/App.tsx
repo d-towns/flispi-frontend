@@ -17,7 +17,7 @@ import Footer from './components/Footer';
 import StaffPage from './pages/StaffPage';
 import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/LoginPage';
-import BlogPage from './pages/BlogPage';
+import BlogPage from './pages/BlogPage/BlogPage';
 
 // Define your root component
 const Root = () => {
@@ -37,9 +37,8 @@ const routes = (
       <Route index element={<HomePage />} />
       <Route path='search' element={<SearchPage />}/>
       <Route path='property/:id' element={<PropertyDetailsPage />} />
-      <Route path='blog' element={<BlogHome />} >
-        <Route path=':id' element={<BlogPage />} />
-        </Route>
+      <Route path='blog' element={<BlogHome />} />
+      <Route path='blog/:id' element={<BlogPage />} />
       <Route path='about' element={<StaffPage/>} />
       <Route path='staff' element={<StaffPage/>} />
       <Route path='board' element={<StaffPage/>} />
@@ -53,6 +52,7 @@ const routes = (
 const routeArray = createRoutesFromElements(routes);
 
 function App() {
+  document.title = "Flint Property Search";
   const router = createBrowserRouter(routeArray);
   return (
     <>

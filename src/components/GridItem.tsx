@@ -2,18 +2,13 @@ import React, { FC } from 'react';
 import { Property } from '../models/Property.model';
 import { useNavigate } from 'react-router-dom';
 import ImageGallery from './ImageGallery';
-import {parseImages}  from '../utils/utils';
+import {currencyFormat, parseImages}  from '../utils/utils';
 
 interface GridItemProps {
   property: Property;
 }
 
 const GridItem: FC<GridItemProps> = ({ property }) => {
-
-  const currencyFormat = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  });
 
   const navigate = useNavigate();
 
@@ -48,7 +43,7 @@ const GridItem: FC<GridItemProps> = ({ property }) => {
           </div>
         </div>
 
-        { property.price && property.price !== 0 ? <span className="absolute left-0 top-0 z-10 ml-3 mt-3 inline-flex select-none rounded-lg bg-red-500 px-3 py-2 text-sm font-medium text-white"> Featured </span> : null }
+        { property.price && property.price !== 0 ? <span className="absolute left-0 top-0 z-10 ml-3 mt-3 inline-flex select-none rounded-lg bg-[#003366] px-3 py-2 text-sm font-medium text-white"> Featured </span> : null }
       </div>
 
       <div className="">

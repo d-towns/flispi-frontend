@@ -3,40 +3,10 @@ import React from 'react';
 const staff = [
     {
         id: 1,
-        name: 'Dany Bailey',
+        name: 'Dennis Towns',
         position: 'Software Engineer',
-        photo: 'https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+        photo: 'dennis_beach.JPG'
     },
-    {
-        id: 2,
-        name: 'Lucy Carter',
-        position: 'Graphic Designer',
-        photo: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
-    },
-    {
-        id: 3,
-        name: 'Jade Bradley',
-        position: 'Dev Ops',
-        photo: 'https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80'
-    },
-    {
-        id: 1,
-        name: 'Dany Bailey',
-        position: 'Software Engineer',
-        photo: 'https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
-    },
-    {
-        id: 2,
-        name: 'Lucy Carter',
-        position: 'Graphic Designer',
-        photo: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
-    },
-    {
-        id: 3,
-        name: 'Jade Bradley',
-        position: 'Dev Ops',
-        photo: 'https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80'
-    }
 ]
 
 const StaffPage = () => {
@@ -57,7 +27,7 @@ const StaffPage = () => {
       <div className="bg-gray-100 max-w-none">
         <div className="bg-gray-100 max-w-6xl mx-auto py-16 sm:py-24 text-sm">
         <div className="mx-auto max-w-4xl text-center mb-32">
-            <h2 className="sm:text-base text-base font-semibold leading-7 text-[#8ba2be]"> FliSpi Flint Property Lookup</h2>
+            <h2 className="sm:text-base text-base font-semibold leading-7 text-[#8ba2be]"> Flint Property Search</h2>
             <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">Our Mission </p>
             <p className="mt-6 mx-auto max-w-2xl lg:max-w-none sm:text-lg text-lg leading-8 text-gray-600">
                 This tool was built to help you find information about properties in the City of Flint, but our mission is much bigger than that. Our core values are to:
@@ -110,7 +80,6 @@ const StaffPage = () => {
                 </dt>
                 <dd className="mt-2 text-base leading-7 text-gray-600">
                   We gather data from local government and community partners to provide you with the most up-to-date information on properties in your neighborhood. Our website is updated weekly with new properties and open house information.
-                
                 </dd>
               </div>
             </dl>
@@ -119,13 +88,13 @@ const StaffPage = () => {
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-24">
             <div className="text-center pb-12">
                 <h2 className="text-base font-bold text-[#8ba2be]">
-                    Geneesee County Land Bank
+                Flint Property Search
                 </h2>
                 <h1 className="font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-gray-900">
                     Check our awesome team members
                 </h1>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-1 gap-6">
                 {staff.map((member) => (
                     <div className="w-full hover:scale-110 transition ease-in-out duration-200 cursor-pointer bg-transparent rounded-lg p-12 flex flex-col justify-center items-center">
                         <div className="mb-8">

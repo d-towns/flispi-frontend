@@ -11,8 +11,8 @@ const Footer = () => {
                 Our mission is to restore value to the community by making Flint's abandoned land & properties easy to locate and acquire in cooperation with stakeholders who value responsible land ownership..
                 </p>
                 <p className='w-full text-xl font-bold text-gray-700'> Follow Us </p>
-                <div className="flex mx-3">
-                    <a href="#" className="text-gray-400 hover:text-gray-500 mx-4 ">
+                <div className="flex">
+                    <a href="#" className="text-gray-400 hover:text-gray-500 mr-4 ">
                     <i className="bi bi-facebook text-4xl"></i>
                     </a>
                     <a href="#" className="text-gray-400 hover:text-gray-500 mx-4">
@@ -24,7 +24,7 @@ const Footer = () => {
                 </div>
             </div>
             <div className="lg:col-span-1 mt-10 sm:mt-0">
-                <div className="grid grid-cols-2 gap-8 sm:grid-cols-2">
+                <div className="flex flex-col ">
                     <div>
                         <h3 className="text-gray-700 text-xl mt-6 font-semibold tracking-wider">
                             More
@@ -50,7 +50,11 @@ const Footer = () => {
                 </div>
             </div>
         </div>
-        <img className="mx-auto mb-8 max-w-[14em] mt-10 rounded-lg h-[20%]" src="/DT_BULB_DARK.png" alt="Company Logo" />
+        <div className='flex flex-col'>
+        <img className="mx-auto max-w-[14em] mb-10 rounded-lg" src="/map_medium.png" alt="Company Logo" />
+        <span className='text-lg my-1 ml-2 w-full font-semibold'><i>Flint Property Search</i></span>
+        <span className='text-gray-600'> © Towns Captial-Flint LLC </span>
+        </div>
     </div>
 </footer>
     )

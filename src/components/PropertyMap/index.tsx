@@ -23,8 +23,6 @@ interface PropertyMapProps {
 
 
 const PropertyMap = ({properties} : PropertyMapProps) => {
-
-    console.log(process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string);
     const [map, setMap] = useState<google.maps.Map>();
 
     useEffect( () => {
