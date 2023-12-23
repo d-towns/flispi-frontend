@@ -31,18 +31,13 @@ const Footer = () => {
                         </h3>
                         <ul className="mt-4 space-y-4">
                             <li>
-                                <a href="#" className="text-base text-gray-500 hover:text-gray-900">
-                                    Board
+                                <a href="/staff" className="text-base text-gray-500 hover:text-gray-900">
+                                    Staff
                                 </a>
                             </li>
                             <li>
-                                <a href="#" className="text-base text-gray-500 hover:text-gray-900">
-                                    Contracts/Bids
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="text-base text-gray-500 hover:text-gray-900">
-                                    Jobs
+                                <a href="/contact" className="text-base text-gray-500 hover:text-gray-900">
+                                    Contact Us
                                 </a>
                             </li>
                         </ul>
