@@ -51,8 +51,8 @@ const GridItem: FC<GridItemProps> = ({ property }) => {
           <div className="flex items-center col-span-2 ">
             <div className="relative">
               <h2 className="text-base font-medium text-gray-800 md:text-lg" title="New York">{property.address}</h2>
-              <p className="my-2 line-clamp-1 text-sm text-gray-800" title="New York, NY 10004, United States">{property.parcel_id}</p>
-              {property.price ?  <span className="text-lg sm:hidden block">{currencyFormat.format(property.price)}</span> :  <span className="sm:hidden block">{'Price Negotiable'}</span>}
+              <p className="my-2 line-clamp-1 text-sm text-gray-800" title="New York, NY 10004, United States"><span className="font-semibold">Tax ID:</span> {property.parcel_id}</p>
+              {property.price ?  <span className="text-lg sm:hidden block"><span className="">Price: </span>{currencyFormat.format(property.price)}</span> :  <span className="sm:hidden block">{'Price Negotiable'}</span>}
             </div>
           </div>
 

@@ -45,7 +45,7 @@ const Footer = () => {
                 </div>
             </div>
         </div>
-        <div className='flex flex-col'>
+        <div className='flex flex-col text-center'>
         <img className="mx-auto max-w-[14em] mb-10 rounded-lg" src="/map_medium.png" alt="Company Logo" />
         <span className='text-lg my-1 ml-2 w-full font-semibold'><i>Flint Property Search</i></span>
         <span className='text-gray-600'> © Towns Captial-Flint LLC </span>

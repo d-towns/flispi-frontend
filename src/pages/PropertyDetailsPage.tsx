@@ -3,7 +3,8 @@ import { Property } from "../models/Property.model"
 import { useParams } from 'react-router-dom';
 import ImageGallery from "../components/ImageGallery";
 import { currencyFormat, getEnvionmentApiUrl, parseImages } from "../utils/utils";
-import { format, parseISO } from "date-fns";
+import { parseISO,  } from "date-fns";
+import {formatInTimeZone} from "date-fns-tz";
 import * as Dialog from '@radix-ui/react-dialog';
 import {XMarkIcon} from '@heroicons/react/20/solid'
 
@@ -92,12 +93,12 @@ const PropertyDetailsPage = () => {
     <Dialog.Trigger asChild>
     <button className="md:h-full h-fit bg-white rounded-lg shadow-lg data-[state=open]:opacity-100 relative overflow-hidden" >
             <div className="group relative m-0 flex md:h-full h-fit  w-full rounded-xl shadow-xl ring-gray-900/5 xl:mx-auto xl:max-w-lg">
-              <div className=" md:h-full h-fit w-full overflow-hidden rounded-xl border border-gray-200 opacity-80 transition duration-300 ease-in-out group-hover:opacity-100 dark:border-gray-700 dark:opacity-70">
-                <img src="/stock_deal.jpeg" className="animate-fade-in block lg:h-full h-fit w-full scale-100 transform object-cover object-center opacity-100 transition duration-300 group-hover:scale-110" alt="" />
+              <div className=" md:h-full h-fit w-full overflow-hidden rounded-xl border border-gray-200 opacity-40 transition duration-300 ease-in-out group-hover:opacity-100 dark:border-gray-700 dark:opacity-90">
+                <img src="/keys_and_hand.jpeg" className="animate-fade-in block lg:h-full h-fit w-full scale-100 transform object-cover object-center opacity-100 transition duration-300 group-hover:scale-110" alt="" />
               </div>
-              <div className="absolute bottom-0 m-0 pb-4 ps-4 transition duration-300 ease-in-out group-hover:-translate-y-1 group-hover:translate-x-3 group-hover:scale-110">
-                <h1 className="font-serif text-2xl font-bold text-white">Interested in this Property?</h1>
-                <h1 className="text-sm font-light text-white">Click here Fill out an application now</h1>
+              <div className="absolute text-left bottom-0 m-0 pb-4 ps-4 transition duration-300 ease-in-out group-hover:-translate-y-1 group-hover:translate-x-3 group-hover:scale-110">
+                <h1 className="font-serif text-2xl font-bold text-black">Interested in this Property?</h1>
+                <h1 className="text-sm font-light text-black">Click here Fill out an application now</h1>
               </div>
             </div>
           </button>
@@ -139,9 +140,9 @@ const PropertyDetailsPage = () => {
               <div className="flex md:flex-row  flex-col gap-4 w-full h-full">
                 <div className="md:h-full h-fit w-full text-center">
                   <h3 className="font-bold">Showtimes</h3>
-                  <p>{ property?.next_showtime ? format(parseISO(property.next_showtime) , 	'PPPPpppp') : 'None scheduled' }</p>
+                  <p>{ property?.next_showtime ? formatInTimeZone(parseISO(property.next_showtime), 'America/New_York', 	'PPpp') : 'None scheduled' }</p>
                 </div>
-                <div className="md:border-r md:border-l md:border-b-0 md:border-t-0  border-b border-t border-gray-300 border-solid h-full w-full text-center">
+                <div className="h-fit md:border-r md:border-l md:border-b-0 md:border-t-0  border-b border-t border-gray-300 border-solid w-full text-center">
                   <h3 className="font-bold mt-3 md:mt-0">Exterior Repairs</h3>
                   {property?.exterior_repairs ? <ul>{property.exterior_repairs.map((repair : string) => 
                     <li>{repair}</li>
