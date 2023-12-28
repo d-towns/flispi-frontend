@@ -71,7 +71,7 @@ const PropertyDetailsPage = () => {
               <div className="flex w-full flex-row border-t border-b borger-gray-100 px-5 justify-between py-6 font-sans">
                 <div className="flex flex-col ">
                   <span> <span className="font-bold">PID:</span> {property?.parcel_id}</span>
-                  <span><span className="font-bold">className: </span> {property?.property_class}</span>
+                  <span><span className="font-bold">Property Class: </span> {property?.property_class}</span>
                   <span><span className="font-bold">Price:</span> {property?.price ? currencyFormat.format(property.price) : 'Price Negotiable'}</span>
                   <span><span className="font-bold">Square Feet:</span> {property?.square_feet}</span>
                 </div>
