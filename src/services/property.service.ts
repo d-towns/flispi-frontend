@@ -14,8 +14,12 @@ export const fetchPropertySearchData = async (searchParams: any) => {
             sort: searchParams.get("sort"),
             featured: searchParams.get("featured"),
             limit: 10000,
-        }
-    });
+        },
+        headers:{
+            'Content-Type': 'application/json'
+          },
+        withCredentials: true
+    },);
     return response.data;
 };
 
@@ -25,12 +29,21 @@ export const fetchFeaturedProperties = async () => {
         params: {
             featured: true,
             limit: 4,
-        }
+        },
+        headers:{
+            'Content-Type': 'application/json'
+          },
+        withCredentials: true
     });
     return response.data;
 };
 
 export const fetchZipCodes = async () => {
-    const response = await axios.get(getEnvionmentApiUrl() + '/zip');
+    const response = await axios.get(getEnvionmentApiUrl() + '/zip',{
+        headers:{
+            'Content-Type': 'application/json'
+          },
+        withCredentials: true
+    });
     return response.data;
 }

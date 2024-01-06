@@ -19,6 +19,8 @@ import StaffPage from './pages/StaffPage';
 import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/LoginPage';
 import BlogPage from './pages/BlogPage/BlogPage';
+import SignupPage from './pages/SignupPage';
+import { AuthContext, AuthProvider } from './hooks/useAuth';
 
 
 // Define your root component
@@ -54,11 +56,9 @@ const routes = (
       <Route path='board' element={<StaffPage/>} />
       <Route path='contact' element={<ContactPage/>} />
       <Route path='login' element={<LoginPage/>} />
-      <Route path='application/ComImp' element={<ExternalRedirect to='https://www.thelandbank.org/downloads/commercial_application_221006.pdf'/>} />
-  <Route path='application/ComVacLot' element={<ExternalRedirect  to='https://www.thelandbank.org/downloads/commercial_application_221006.pdf'/>} />
-  <Route path='application/ResImp' element={<ExternalRedirect  to='https://www.thelandbank.org/downloads/residential_interest_form_221006.pdf'/>} />
-  <Route path='application/ResVacLot' element={<ExternalRedirect to='https://www.thelandbank.org/downloads/lots_available_application_221006.pdf'/>} />
+      <Route path='signup' element={<SignupPage/>} />
     </Route>
+
   </React.Fragment>
 );
 
@@ -69,7 +69,9 @@ function App() {
   const router = createBrowserRouter(routeArray);
   return (
     <>
+    <AuthProvider>
       <RouterProvider router={router} />
+    </AuthProvider>
     </>
   );
 }

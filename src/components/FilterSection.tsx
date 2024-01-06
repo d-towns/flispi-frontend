@@ -20,7 +20,6 @@ const subCategories = [
   { name: 'Commercial Opportunities', href: '?propertyClass=Com+Imp%2CCom+Vac+Lot' },
 ]
 const filters = [
-
   {
     id: 'propertyClass',
     name: 'Property Class',
