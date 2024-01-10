@@ -1,34 +1,50 @@
 import React, { Fragment, useContext, useState } from 'react'
 import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react'
 import { HomeIcon, StarIcon, FlagIcon, WrenchScrewdriverIcon, MagnifyingGlassIcon, MapPinIcon } from '@heroicons/react/20/solid';
-import { ChevronDownIcon, PhoneIcon, PlayCircleIcon, XMarkIcon, Bars3Icon, BuildingOffice2Icon, BuildingOfficeIcon } from '@heroicons/react/20/solid'
+import { ChevronDownIcon, PhoneIcon, PlayCircleIcon, XMarkIcon, Bars3Icon, BuildingOffice2Icon, BuildingOfficeIcon, ArrowUturnRightIcon, UserCircleIcon, HeartIcon} from '@heroicons/react/20/solid'
 import useAuth from '../hooks/useAuth';
+import { logout } from '../services/auth.service';
 
-const ourProperties = [
+// Create a type for the navigation items that includes action as a funtion type
+type NavItem = Array<{
+  name: string;
+  description: string;
+  href: string;
+  icon: any;
+  action?: () => void;
+}>;
+
+const ourProperties : NavItem = [
   { name: 'Featured Lots for Development', description: 'Our best properties with scheduled showings', href: '/search?featured=true', icon: StarIcon },
   { name: 'Ready for Rehab', description: 'Homes with structure ready to be restored', href: '/search?propertyClass=Res+Imp', icon: WrenchScrewdriverIcon },
   { name: 'Commercial Opportunites', description: 'Prime properties and lots for commercial development', href: '/search?propertyClass=Res+Imp%2CCom+Vac+Lot', icon: BuildingOffice2Icon },
   { name: 'Search All Properties', description: '', href: '/search', icon: MagnifyingGlassIcon },
 ]
 
-const whatWeDo = [
+const whatWeDo  : NavItem = [
   { name: 'Promote Affordable Ownership', description: 'Get a better understanding of your traffic', href: '/blog/afforable_ownership', icon: HomeIcon },
   { name: 'Create Economic Opportunities', description: 'Speak directly to your customers', href: '#', icon: StarIcon },
   { name: 'Activate Vacant Land', description: 'Your customers’ data will be safe and secure', href: '#', icon: FlagIcon },
   { name: 'Fight Blight', description: 'Connect with third-party tools', href: '#', icon: WrenchScrewdriverIcon },
 ]
 
-const applications = [
+const applications  : NavItem = [
   { name: 'Lots Available Application', description: '', href: 'https://www.thelandbank.org/downloads/lots_available_application_221006.pdf', icon: MapPinIcon },
   { name: 'Residential Property Interest Application', description: '', href: 'https://www.thelandbank.org/downloads/residential_interest_form_221006.pdf', icon: HomeIcon },
   { name: 'Residential Poor/Demo Condition Application', description: '', href: 'https://www.thelandbank.org/downloads/poor_or_demo_application_221006.pdf', icon: FlagIcon },
   { name: 'Commercial Property Interest Application', description: '', href: 'https://www.thelandbank.org/downloads/commercial_application_221006.pdf', icon: BuildingOfficeIcon },
 ]
 
-const whoWeWAre = [
+const whoWeWAre : NavItem  = [
   { name: 'Mission & Staff', description: 'Who We Are & What We Do', href: '/staff', icon: HomeIcon },
   { name: 'Blog', description: 'Our articles on the restoration of Flint and activating vacant land', href: '/blog', icon: WrenchScrewdriverIcon },
   { name: 'Contact Us', description: '', href: '/contact', icon: FlagIcon },
+]
+
+const account : NavItem  = [
+  { name: 'Your Profile', description: 'Manage your profile information', href: '/profile', icon: UserCircleIcon },
+  { name: 'Your Properties', description: 'Manage your saved properties', href: '/profile', icon: HeartIcon },
+  { name: 'Log Out', description: 'Sign out of your account', href: '', icon: ArrowUturnRightIcon },
 ]
 
 const callsToAction = [
@@ -42,7 +58,7 @@ function classNames(...classes: string[]) {
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const { user, loading } = useAuth();
+  const { user, loading, logout } = useAuth();
 
   return (
     <header className="bg-transparent z-50">
@@ -206,9 +222,53 @@ export default function Navbar() {
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           {user ?
-            <a href="/login" className="text-sm font-semibold leading-6 text-gray-900">
-              {user?.username}
-            </a>
+            <Popover.Group className="hidden lg:flex lg:gap-x-12">
+            <Popover className="relative">
+              <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
+                {user?.username}
+                <ChevronDownIcon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
+              </Popover.Button>
+
+              <Transition
+                as={Fragment}
+                enter="transition ease-out duration-200"
+                enterFrom="opacity-0 translate-y-1"
+                enterTo="opacity-100 translate-y-0"
+                leave="transition ease-in duration-150"
+                leaveFrom="opacity-100 translate-y-0"
+                leaveTo="opacity-0 translate-y-1"
+              >
+                <Popover.Panel className="absolute -right-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
+                  <div className="p-4">
+                    {account.map((item, index) => (
+                      <div
+                        key={item.name}
+                        className={`group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 ${index === account.length - 1 ? ' hover:bg-red-50' : ' hover:bg-gray-50'}`}
+                      >
+                        <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                          <item.icon className={`h-6 w-6 text-gray-600 group-hover:text-indigo-600 ${index === account.length - 1  && 'group-hover:text-red-800'}`} aria-hidden="true" />
+                        </div>
+                        <div className="flex-auto">
+                          {index === account.length - 1  ?
+                          <button onClick={() => logout() } className="block font-semibold text-gray-900">
+                            {item.name}
+                            <span className="absolute inset-0" /> 
+                            </button>
+                            :
+                          <a href={item.href} className="block font-semibold text-gray-900">
+                            {item.name}
+                            <span className="absolute inset-0" />
+                          </a>
+                          }
+                          <p className="mt-1 text-gray-600">{item.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </Popover.Panel>
+              </Transition>
+            </Popover>
+          </Popover.Group>
             :
             <a href="/login" className="text-sm font-semibold leading-6 text-gray-900">
               Log in <span aria-hidden="true">&rarr;</span>

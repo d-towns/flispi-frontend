@@ -11,7 +11,7 @@ export const login = async (parmas : { username: string, password: string}) => {
     return response.data;
 };
 
-export const register = async (parmas : {username: string, email: string, password: string, phone:string}) => {
+export const signUp = async (parmas : {username: string, email: string, password: string, phone:string, firstName: string, lastName: string, company: string}) => {
     const response = await axios.post( getEnvionmentApiUrl() + '/register', parmas,{
     headers: {
         'Content-Type': 'application/json'
@@ -21,7 +21,7 @@ export const register = async (parmas : {username: string, email: string, passwo
 };
 
 export const logout = async () => {
-    const response = await axios.post( getEnvionmentApiUrl() + '/logout', {},{
+    const response = await axios.post( getEnvionmentApiUrl() + '/logout', {} ,{
     headers: {
         'Content-Type': 'application/json'
       },
@@ -35,6 +35,7 @@ export const getCurrentUser = async () => {
         'Content-Type': 'application/json'
       },
       withCredentials: true});
+      
     return response.data;
 }
 

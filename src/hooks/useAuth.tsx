@@ -13,8 +13,8 @@ import * as authService from "../services/auth.service";
     user?: User;
     loading: boolean;
     error?: any;
-    login: (username: string, password: string) => void;
-    signUp: (email: string, username: string, phone: string, password: string) => void;
+    login: (params: {username: string, password: string}) => void;
+    signUp: (params: {email: string, username: string, phone: string, password: string, firstName: string, lastName: string, company: string}) => void;
     logout: () => void;
   }
   
@@ -32,6 +32,7 @@ import * as authService from "../services/auth.service";
     const [error, setError] = useState<any>();
     const [loading, setLoading] = useState<boolean>(false);
     const [loadingInitial, setLoadingInitial] = useState<boolean>(true);
+    
 
     useEffect(() => {
       authService.getCurrentUser()
@@ -45,16 +46,23 @@ import * as authService from "../services/auth.service";
      * @param username 
      * @param password 
      */
-    function login(username: string, password: string) {
+    function login(params : {username: string, password: string}) {
       setLoading(true);
   
-      authService.login({ username, password })
+      authService.login(params)
         .then((user) => {
           setUser(user);
-
         })
         .catch((error) => setError(error))
         .finally(() => setLoading(false));
+
+    }
+
+    function getCurrentUser() {
+      authService.getCurrentUser()
+        .then((user) => setUser(user))
+        .catch((_error) => {})
+        .finally(() => setLoadingInitial(false));
     }
 
     /**
@@ -64,10 +72,10 @@ import * as authService from "../services/auth.service";
      * @param phone 
      * @param password 
      */
-    function signUp(email: string,  username: string,phone: string, password: string) {
+    function signUp(params: {email: string,  username: string,phone: string, password: string, firstName: string, lastName: string, company: string}) {
       setLoading(true);
   
-      authService.register({ email, username, phone, password })
+      authService.signUp(params)
         .then((user) => {
           setUser(user);
         })
@@ -94,6 +102,7 @@ import * as authService from "../services/auth.service";
     const memoedValue = useMemo(
       () => ({
         user,
+        getCurrentUser,
         loading,
         error,
         login,

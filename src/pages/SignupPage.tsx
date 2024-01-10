@@ -1,7 +1,8 @@
 import React, { useState }  from 'react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Switch } from '@headlessui/react'
-import { register } from '../services/auth.service'
+import useAuth from '../hooks/useAuth'
+import { useNavigate } from 'react-router-dom'
 
 const SignupPage = () => {
 
@@ -9,9 +10,15 @@ const SignupPage = () => {
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [username, setUsername] = useState('')
+    const [company, setCompany] = useState('')
     const [email, setEmail] = useState('')
     const [phone, setPhone] = useState('')
     const [password, setPassword] = useState('')
+
+
+    const {signUp, user, error} = useAuth()
+
+    const naviagte = useNavigate();
 
 
     function classNames(...classes :  any) {
@@ -79,7 +86,24 @@ const SignupPage = () => {
                   type="text"
                   name="username"
                   id="username"
+                  minLength={6}
                   onChange={(e) => setUsername(e.target.value)}
+                  autoComplete="organization"
+                  required
+                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#8ba2be] sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+            <div className="sm:col-span-2">
+              <label htmlFor="company" className="block text-sm font-semibold leading-6 text-gray-900">
+                Company
+              </label>
+              <div className="mt-2.5">
+                <input
+                  type="text"
+                  name="username"
+                  id="username"
+                  onChange={(e) => setCompany(e.target.value)}
                   autoComplete="organization"
                   className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#8ba2be] sm:text-sm sm:leading-6"
                 />
@@ -94,6 +118,7 @@ const SignupPage = () => {
                   type="text"
                   name="password"
                   id="password"
+                  required
                   onChange={(e) => setPassword(e.target.value)}
                   autoComplete=""
                   className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#8ba2be] sm:text-sm sm:leading-6"
@@ -109,6 +134,7 @@ const SignupPage = () => {
                   type="email"
                   name="email"
                   id="email"
+                  required
                   onChange={(e) => setEmail(e.target.value)}
                   autoComplete="email"
                   className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#8ba2be] sm:text-sm sm:leading-6"
@@ -127,16 +153,12 @@ const SignupPage = () => {
                   <select
                     id="country"
                     name="country"
-                    className="h-full rounded-md border-0 bg-transparent bg-none py-0 pl-4 pr-9 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#8ba2be] sm:text-sm"
+                    className="h-full w-fit rounded-md border-0 bg-transparent bg-none py-0 pl-4 pr-9 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#8ba2be] sm:text-sm"
                   >
                     <option>US</option>
                     <option>CA</option>
                     <option>EU</option>
                   </select>
-                  <ChevronDownIcon
-                    className="pointer-events-none absolute right-3 top-0 h-full w-5 text-gray-400"
-                    aria-hidden="true"
-                  />
                 </div>
                 <input
                   type="tel"
@@ -144,7 +166,7 @@ const SignupPage = () => {
                   id="phone-number"
                   onChange={(e) => setPhone(e.target.value)}
                   autoComplete="tel"
-                  className="block w-full rounded-md border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#8ba2be] sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 px-3.5 py-2 pl-24 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#8ba2be] sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -180,7 +202,10 @@ const SignupPage = () => {
           <div className="mt-10">
             <button
               className="block w-full rounded-md bg-[#8ba2be] px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-[#8ba2be] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8ba2be]"
-              onClick={() => register({username, email, password, phone}).then(() => window.location.href = '/login')}
+              onClick={() => {
+                signUp({username, email, password, phone, firstName, lastName, company})
+                naviagte('/profile')
+              }}
             >
               Complete Sign Up
             </button>

@@ -1,9 +1,14 @@
 import React, {useState} from 'react'
 import { login } from '../services/auth.service'
+import useAuth from '../hooks/useAuth'
+import { useNavigate } from 'react-router-dom'
 
 const LoginPage = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const {user, login, error} = useAuth()
+
+  const navigate = useNavigate()
 
 
   return (
@@ -37,7 +42,10 @@ const LoginPage = () => {
               <a href="#" className="text-sm font-semibold text-gray-700 hover:text-blue-700 focus:text-blue-700">Forgot Password?</a>
             </div>
 
-            <button onClick={() => login({username, password})} className="w-full block bg-[#8ba2be] hover:bg-gray-500 transition ease-in-out duration-200 text-white font-semibold rounded-lg
+            <button onClick={async () => {
+              login({username, password})
+              navigate('/profile')
+            }} className="w-full block bg-[#8ba2be] hover:bg-gray-500 transition ease-in-out duration-200 text-white font-semibold rounded-lg
               px-4 py-3 mt-6">Log In</button>
           </div>
 

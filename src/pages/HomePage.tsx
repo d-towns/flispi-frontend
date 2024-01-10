@@ -87,7 +87,7 @@ const HomePage = () => {
             <Link to="/search" className="flex items-center md:py-4 py-3 px-5 text-xs sm:text-sm font-bold text-white bg-gradient-to-br from-[#8ba2be] to-[#A9A9A9] focus:ring-4 shadow-lg hover:scale-105 focus:bg-purple-100 transition duration-300 rounded-xl">Find Properties</Link>
             <Link to='/contact' className="flex items-center py-4 text-xs sm:text-sm font-medium px-7 text-dark-grey-700 hover:text-dark-grey-900 transition duration-300 rounded-2xl">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 mr-2">
-                <path fill-rule="evenodd" d="M1.5 4.5a3 3 0 013-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 01-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 006.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 011.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 01-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5z" clip-rule="evenodd"></path>
+                <path fillRule="evenodd" d="M1.5 4.5a3 3 0 013-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 01-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 006.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 011.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 01-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5z" clipRule="evenodd"></path>
               </svg>
               Contact Us
             </Link>
@@ -102,25 +102,25 @@ const HomePage = () => {
           <dl className="grid grid-cols-1 gap-x-8 gap-y-16 text-center md:grid-cols-3">
             <div className="relative mx-auto flex max-w-xs flex-col gap-y-4">
               <div className="absolute right-2 bottom-2 h-3/4 w-full rounded-lg bg-[#8ba2be] z-0"></div>
-              <dd className="relative border border-black order-first z-10 mb-4 rounded-lg bg-white p-6 text-3xl font-semibold tracking-tight text-gray-900 shadow-md lg:text-7xl sm:text-3xl">
-                <dt className="relative z-10 text-base leading-7 text-gray-600 text-xl">Funds Secured for Demolition</dt>
+              <dl className="relative border border-black order-first z-10 mb-4 rounded-lg bg-white p-6 text-3xl font-semibold tracking-tight text-gray-900 shadow-md lg:text-7xl sm:text-3xl">
+                <dd className="relative z-10 text-base leading-7 text-gray-600 text-xl">Funds Secured for Demolition</dd>
                 $43.7 M
-              </dd>
+              </dl>
             </div>
             <div className="relative mx-auto flex max-w-sm flex-col gap-y-4">
               <div className="absolute right-2 bottom-2 h-3/4 w-full rounded-lg bg-[#8ba2be] z-0"></div>
-              <dd className="relative border border-black order-first z-10 mb-4 rounded-lg bg-white p-6 text-3xl font-semibold tracking-tight text-gray-900 shadow-md lg:text-7xl sm:text-3xl">
-                <dt className="relative z-10 text-base leading-7 text-gray-600 text-xl">Planned Demolitions <span className="hidden sm:inline">( A/O Nov 2023 )</span>     </dt>
-                <dt className="relative z-10 text-base leading-7 text-gray-600 text-xl block sm:hidden">( A/O Nov 2023 )  </dt>
+              <dl className="relative border border-black order-first z-10 mb-4 rounded-lg bg-white p-6 text-3xl font-semibold tracking-tight text-gray-900 shadow-md lg:text-7xl sm:text-3xl">
+                <dd className="relative z-10 text-base leading-7 text-gray-600 text-xl">Planned Demolitions <span className="hidden sm:inline">( A/O Nov 2023 )</span>     </dd>
+                <dd className="relative z-10 text-base leading-7 text-gray-600 text-xl block sm:hidden">( A/O Nov 2023 )  </dd>
                 1,910
-              </dd>
+              </dl>
             </div>
             <div className="relative mx-auto flex max-w-xs flex-col gap-y-4">
               <div className="absolute right-2 bottom-2 h-3/4 w-full rounded-lg bg-[#8ba2be] z-0"></div>
-              <dd className="relative border border-black order-first z-10 mb-4 rounded-lg bg-white p-6 text-3xl font-semibold tracking-tight text-gray-900 shadow-md lg:text-7xl sm:text-3xl">
+              <dl className="relative border border-black order-first z-10 mb-4 rounded-lg bg-white p-6 text-3xl font-semibold tracking-tight text-gray-900 shadow-md lg:text-7xl sm:text-3xl">
                 <dt className="relative z-10 text-base leading-7 text-gray-600 text-xl">Community Feedback Surveys</dt>
                 400+
-              </dd>
+              </dl>
             </div>
           </dl>
         </div>
@@ -135,7 +135,7 @@ const HomePage = () => {
           <div className="mx-auto w-full mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
             <dl className="grid max-w-none w-full grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-2 xl:max-w-none xl:grid-cols-4 lg:gap-y-16">
               {featuredProperties.map((property) => (
-                <GridItem property={property} />
+                <GridItem key={property.id} property={property} />
               ))}
             </dl>
           </div>
@@ -150,7 +150,7 @@ const HomePage = () => {
           <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
             {blogs.map((blog) => {
               return (
-                <article className="flex max-w-xl flex-col items-start justify-between">
+                <article key={blog.id} className="flex max-w-xl flex-col items-start justify-between">
               <div className="flex items-center gap-x-4 text-xs">
                 <span className="text-gray-500">{format(parseISO(blog.created_at), 'yyyy-MM-d')}</span>
                 <a href="" className="relative z-10 rounded-full bg-gray-100 shadow px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">{blog.tag}</a>
@@ -197,8 +197,8 @@ const HomePage = () => {
             <dl className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:pt-2 text-sm">
               <div className="flex flex-col items-start">
                 <div className="rounded-md bg-white/5 p-2 ring-1 ring-white/10">
-                  <svg className="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
+                  <svg className="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
                   </svg>
                 </div>
                 <dt className="mt-4 font-semibold text-black">Weekly updates</dt>
@@ -206,8 +206,8 @@ const HomePage = () => {
               </div>
               <div className="flex flex-col items-start">
                 <div className="rounded-md bg-white/5 p-2 ring-1 ring-white/10">
-                  <svg className="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.05 4.575a1.575 1.575 0 10-3.15 0v3m3.15-3v-1.5a1.575 1.575 0 013.15 0v1.5m-3.15 0l.075 5.925m3.075.75V4.575m0 0a1.575 1.575 0 013.15 0V15M6.9 7.575a1.575 1.575 0 10-3.15 0v8.175a6.75 6.75 0 006.75 6.75h2.018a5.25 5.25 0 003.712-1.538l1.732-1.732a5.25 5.25 0 001.538-3.712l.003-2.024a.668.668 0 01.198-.471 1.575 1.575 0 10-2.228-2.228 3.818 3.818 0 00-1.12 2.687M6.9 7.575V12m6.27 4.318A4.49 4.49 0 0116.35 15m.002 0h-.002" />
+                  <svg className="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M10.05 4.575a1.575 1.575 0 10-3.15 0v3m3.15-3v-1.5a1.575 1.575 0 013.15 0v1.5m-3.15 0l.075 5.925m3.075.75V4.575m0 0a1.575 1.575 0 013.15 0V15M6.9 7.575a1.575 1.575 0 10-3.15 0v8.175a6.75 6.75 0 006.75 6.75h2.018a5.25 5.25 0 003.712-1.538l1.732-1.732a5.25 5.25 0 001.538-3.712l.003-2.024a.668.668 0 01.198-.471 1.575 1.575 0 10-2.228-2.228 3.818 3.818 0 00-1.12 2.687M6.9 7.575V12m6.27 4.318A4.49 4.49 0 0116.35 15m.002 0h-.002" />
                   </svg>
                 </div>
                 <dt className="mt-4 font-semibold text-black">No spam</dt>

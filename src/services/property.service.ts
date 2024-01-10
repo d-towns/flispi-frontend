@@ -47,3 +47,33 @@ export const fetchZipCodes = async () => {
     });
     return response.data;
 }
+
+export const favoriteProperty = async (propertyId: string) => {
+    const response = await axios.post(getEnvionmentApiUrl() + '/user/save-property', {propertyId}, {
+        headers:{
+            'Content-Type': 'application/json'
+          },
+        withCredentials: true
+    });
+    return response.data;
+}
+
+export const unfavoriteProperty = async (propertyId: string) => {
+    const response = await axios.post(getEnvionmentApiUrl() + '/user/remove-saved-property', {propertyId}, {
+        headers:{
+            'Content-Type': 'application/json'
+          },
+        withCredentials: true
+    });
+    return response.data;
+}
+
+export const getFavoriteProperties = async () => {
+    const response = await axios.get(getEnvionmentApiUrl() + '/user/saved-properties', {
+        headers:{
+            'Content-Type': 'application/json'
+          },
+        withCredentials: true
+    });
+    return response.data;
+}
