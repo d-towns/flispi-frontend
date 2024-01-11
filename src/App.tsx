@@ -37,14 +37,6 @@ const Root = () => {
   )
 }
 
-const ExternalRedirect = (to: any) => {
-  // Use window.location for external URLs
-  console.log(to);
-  
-  window.location.href = to;
-  return null; // Render nothing since we're redirecting
-};
-
 // Define your routes using JSX elements
 const routes = (
   <React.Fragment>

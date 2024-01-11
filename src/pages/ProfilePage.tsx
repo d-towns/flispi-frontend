@@ -10,14 +10,19 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 
 const ProfilePage = () => {
-    const { user, error } = useAuth0()
+    const { user, loginWithRedirect, error } = useAuth0()
     const [favoriteProperties, setFavoriteProperties] = useState<Property[]>([])
 
-    const navigate = useNavigate()
+    const handlePasswordReset = async () => {
+        await loginWithRedirect({
+          appState: {
+            returnTo: "/profile",
+          },
+        });
+      };
+    
 
     useEffect(() => {
-        console.log(user);
-        
         getFavoriteProperties(user?.sub || '').then((properties) => {
             setFavoriteProperties(properties)
         })
@@ -44,7 +49,7 @@ const ProfilePage = () => {
                             </li>
                             <li className="flex items-center py-3">
                                 <span>Member since</span>
-                                <span className="ml-auto"> {user?.created_at && formatInTimeZone(parseISO(user?.created_at), 'America/New_York', 'MMM yyyy')}</span>
+                                <span className="ml-auto"> {user?.updated_at && formatInTimeZone(parseISO(user.updated_at), 'America/New_York', 'MMM yyyy')}</span>
                             </li>
                         </ul>
                     </div>
@@ -57,39 +62,30 @@ const ProfilePage = () => {
                             <span className="text-[#003366]">
                                 <UserIcon className="h-5 w-5" />
                             </span>
-                            <span className="tracking-wide">About</span>
+                            <span className="tracking-wide">Account Info</span>
                         </div>
                         <div className="text-gray-700">
                             <div className="grid md:grid-cols-2 text-sm">
-                                <div className="grid grid-cols-2">
-                                    <div className="px-2 py-2 font-semibold">First Name</div>
-                                    <div className="px-2 py-2">{user?.first_name}</div>
-                                </div>
-                                <div className="grid grid-cols-2">
-                                    <div className="px-2 py-2 font-semibold">Last Name</div>
-                                    <div className="px-2 py-2">{user?.last_name}</div>
-                                </div>
-                                <div className="grid grid-cols-2">
-                                    <div className="px-2 py-2 font-semibold">Contact No.</div>
-                                    <div className="px-2 py-2">+1 {user?.phone}</div>
-                                </div>
                                 <div className="flex">
                                     <div className="px-2 py-2 w-fit font-semibold">Email</div>
                                     <div className="px-2 py-2">
                                         <a className="text-blue-800" href="mailto:jane@example.com">{user?.email}</a>
                                     </div>
                                 </div>
+                                <div className="grid grid-cols-2">
+                                    <div className="px-2 py-2 font-semibold">Email Verified</div>
+                                    <div className="px-2 py-2"><span
+                                    className="bg-[#003366] py-1 px-2 rounded text-white text-sm">{String(user?.email_verified).toUpperCase()}</span></div>
+                                </div>
                             </div>
                         </div>
                         <div className="flex gap-5">
                         <button
-                            className="block border border-gray-100 rounded-lg w-full text-[#003366] text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">
+                            onClick={handlePasswordReset}
+                            className="block border border-gray-100 rounded-lg w-full text-[#003366] transition ease-in-out duration-200 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">
                             Reset Password</button>
                             <button
-                            className="block border border-gray-100 rounded-lg w-full text-[#003366] text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">
-                            Change Email</button>
-                            <button
-                            className="block border border-gray-100 rounded-lg w-full text-red-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">
+                            className="block border border-gray-100 rounded-lg w-full text-red-800 transition ease-in-out duration-200 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">
                             Deactivate Account</button>
                             </div>
                     </div>

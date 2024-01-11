@@ -5,6 +5,7 @@ import { ChevronDownIcon, PhoneIcon, PlayCircleIcon, XMarkIcon, Bars3Icon, Build
 import { logout } from '../services/auth.service';
 import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
+import { PageLoader } from './PageLoader';
 
 // Create a type for the navigation items that includes action as a funtion type
 type NavItem = Array<{
@@ -224,11 +225,12 @@ export default function Navbar() {
           </a>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          {user ?
+        {isLoading ? <div className="font-semibold ">Loading... </div> :
+          user ?
             <Popover.Group className="hidden lg:flex lg:gap-x-12">
             <Popover className="relative">
               <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
-                {user?.email}
+              Account
                 <ChevronDownIcon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
               </Popover.Button>
 
@@ -380,12 +382,13 @@ export default function Navbar() {
                 </Disclosure>
               </div>
               <div className="py-6">
-              {user ?
+                {isLoading ? <div className="w-[20px] h-[20px]"><PageLoader /> </div> :
+              user ?
                              <Disclosure as="div" className="-mx-3">
                              {({ open }) => (
                                <>
                                  <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-                                   {user?.username}
+                                 Account
                                    <ChevronDownIcon
                                      className={classNames(open ? 'rotate-180' : '', 'h-5 w-5 flex-none')}
                                      aria-hidden="true"

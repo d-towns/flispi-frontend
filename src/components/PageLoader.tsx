@@ -5,7 +5,7 @@ export const PageLoader = () => {
 
   return (
     <div className="loader">
-      <img  className="w-1/4 h-1/4 m-auto my-20"src={loadingImg} alt="Loading..." />
+      <img  className="w-1/4 h-1/4 m-auto my-20" src={loadingImg} alt="Loading..." />
     </div>
   );
 };
