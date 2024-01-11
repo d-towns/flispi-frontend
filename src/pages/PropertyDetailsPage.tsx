@@ -8,14 +8,14 @@ import { formatInTimeZone } from "date-fns-tz";
 import * as Dialog from '@radix-ui/react-dialog';
 import { XMarkIcon, HeartIcon } from '@heroicons/react/20/solid'
 import { favoriteProperty, getFavoriteProperties, unfavoriteProperty } from "../services/property.service";
-import useAuth from "../hooks/useAuth";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const PropertyDetailsPage = () => {
 
   const [property, setProperty] = useState<Property>()
   const [favoriteProperties, setFavoriteProperties] = useState<Property[]>([])
   const { id } = useParams<{ id: string }>()
-  const { user } = useAuth()
+  const { user } = useAuth0()
 
 
   const fetchProperty = async () => {
@@ -27,20 +27,20 @@ const PropertyDetailsPage = () => {
   React.useEffect(() => {
     window.scrollTo(0, 0)
     fetchProperty()
-    if (user) {
-      getFavoriteProperties().then((properties) => {
+    if (user?.sub) {
+      getFavoriteProperties(user.sub).then((properties) => {
         setFavoriteProperties(properties)
       })
     }
-  }, [])
+  }, [user])
 
   const toggleFavorite = (property: Property) => {
-    if (favoriteProperties.find((favoriteProperty) => favoriteProperty.id === property.id)) {
-      unfavoriteProperty(property.id).then(() => {
+    if (favoriteProperties && favoriteProperties?.find((favoriteProperty) => favoriteProperty.id === property.id) && user?.sub) {
+      unfavoriteProperty(property.id, user.sub).then(() => {
         setFavoriteProperties(favoriteProperties.filter((favoriteProperty) => favoriteProperty.id !== property.id))
       })
-    } else {
-      favoriteProperty(property.id).then(() => {
+    } else if (user?.sub) {
+      favoriteProperty(property.id, user?.sub).then(() => {
         setFavoriteProperties([...favoriteProperties, property])
       })
     }
@@ -96,8 +96,8 @@ const PropertyDetailsPage = () => {
                 </div>
                 <div>
                   <button title="Save this property to your favorites" onClick={() => property && toggleFavorite(property)}>
-                    <HeartIcon className={`h-12 w-12 text-gray-300 hover:text-red-200 hover:scale-110 transition ease-in-out duration-200 ${favoriteProperties.find(
-                      (favoriteProperty) => favoriteProperty.id === property?.id
+                    <HeartIcon className={`h-12 w-12 text-gray-300 hover:text-red-200 hover:scale-110 transition ease-in-out duration-200 ${favoriteProperties && favoriteProperties.find(
+                      (favoriteProperty) => favoriteProperty?.id === property?.id
                     ) && 'text-red-800 hover:text-red-200'}`} aria-hidden="true" />
                   </button>
                 </div>

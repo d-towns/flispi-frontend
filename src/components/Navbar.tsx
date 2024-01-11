@@ -2,8 +2,9 @@ import React, { Fragment, useContext, useState } from 'react'
 import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react'
 import { HomeIcon, StarIcon, FlagIcon, WrenchScrewdriverIcon, MagnifyingGlassIcon, MapPinIcon } from '@heroicons/react/20/solid';
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon, XMarkIcon, Bars3Icon, BuildingOffice2Icon, BuildingOfficeIcon, ArrowUturnRightIcon, UserCircleIcon, HeartIcon} from '@heroicons/react/20/solid'
-import useAuth from '../hooks/useAuth';
 import { logout } from '../services/auth.service';
+import { useNavigate } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 // Create a type for the navigation items that includes action as a funtion type
 type NavItem = Array<{
@@ -58,7 +59,9 @@ function classNames(...classes: string[]) {
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const { user, loading, logout } = useAuth();
+  const { user, logout, isLoading } = useAuth0();
+
+  const navigate = useNavigate()
 
   return (
     <header className="bg-transparent z-50">
@@ -225,7 +228,7 @@ export default function Navbar() {
             <Popover.Group className="hidden lg:flex lg:gap-x-12">
             <Popover className="relative">
               <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
-                {user?.username}
+                {user?.email}
                 <ChevronDownIcon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
               </Popover.Button>
 
@@ -280,7 +283,7 @@ export default function Navbar() {
         <div className="fixed inset-0 z-10" />
         <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <a href="#" className="-m-1.5 p-1.5">
+            <a href="/" className="-m-1.5 p-1.5">
 
               <img
                 className="h-8 w-auto rounded-lg"
@@ -377,12 +380,48 @@ export default function Navbar() {
                 </Disclosure>
               </div>
               <div className="py-6">
+              {user ?
+                             <Disclosure as="div" className="-mx-3">
+                             {({ open }) => (
+                               <>
+                                 <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                                   {user?.username}
+                                   <ChevronDownIcon
+                                     className={classNames(open ? 'rotate-180' : '', 'h-5 w-5 flex-none')}
+                                     aria-hidden="true"
+                                   />
+                                 </Disclosure.Button>
+                                 <Disclosure.Panel className="mt-2 space-y-2">
+                                   {[...account].map((item, index) => (
+                                     index === account.length - 1  ?
+                                      <Disclosure.Button onClick={() => {
+                                        logout()
+                                        navigate('/')
+                                        } } className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                                        {item.name}
+                                        </Disclosure.Button>
+                                        :
+                                        <Disclosure.Button
+                                        key={item.name}
+                                        as="a"
+                                        href={item.href}
+                                        className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                                      >
+                                        {item.name}
+                                      </Disclosure.Button>
+                                   ))}
+                                 </Disclosure.Panel>
+                               </>
+                             )}
+                           </Disclosure>
+              :
                 <a
                   href="/login"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Log in
-                </a>
+                </a> 
+            }
               </div>
             </div>
           </div>

@@ -48,8 +48,8 @@ export const fetchZipCodes = async () => {
     return response.data;
 }
 
-export const favoriteProperty = async (propertyId: string) => {
-    const response = await axios.post(getEnvionmentApiUrl() + '/user/save-property', {propertyId}, {
+export const favoriteProperty = async (propertyId: string, userId:string) => {
+    const response = await axios.post(getEnvionmentApiUrl() + '/user/save-property', {propertyId, userId}, {
         headers:{
             'Content-Type': 'application/json'
           },
@@ -58,8 +58,8 @@ export const favoriteProperty = async (propertyId: string) => {
     return response.data;
 }
 
-export const unfavoriteProperty = async (propertyId: string) => {
-    const response = await axios.post(getEnvionmentApiUrl() + '/user/remove-saved-property', {propertyId}, {
+export const unfavoriteProperty = async (propertyId: string, userId:string) => {
+    const response = await axios.post(getEnvionmentApiUrl() + '/user/remove-saved-property', {propertyId, userId}, {
         headers:{
             'Content-Type': 'application/json'
           },
@@ -68,8 +68,11 @@ export const unfavoriteProperty = async (propertyId: string) => {
     return response.data;
 }
 
-export const getFavoriteProperties = async () => {
+export const getFavoriteProperties = async (userId:string) => {
     const response = await axios.get(getEnvionmentApiUrl() + '/user/saved-properties', {
+        params: {
+            userId
+        },
         headers:{
             'Content-Type': 'application/json'
           },

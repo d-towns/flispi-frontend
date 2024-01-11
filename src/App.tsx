@@ -19,18 +19,20 @@ import StaffPage from './pages/StaffPage';
 import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/LoginPage';
 import BlogPage from './pages/BlogPage/BlogPage';
-import SignupPage from './pages/SignupPage';
-import { AuthProvider } from './hooks/useAuth';
 import ProfilePage from './pages/ProfilePage';
+import { Auth0ProviderWithNavigate } from './context/Auth0Provider';
+import { AuthenticationGuard } from './components/AuthGuard';
 
 
 // Define your root component
 const Root = () => {
   return (
     <>
-      <Navbar />
-      <Outlet />
-      <Footer/>
+      <Auth0ProviderWithNavigate>
+        <Navbar />
+        <Outlet />
+        <Footer/>
+      </Auth0ProviderWithNavigate>
     </>
   )
 }
@@ -57,8 +59,7 @@ const routes = (
       <Route path='board' element={<StaffPage/>} />
       <Route path='contact' element={<ContactPage/>} />
       <Route path='login' element={<LoginPage/>} />
-      <Route path='signup' element={<SignupPage/>} />
-      <Route path='profile' element={<ProfilePage/>} />
+      <Route path='profile' element={<AuthenticationGuard component={ProfilePage} />} />
     </Route>
 
   </React.Fragment>
@@ -71,9 +72,7 @@ function App() {
   const router = createBrowserRouter(routeArray);
   return (
     <>
-    <AuthProvider>
       <RouterProvider router={router} />
-    </AuthProvider>
     </>
   );
 }

@@ -26,9 +26,6 @@ const GridList: FC<GridListProps> = ({ currentPage }) => {
                 No properties found
               </p>
               <div className="">
-                <p className="text-[17px] text-center font-bold text-[#0FB478] mr-2">
-                  Please try another search
-                </p>
               </div>
             </div>
           </div>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import useAuth from "../hooks/useAuth";
 import { formatInTimeZone } from "date-fns-tz";
 import parseISO from "date-fns/parseISO";
 import { useNavigate } from "react-router-dom";
@@ -7,25 +6,22 @@ import { UserIcon } from '@heroicons/react/20/solid'
 import GridList from "../components/GridList";
 import { Property } from "../models/Property.model";
 import { getFavoriteProperties } from "../services/property.service";
+import { useAuth0 } from "@auth0/auth0-react";
 
 
 const ProfilePage = () => {
-    const { user, login, error } = useAuth()
+    const { user, error } = useAuth0()
     const [favoriteProperties, setFavoriteProperties] = useState<Property[]>([])
 
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (!user) {
-            navigate('/login')
-        } else {
-            getFavoriteProperties().then((properties) => {
-                setFavoriteProperties(properties)
-            })
-        }
-    }, []);
-
-    // useEffect to navigate to login page if user is not logged in
+        console.log(user);
+        
+        getFavoriteProperties(user?.sub || '').then((properties) => {
+            setFavoriteProperties(properties)
+        })
+    }, [user]);
 
     return (
         <div className="container mx-auto my-5 p-5">
@@ -36,7 +32,7 @@ const ProfilePage = () => {
                     <div className="bg-white p-3 border-t-4 border-[#003366]">
                         <div className="image overflow-hidden">
                         </div>
-                        <h1 className="text-gray-900 font-bold text-xl leading-8 my-1">{user?.username}</h1>
+                        <h1 className="text-gray-900 font-bold text-xl leading-8 my-1">{user?.nickname}</h1>
                         <h3 className="text-gray-600 font-lg text-semibold leading-6"></h3>
                         <p className="text-sm text-gray-500 hover:text-gray-600 leading-6"></p>
                         <ul
@@ -77,27 +73,31 @@ const ProfilePage = () => {
                                     <div className="px-2 py-2 font-semibold">Contact No.</div>
                                     <div className="px-2 py-2">+1 {user?.phone}</div>
                                 </div>
-                                <div className="grid grid-cols-2">
-                                    <div className="px-2 py-2 font-semibold">Email</div>
+                                <div className="flex">
+                                    <div className="px-2 py-2 w-fit font-semibold">Email</div>
                                     <div className="px-2 py-2">
                                         <a className="text-blue-800" href="mailto:jane@example.com">{user?.email}</a>
                                     </div>
                                 </div>
-                                <div className="grid grid-cols-2">
-                                    <div className="px-2 py-2 font-semibold">Birthday</div>
-                                    <div className="px-2 py-2">Feb 06, 1998</div>
-                                </div>
                             </div>
                         </div>
+                        <div className="flex gap-5">
                         <button
-                            className="block w-full text-[#003366] text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">Show
-                            Full Information</button>
+                            className="block border border-gray-100 rounded-lg w-full text-[#003366] text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">
+                            Reset Password</button>
+                            <button
+                            className="block border border-gray-100 rounded-lg w-full text-[#003366] text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">
+                            Change Email</button>
+                            <button
+                            className="block border border-gray-100 rounded-lg w-full text-red-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">
+                            Deactivate Account</button>
+                            </div>
                     </div>
                 </div>
             </div>
-            <div className="w-full md:w-full mx-2 h-full">
+            <div className="w-full md:w-full mx-2 h-full md:my-4 my-20">
                 <div className="bg-white p-3 shadow-lg rounded-lg">
-                <h2 className="text-gray-900  text-center font-bold text-xl leading-8 my-1 border-b-4 border-[#003366]">Saved Properties</h2>
+                <h2 className="text-gray-900  text-center font-bold text-xl leading-8 my-1 border-b-4 border-[#003366] pb-4">Saved Properties</h2>
                     <GridList currentPage={favoriteProperties} />
                 </div>
             </div>
