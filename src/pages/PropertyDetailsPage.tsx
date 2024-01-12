@@ -9,6 +9,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { XMarkIcon, HeartIcon } from '@heroicons/react/20/solid'
 import { favoriteProperty, getFavoriteProperties, unfavoriteProperty } from "../services/property.service";
 import { useAuth0 } from "@auth0/auth0-react";
+import { NotLoggedInDialog } from "../components/NotLoggedInDialog";
 
 const PropertyDetailsPage = () => {
 
@@ -16,6 +17,7 @@ const PropertyDetailsPage = () => {
   const [favoriteProperties, setFavoriteProperties] = useState<Property[]>([])
   const { id } = useParams<{ id: string }>()
   const { user } = useAuth0()
+  const [openLoginDialog, setOpenLoginDialog] = useState(false)
 
 
   const fetchProperty = async () => {
@@ -35,6 +37,10 @@ const PropertyDetailsPage = () => {
   }, [user])
 
   const toggleFavorite = (property: Property) => {
+    if(!user?.sub) { 
+      setOpenLoginDialog(true)
+      return
+    }
     if (favoriteProperties && favoriteProperties?.find((favoriteProperty) => favoriteProperty.id === property.id) && user?.sub) {
       unfavoriteProperty(property.id, user.sub).then(() => {
         setFavoriteProperties(favoriteProperties.filter((favoriteProperty) => favoriteProperty.id !== property.id))
@@ -95,6 +101,7 @@ const PropertyDetailsPage = () => {
                   <span className="h-full" ></span>
                 </div>
                 <div>
+                  <NotLoggedInDialog open={openLoginDialog} />
                   <button title="Save this property to your favorites" onClick={() => property && toggleFavorite(property)}>
                     <HeartIcon className={`h-12 w-12 text-gray-300 hover:text-red-200 hover:scale-110 transition ease-in-out duration-200 ${favoriteProperties && favoriteProperties.find(
                       (favoriteProperty) => favoriteProperty?.id === property?.id
@@ -151,7 +158,7 @@ const PropertyDetailsPage = () => {
                     Continue Applicaiton
                   </button>
                   <Dialog.Close asChild>
-                    <button className="transition duration-300 border-2 border-black hover:bg-red-200 hover:scale-105 inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-medium leading-none focus:shadow-[0_0_0_2px] focus:outline-none">
+                    <button className="transition duration-300 bg-red-400 text-white hover:bg-red-600 hover:scale-105 inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-medium leading-none focus:shadow-[0_0_0_2px] focus:outline-none">
                       Close
                     </button>
                   </Dialog.Close>
