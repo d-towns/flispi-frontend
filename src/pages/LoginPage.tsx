@@ -33,11 +33,7 @@ const LoginPage = () => {
   return (
     <section className="flex flex-col my-8 md:flex-row h-screen max-md:h-fit items-center">
 
-      <div className=" hidden xl:block w-full rounded-lg md:w-1/2 xl:w-2/3 h-screen">
-        <img src="/lb_4.jpeg" alt="" className=" rounded-lg w-full h-full object-cover" />
-      </div>
-
-      <div className=" mx-7 block xl:hidden max-md:hidden  w-1/2 flex flex-col justify-center col-span-1 text-left lg:text-start">
+      <div className=" mx-7 xl:m-auto block max-md:hidden  w-1/2 flex flex-col justify-center col-span-1 text-left lg:text-start">
           <div className="flex items-start mb-4 lg:justify-normal">
             <img className="h-5 rounded-lg hidden lg:block" src="/map_medium.png" alt="logo" />
             <h4 className="ml-2 text-sm font-bold tracking-widest text-primary uppercase">Explore the latest vacant land and rehab opportunites</h4>
@@ -59,7 +55,7 @@ const LoginPage = () => {
             </Link>
           </div> */}
       </div>
-      <div className="block xl:hidden max-md:hidden my-6 border-l border-gray-300 h-full w-[1px]" />
+      <div className="block max-md:hidden my-6 border-l border-gray-300 h-full w-[1px]" />
 
 
       <div className="bg-white w-full md:max-w-md lg:max-w-full md:mx-auto md:mx-0 md:w-1/2 xl:w-1/3 h-screen max-md:h-fit px-6 lg:px-16 xl:px-12
