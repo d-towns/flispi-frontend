@@ -23,10 +23,6 @@ const LoginPage = () => {
       },
     });
   };
- 
-
-  const navigate = useNavigate()
-
 
   return (
     <section className="flex flex-col my-8 md:flex-row h-screen max-md:h-fit items-center">

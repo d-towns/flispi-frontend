@@ -3,7 +3,7 @@
 ## Description
 This is a simple web application that enables in depth search for the 10,000+ properties owned by the Land Bank of Genesee County in Flint, MI and surrounding cities. The application uses the API and web scraper built by myself here:
 - [flispi-backend](https://github.com/d-towns/flispi-backend)
-- [flispi-scraper]()
+- [flispi-scraper](https://github.com/d-towns/flispi_scrapy)
 
 ## Installation
 1. Clone this repository
