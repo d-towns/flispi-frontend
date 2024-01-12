@@ -34,10 +34,10 @@ const HomePage = () => {
 
   return (
     <>
-            <div
+      <div
         className="absolute inset-x-10 top-[-50rem] -z-30 transform-gpu overflow-hidden blur-3xl sm:top-[-5rem]"
         aria-hidden="true"
-      >
+        >
         <div
           className="relative left-1/2 -z-10 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr to-[#8ba2be] from-[#003366] opacity-30 sm:left-[calc(120%-40rem)] sm:w-[72.1875rem]"
           style={{

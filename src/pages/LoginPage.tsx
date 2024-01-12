@@ -30,7 +30,18 @@ const LoginPage = () => {
 
   return (
     <section className="flex flex-col my-8 md:flex-row h-screen max-md:h-fit items-center">
-
+      <div
+        className="absolute inset-x-10 top-[-50rem] -z-30 transform-gpu overflow-hidden blur-3xl sm:top-[-5rem]"
+        aria-hidden="true"
+        >
+        <div
+          className="relative left-1/2 -z-10 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr to-[#8ba2be] from-[#003366] opacity-30 sm:left-[calc(120%-40rem)] sm:w-[72.1875rem]"
+          style={{
+            clipPath:
+              'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
+          }}
+        />
+      </div>
       <div className=" mx-7 xl:m-auto block max-md:hidden  w-1/2 flex flex-col justify-center col-span-1 text-left lg:text-start">
           <div className="flex items-start mb-4 lg:justify-normal">
             <img className="h-5 rounded-lg hidden lg:block" src="/map_medium.png" alt="logo" />
@@ -47,13 +58,13 @@ const LoginPage = () => {
       <div className="block max-md:hidden my-6 border-l border-gray-300 h-full w-[1px]" />
 
 
-      <div className="bg-white w-full md:max-w-md lg:max-w-full md:mx-auto md:mx-0 md:w-1/2 xl:w-1/3 h-screen max-md:h-fit px-6 lg:px-16 xl:px-12
+      <div className="bg-transparent w-full md:max-w-md lg:max-w-full md:mx-auto md:mx-0 md:w-1/2 xl:w-1/3 h-screen max-md:h-fit px-6 lg:px-16 xl:px-12
         flex items-center justify-center">
 
         <div className="w-full h-100">
 
 
-          <h1 className="text-xl text-center md:text-2xl font-bold leading-tight mt-12">Log in to your account</h1>
+          <h1 className="text-xl text-center md:text-3xl font-bold leading-tight">Log in to your account</h1>
 
           <div className="mt-6" >
 
