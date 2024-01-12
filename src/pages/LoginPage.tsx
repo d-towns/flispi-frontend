@@ -72,21 +72,9 @@ const LoginPage = () => {
 
           <div className="mt-6" >
 
-            <button onClick={handleLogin} className="mb-5 w-full block bg-[#8ba2be] hover:bg-gray-500 transition ease-in-out duration-200 text-white font-semibold rounded-lg
+            <button onClick={handleLogin} className="mb-5 w-full block bg-white hover:bg-[#8ba2be] hover:text-white hover:border-[#8ba2be] border-2 border-black transition ease-in-out duration-200 text-black font-semibold rounded-lg
               px-4 py-3 mt-6">Log In with Email</button>
           </div>
-
-          
-
-          <button type="button" className="w-full block bg-white hover:bg-gray-100 focus:bg-gray-100 text-gray-900 font-semibold rounded-lg px-4 py-3 border border-gray-300">
-            <div className="flex items-center justify-center">
-
-              <span className="ml-4">
-                Log in
-                with
-                Google</span>
-            </div>
-          </button>
           <hr className="my-6 border-gray-300 w-full" />
           <button onClick={handleLogin} className="w-full block bg-[#8ba2be] hover:bg-gray-500 transition ease-in-out duration-200 text-white font-semibold rounded-lg
               px-4 py-3 mt-6">Sign Up
