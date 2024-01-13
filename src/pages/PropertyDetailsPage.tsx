@@ -21,7 +21,7 @@ const PropertyDetailsPage = () => {
 
 
   const fetchProperty = async () => {
-    const response = await fetch(getEnvionmentApiUrl() + `/properties/${id}`)
+    const response = await fetch(getEnvionmentApiUrl() + `/property/${id}`)
     const data = await response.json()
     setProperty(data)
   }
