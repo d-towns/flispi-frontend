@@ -39,7 +39,7 @@ export const fetchFeaturedProperties = async () => {
 };
 
 export const fetchZipCodes = async () => {
-    const response = await axios.get(getEnvionmentApiUrl() + '/zip',{
+    const response = await axios.get(getEnvionmentApiUrl() + '/zipcodes',{
         headers:{
             'Content-Type': 'application/json'
           },
