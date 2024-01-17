@@ -1,12 +1,12 @@
-import React, { FC, Fragment, useState, useEffect } from 'react'
-import { Dialog, Popover, Disclosure, Menu, Transition } from '@headlessui/react'
+import React, { FC, Fragment, useState, useEffect, useCallback } from 'react'
+import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon, MapIcon } from '@heroicons/react/20/solid'
 import { cities } from '../utils/utils';
 import { Property } from '../models/Property.model';
 import GridList from './GridList';
 import SearchBar from './SearchBar';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Skeleton from './Skeleton';
 import Dropdown from './MultiSelect';
 import { ChevronLeftIcon, ChevronRightIcon, ChevronDoubleRightIcon, ChevronDoubleLeftIcon } from '@heroicons/react/20/solid'
@@ -73,7 +73,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
     setSearchParams(searchParams);
   }
 
-  const updatePageList = () => {
+  const updatePageList = useCallback(() => {
     const totalPages = Math.ceil(currentPage.length / PAGE_SIZE); // Total number of pages
 
     const windowSize = 2; // The size of the sliding window
@@ -93,16 +93,12 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
 
     // Generate the sliding window array
     setPageList(Array.from({ length: totalPages }, (_, index) => index + 1).slice(startIndex - 1, endIndex));
-  }
+  }, [currentPage, page])
 
   useEffect(() => {
     updatePageList();
-  }, [page])
+  }, [page, updatePageList])
 
-  useEffect(() => {
-    updatePageList();
-    setPage(0);
-  }, [currentPage])
 
   const setZipCodeFilterParams = (zipCodes: string[]) => {
     const filterString = zipCodes.join(',')
@@ -152,7 +148,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
       })
     })
     updatePageList();
-  }, [])
+  }, [searchParams, updatePageList])
 
   return (
     <div className="bg-transparent w-full">
@@ -199,7 +195,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                   <form className="mt-4 border-t border-gray-200">
                     <h3 className="sr-only">Categories</h3>
 
-                    <ul role="list" className="px-2 py-3 font-medium text-gray-900">
+                    <ul className="px-2 py-3 font-medium text-gray-900">
                       {subCategories.map((category) => (
                         <li key={category.name} className={``}>
                           <Link to={category.href} className={`block px-2 py-3 rounded-lg w-fit ${window.location.toString().includes(category.href) ? 'bg-[#003366] text-white' : ''}`}>
@@ -338,7 +334,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
               <form className="hidden lg:block">
                 <h3 className="sr-only">Categories</h3>
                 <h2 className="text-xl mb-5 font-bold">Categories</h2>
-                <ul role="list" className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
+                <ul className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
                   {subCategories.map((category) => (
                     <li key={category.name}>
                       <a href={category.href} className={` p-2 rounded-lg ${window.location.toString().includes(category.href) ? 'bg-[#003366] text-white' : ''}`}>{category.name}</a>
@@ -348,7 +344,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
 
 
 
-                <Disclosure as="div" key={'zip'} className="border-b border-gray-200 py-6">
+                <Disclosure as="div" key={'price'} className="border-b border-gray-200 py-6">
                   {({ open }) => (
                     <>
                       <h3 className="-my-3 flow-root">
@@ -375,7 +371,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                   )}
               </Disclosure>
 
-                {/* <Disclosure as="div" key={'zip'} className="border-b border-gray-200 py-6">
+                <Disclosure as="div" key={'sqft'} className="border-b border-gray-200 py-6">
                   {({ open }) => (
                     <>
                       <h3 className="-my-3 flow-root">
@@ -397,9 +393,9 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                       </Disclosure.Panel>
                     </>
                   )}
-                </Disclosure> */}
+                </Disclosure>
 
-                {/* <Disclosure as="div" key={'zip'} className="border-b border-gray-200 py-6">
+                <Disclosure as="div" key={'lotsqft'} className="border-b border-gray-200 py-6">
                   {({ open }) => (
                     <>
                       <h3 className="-my-3 flow-root">
@@ -421,7 +417,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                       </Disclosure.Panel>
                     </>
                   )}
-                </Disclosure> */}
+                </Disclosure>
 
                 <Disclosure as="div" key={'zip'} className="border-b border-gray-200 py-6">
                   {({ open }) => (
@@ -511,18 +507,21 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                   <div >
                     <div className="flex items-center justify-between bg-transparent px-4 py-3 sm:px-6">
                       <div className="flex flex-1 justify-between sm:hidden">
-                        <a
-                          href="#"
+                        <button
+                          onClick={() => setPage(page - 1)}
+                          disabled={currentPage.length < PAGE_SIZE || ( page === Math.ceil(currentPage.length / PAGE_SIZE) - 1 || page === 0)}
                           className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                         >
                           Previous
-                        </a>
-                        <a
-                          href="#"
+                        </button>
+
+                        <button
+                        onClick={() => setPage(page + 1)}
+                        disabled={currentPage.length < PAGE_SIZE || page === Math.ceil(currentPage.length / PAGE_SIZE) - 1}
                           className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                         >
                           Next
-                        </a>
+                        </button>
                       </div>
                       <div className="hidden pt-4 sm:flex sm:flex-1 sm:items-center sm:justify-between">
                         <div>
@@ -600,6 +599,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                             {pageList.map((number) => {
                               return (
                                 <button
+                                  key={"pgn-" + number}
                                   onClick={() => setPage(number - 1)}
                                   disabled={currentPage.length < PAGE_SIZE}
                                   className="relative inline-flex items-center px-4 py-2 text-sm hover:bg-gray-200 font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0"
@@ -653,6 +653,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                           {pageList.map((number) => {
                             return (
                               <button
+                                key={"pgn-" + number}
                                 onClick={() => setPage(number)}
                                 disabled={currentPage.length < PAGE_SIZE}
                                 className="relative inline-flex items-center px-4 py-2 text-sm hover:bg-gray-200 font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0"

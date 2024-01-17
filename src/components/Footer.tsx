@@ -10,16 +10,10 @@ const Footer = () => {
                 <p className="text-gray-500 text-base w-3/4">
                 Our mission is to restore value to the community by making Flint's abandoned land & properties easy to locate and acquire in cooperation with stakeholders who value responsible land ownership.
                 </p>
-                <p className='w-full text-xl font-bold text-gray-700'> Follow Us </p>
+                <p className='w-full text-xl font-bold text-gray-700'> Social </p>
                 <div className="flex">
-                    <a href="#" className="text-gray-400 hover:text-gray-500 mr-4 ">
-                    <i className="bi bi-facebook text-4xl"></i>
-                    </a>
-                    <a href="#" className="text-gray-400 hover:text-gray-500 mx-4">
-                    <i className="bi bi-youtube text-4xl"></i>
-                    </a>
-                    <a href="#" className="text-gray-400 hover:text-gray-500 mx-4 ">
-                    <i className="bi bi-twitter text-4xl"></i>
+                    <a href="https://twitter.com/dennis_exe_" className="text-gray-400 hover:text-gray-500 mr-4 ">
+                    <i className="bi bi-twitter-x text-4xl"></i>
                     </a>  
                 </div>
             </div>

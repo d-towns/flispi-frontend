@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 interface NotLoggedInDialogProps {
     open: boolean;
+    setOpen: (toggle: boolean) => void;
     onOpenChange?: (open: boolean) => void;
 }
 

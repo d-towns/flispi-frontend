@@ -1,13 +1,11 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import {
   createBrowserRouter,
   createRoutesFromElements,
   RouterProvider,
   Route,
-  Link,
   Outlet,
-  Navigate,
 } from "react-router-dom";
 import SearchPage from './pages/SearchPage'
 import HomePage from './pages/HomePage'
@@ -53,7 +51,6 @@ const routes = (
       <Route path='login' element={<LoginPage/>} />
       <Route path='profile' element={<AuthenticationGuard component={ProfilePage} />} />
     </Route>
-
   </React.Fragment>
 );
 

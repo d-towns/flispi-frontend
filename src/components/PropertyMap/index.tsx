@@ -1,5 +1,5 @@
 // Initialize and add the map
-import React, { FC, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import './PropertyMap.css'
 import { Loader } from '@googlemaps/js-api-loader';
 import { Property } from "../../models/Property.model";
@@ -23,7 +23,6 @@ interface PropertyMapProps {
 
 
 const PropertyMap = ({properties} : PropertyMapProps) => {
-    const [map, setMap] = useState<google.maps.Map>();
 
     useEffect( () => {
         const setupMap = async () => {

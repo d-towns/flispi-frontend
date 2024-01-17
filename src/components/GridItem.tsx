@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { Property } from '../models/Property.model';
 import { useNavigate } from 'react-router-dom';
-import ImageGallery from './ImageGallery';
 import {currencyFormat, parseImages}  from '../utils/utils';
 
 interface GridItemProps {

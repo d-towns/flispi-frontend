@@ -32,7 +32,7 @@ zip?: string[];
 
   useEffect(() => {
     handleChange(selected)
-  }, [selected])
+  }, [selected, handleChange])
 
   const dropdownProps =
     query === ''

@@ -23,8 +23,7 @@ const Slider: React.FC<SliderProps> = ({ onValueCommit, initialValue, unit, form
       if (price) {
         setValue([parseInt(price)]);
       }
-    }
-    , [])
+    }, [unit])
 
 
 

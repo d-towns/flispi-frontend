@@ -18,7 +18,7 @@ const GridList: FC<GridListProps> = ({ currentPage }) => {
           <GridItem key={item.id} property={item} /> 
         ))}
       </div> :
-      <div className="flex justify-self-center items-center justify-center bg-white px-2 h-full">
+      <div className="flex justify-self-center items-center justify-center bg-transparent px-2 h-full">
         <div className="w-full max-w-md  mx-auto border border-black bg-white rounded-3xl shadow-xl my-[15%] overflow-hidden">
           <div className="max-w-md mx-auto">
             <div className="p-4 sm:p-6 pt-6 text-center">

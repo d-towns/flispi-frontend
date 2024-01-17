@@ -1,16 +1,18 @@
-import React, { useState, useEffect, Suspense } from 'react';
-import './ImageCarousel.css';  // Assuming your CSS is in a file named ImageCarousel.css
+import React, { useState, useEffect, useMemo } from 'react';
+import './ImageCarousel.css'; 
 
 
 const ImageCarousel = () => {
   const [imageIndex, setImageIndex] = useState(0);
   const [isShowing, setIsShowing] = useState(true);
-  const images = [
-    'lb_3.jpeg',
-    'lb_2.jpeg',
-    'lb_4.jpeg',
-    // ... other image URLs
-  ];
+
+  const images = useMemo(() => {
+    return [
+      'lb_3.jpeg',
+      'lb_2.jpeg',
+      'lb_4.jpeg',
+    ]
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -27,6 +29,8 @@ const ImageCarousel = () => {
   useEffect(() => {
     setTimeout(() => { 
       if (!isShowing) {
+
+        
       
       
         // Change image only after the previous image has faded out
@@ -34,7 +38,7 @@ const ImageCarousel = () => {
         setIsShowing(true);  // Show the new image
       }
     }, 500);
-  }, [isShowing]);  // Run this useEffect whenever isShowing changes
+  }, [isShowing, images]);  // Run this useEffect whenever isShowing changes
 
   return (
     <div className={`image-container h-[200px] sm:h-[300px] lg:h-[500px] w-full rounded-md mx-4 mt-16 ${isShowing ? 'shadow-xl' : ''} `}>
@@ -42,6 +46,7 @@ const ImageCarousel = () => {
         {/* <img src='./DT_BULB_DARK.png' alt="Property" className="h-full w-full rounded-lg" /> */}
         </div>
       <img
+        alt='Map Logo'
         className={`fade-image ${isShowing ? 'show' : ''}`}
         src={images[imageIndex]}
       />

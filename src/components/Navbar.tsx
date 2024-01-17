@@ -1,8 +1,7 @@
-import React, { Fragment, useContext, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react'
 import { HomeIcon, StarIcon, FlagIcon, WrenchScrewdriverIcon, MagnifyingGlassIcon, MapPinIcon } from '@heroicons/react/20/solid';
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon, XMarkIcon, Bars3Icon, BuildingOffice2Icon, BuildingOfficeIcon, ArrowUturnRightIcon, UserCircleIcon, HeartIcon} from '@heroicons/react/20/solid'
-import { logout } from '../services/auth.service';
 import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import { PageLoader } from './PageLoader';
@@ -21,13 +20,6 @@ const ourProperties : NavItem = [
   { name: 'Ready for Rehab', description: 'Homes with structure ready to be restored', href: '/search?propertyClass=Res+Imp', icon: WrenchScrewdriverIcon },
   { name: 'Commercial Opportunites', description: 'Prime properties and lots for commercial development', href: '/search?propertyClass=Res+Imp%2CCom+Vac+Lot', icon: BuildingOffice2Icon },
   { name: 'Search All Properties', description: '', href: '/search', icon: MagnifyingGlassIcon },
-]
-
-const whatWeDo  : NavItem = [
-  { name: 'Promote Affordable Ownership', description: 'Get a better understanding of your traffic', href: '/blog/afforable_ownership', icon: HomeIcon },
-  { name: 'Create Economic Opportunities', description: 'Speak directly to your customers', href: '#', icon: StarIcon },
-  { name: 'Activate Vacant Land', description: 'Your customers’ data will be safe and secure', href: '#', icon: FlagIcon },
-  { name: 'Fight Blight', description: 'Connect with third-party tools', href: '#', icon: WrenchScrewdriverIcon },
 ]
 
 const applications  : NavItem = [
