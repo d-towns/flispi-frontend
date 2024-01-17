@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { Blog } from '../models/Blog.model';
 import { fetchBlogs } from '../services/blog.service';
 import { format, parseISO } from 'date-fns';
@@ -25,7 +24,7 @@ const BlogHome = () => {
       <div className="flex flex-col items-start justify-center w-full h-full pt-6 pr-0 pb-6 pl-0 mb-6 md:mb-0 md:w-1/2">
         <div className="flex flex-col items-start justify-center h-full space-y-3 transform md:pr-10 lg:pr-16
             md:space-y-5">
-          <a className="text-4xl font-extrabold leading-none lg:text-5xl xl:text-7xl">Flint Property Search Blog</a>
+          <span className="text-4xl font-extrabold leading-none lg:text-5xl xl:text-7xl">Flint Property Search Blog</span>
           <div className="pt-2 pr-0 pb-0 pl-0">
             <p className="text-base font-normal leading-6 text-gray-600">A place to find news and updates about the Flint real estate market, as well as information about the Genesee County Land Bank’s programs and properties.</p>
           </div>
@@ -33,7 +32,7 @@ const BlogHome = () => {
       </div>
       <div className="w-full md:w-1/2">
         <div className="block">
-          <img
+          <img alt="commercial dump truck"
               src="/lb_4.jpeg" className="object-cover rounded-lg max-h-64 sm:max-h-96 btn- w-full h-full"/>
         </div>
       </div>

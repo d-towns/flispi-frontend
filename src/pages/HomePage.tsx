@@ -7,7 +7,7 @@ import {fetchFeaturedProperties} from '../services/property.service';
 import { fetchBlogs } from "../services/blog.service";
 import { Blog } from "../models/Blog.model";
 
-import { format, formatISO, parseISO } from "date-fns";
+import { format, parseISO } from "date-fns";
 
 const HomePage = () => {
 
@@ -134,9 +134,14 @@ const HomePage = () => {
           </div>
           <div className="mx-auto w-full mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
             <dl className="grid max-w-none w-full grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-2 xl:max-w-none xl:grid-cols-4 lg:gap-y-16">
-              {featuredProperties.map((property) => (
+              {isLoading ?
+              <div className="relative">
+              <div className="w-20 h-20 border-purple-200 border-2 rounded-full"></div>
+              <div className="w-20 h-20 border-purple-700 border-t-2 animate-spin rounded-full absolute left-0 top-0"></div>
+          </div>:
+              featuredProperties.map((property) => (
                 <GridItem key={property.id} property={property} />
-              ))}
+              )) }
             </dl>
           </div>
         </div>
@@ -153,7 +158,7 @@ const HomePage = () => {
                 <article key={blog.id} className="flex max-w-xl flex-col items-start justify-between">
               <div className="flex items-center gap-x-4 text-xs">
                 <span className="text-gray-500">{format(parseISO(blog.created_at), 'yyyy-MM-d')}</span>
-                <a href="" className="relative z-10 rounded-full bg-gray-100 shadow px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">{blog.tag}</a>
+                <a href={`blog/${blog.id}`} className="relative z-10 rounded-full bg-gray-100 shadow px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">{blog.tag}</a>
               </div>
               <div className="group relative">
                 <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
@@ -168,10 +173,10 @@ const HomePage = () => {
                 <img src="DT_BULB_DARK.png" alt="" className="h-16 w-16 rounded-full bg-gray-50" />
                 <div className="text-sm leading-6">
                   <p className="font-semibold text-gray-900 text-lg">
-                    <a href="#">
+                    <span >
                       <span className="absolute inset-0 text-xl"></span>
                       {blog.author}
-                    </a>
+                    </span>
                   </p>
                 </div>
               </div>

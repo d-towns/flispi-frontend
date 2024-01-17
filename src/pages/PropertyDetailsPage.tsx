@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useCallback, useState } from "react"
 import { Property } from "../models/Property.model"
 import { useParams } from 'react-router-dom';
 import ImageGallery from "../components/ImageGallery";
@@ -20,11 +20,11 @@ const PropertyDetailsPage = () => {
   const [openLoginDialog, setOpenLoginDialog] = useState(false)
 
 
-  const fetchProperty = async () => {
+  const fetchProperty = useCallback(async () => {
     const response = await fetch(getEnvionmentApiUrl() + `/property/${id}`)
     const data = await response.json()
     setProperty(data)
-  }
+  },[id])
 
   React.useEffect(() => {
     window.scrollTo(0, 0)
@@ -34,7 +34,7 @@ const PropertyDetailsPage = () => {
         setFavoriteProperties(properties)
       })
     }
-  }, [user])
+  }, [user, fetchProperty])
 
   const toggleFavorite = (property: Property) => {
     if(!user?.sub) { 
@@ -58,10 +58,13 @@ const PropertyDetailsPage = () => {
     switch (property?.property_class) {
       case 'Com Imp' || 'Com Vac Lot':
         window.location.href = 'https://www.thelandbank.org/downloads/commercial_application_221006.pdf'
+        break
       case 'Res Imp':
         window.location.href = 'https://www.thelandbank.org/downloads/residential_interest_form_221006.pdf'
+        break
       case 'Res Vac Lot':
         window.location.href = 'https://www.thelandbank.org/downloads/lots_available_application_221006.pdf'
+        break
       default:
         return null
     }

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { formatInTimeZone } from "date-fns-tz";
 import parseISO from "date-fns/parseISO";
-import { useNavigate } from "react-router-dom";
 import { UserIcon } from '@heroicons/react/20/solid'
 import GridList from "../components/GridList";
 import { Property } from "../models/Property.model";
@@ -10,7 +9,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 
 const ProfilePage = () => {
-    const { user, loginWithRedirect, error } = useAuth0()
+    const { user, loginWithRedirect } = useAuth0()
     const [favoriteProperties, setFavoriteProperties] = useState<Property[]>([])
 
     const handlePasswordReset = async () => {
@@ -38,7 +37,7 @@ const ProfilePage = () => {
                         <div className="image overflow-hidden">
                         </div>
                         <h1 className="text-gray-900 font-bold text-xl leading-8 my-1">{user?.nickname}</h1>
-                        <h3 className="text-gray-600 font-lg text-semibold leading-6"></h3>
+                        <span className="text-gray-600 font-lg text-semibold leading-6"></span>
                         <p className="text-sm text-gray-500 hover:text-gray-600 leading-6"></p>
                         <ul
                             className="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">

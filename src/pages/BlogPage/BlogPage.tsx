@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { CloudArrowUpIcon, LockClosedIcon, ServerIcon } from '@heroicons/react/20/solid'
+import React, { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getEnvionmentApiUrl } from '../../utils/utils'
 import { Blog } from '../../models/Blog.model'
@@ -18,9 +17,7 @@ const BlogPage = () => {
     setBlog(data)
   }
 
-  React.useEffect(() => {
-    fetchBlog()
-  }, [])
+  fetchBlog()
 
 
        return (

@@ -1,14 +1,11 @@
-import React, { useState, useEffect, FC } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect, FC, useCallback } from 'react';
 import { Property } from '../models/Property.model';
 import FilterSection from '../components/FilterSection';
 import { useSearchParams } from 'react-router-dom';
-import { getEnvionmentApiUrl } from '../utils/utils';
 import { fetchPropertySearchData, fetchZipCodes} from '../services/property.service';
 
 
 const sortOptions = [
-  // Omitting 'Most Popular' as it's not clear what attribute should be sorted on
   { 
     name: 'Newest', 
     sortFilter: 'year_built,DESC',
@@ -44,17 +41,17 @@ const SearchPage: FC = () => {
   let [searchParams, setSearchParams] = useSearchParams()
 
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setIsLoading(true);
     const properties = await fetchPropertySearchData(searchParams);
     setData(properties);
     setIsLoading(false);
-  };
+  }, [searchParams])
 
-  const fetchZipCodeData = async () => {
+  const fetchZipCodeData =useCallback(async () => {
     const response = await fetchZipCodes();
     setZipCodes(response);
-  }
+  }, [])
 
   useEffect(() => {
     fetchZipCodeData();
@@ -64,18 +61,16 @@ const SearchPage: FC = () => {
       }
     });
 
-  }, []);
+  }, [searchParams, fetchZipCodeData]);
 
   useEffect(() => {
     fetchData();
-  }, [searchParams]);
+  }, [searchParams, fetchData]);
 
   return (
     <div className="min-h-full">
       <header className="bg-transparent">
         <div className="relative sm:h-[200px] h-fit w-full bg-transparent">
-
-          {/* <img src="second_ave_garden_volunteers.png" alt="Property" className="object-cover h-full w-full" /> */}
           <div
         className="absolute inset-x-10 top-[-50rem] -z-30 transform-gpu overflow-hidden blur-3xl sm:top-[-11rem] top-[-20rem]"
         aria-hidden="true"

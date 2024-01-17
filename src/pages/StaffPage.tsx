@@ -98,7 +98,7 @@ const StaffPage = () => {
           {staff.map((member) => (
             <div className="w-full hover:scale-110 transition ease-in-out duration-200 cursor-pointer bg-transparent rounded-lg p-12 flex flex-col justify-center items-center">
               <div className="mb-8">
-                <img className="object-center object-cover rounded-full h-48 w-48" src={member.photo} alt="photo" />
+                <img className="object-center object-cover rounded-full h-48 w-48" src={member.photo} alt="profile avatar" />
               </div>
               <div className="text-center">
                 <p className="text-xl text-gray-700 font-bold mb-2">{member.name}</p>
