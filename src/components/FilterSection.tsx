@@ -6,7 +6,7 @@ import { cities } from '../utils/utils';
 import { Property } from '../models/Property.model';
 import GridList from './GridList';
 import SearchBar from './SearchBar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Skeleton from './Skeleton';
 import Dropdown from './MultiSelect';
 import { ChevronLeftIcon, ChevronRightIcon, ChevronDoubleRightIcon, ChevronDoubleLeftIcon } from '@heroicons/react/20/solid'
@@ -43,13 +43,13 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
 }
 
-const PAGE_SIZE = 50;
+const PAGE_SIZE = 30;
 
 interface FilterSectionProps {
   isLoading: boolean;
   setSearchParams: (value: any) => void;
   resultsTotal: number;
-  searchParams: any;
+  searchParams: URLSearchParams;
   currentPage: Array<Property>;
   zipCodes: Array<string>;
   sortOptions: Array<any>;
@@ -65,6 +65,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const [page, setPage] = useState(0); // Pagination
   const [pageList, setPageList] = useState<number[]>([1, 2]); // Pagination
+  const navigate = useNavigate();
 
   const setFilterSearchParams = (filterId: string) => {
     const selectedFilters: string[] = filters.find((filter) => filter.id === filterId)?.options.filter((option) => option.checked).map((option) => option.value) || [''];
@@ -72,6 +73,20 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
     searchParams.set(filterId, filterString as string);
     setSearchParams(searchParams);
   }
+
+  const clearFliterParams = () => {
+    searchParams.delete('city');
+    searchParams.delete('zip');
+    searchParams.delete('propertyClass');
+    searchParams.delete('price');
+    searchParams.delete('sqft');
+    searchParams.delete('lotSize');
+    searchParams.delete('sort');
+    searchParams.delete('featured');
+    setSearchParams(searchParams);
+    navigate(0)
+  }
+
 
   const updatePageList = useCallback(() => {
     const totalPages = Math.ceil(currentPage.length / PAGE_SIZE); // Total number of pages
@@ -180,7 +195,9 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
               >
                 <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
                   <div className="flex items-center justify-between px-4">
+                    <div className=" ">
                     <h2 className="text-lg font-medium text-gray-900">Filters</h2>
+                    </div>
                     <button
                       type="button"
                       className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
@@ -193,7 +210,9 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
 
                   {/* Filters */}
                   <form className="mt-4 border-t border-gray-200">
+                    <div>
                     <h3 className="sr-only">Categories</h3>
+                    </div>
 
                     <ul className="px-2 py-3 font-medium text-gray-900">
                       {subCategories.map((category) => (
@@ -253,6 +272,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                     ))}
 
                     <Disclosure as="div" className="border-t border-gray-200 px-4 py-6">
+                      
                         {({ open }) => (
                           <>
                             <h3 className="-mx-2 -my-3 flow-root">
@@ -292,7 +312,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                             </h3>
                             <Disclosure.Panel className="pt-6">
                             <div className="space-y-4">
-                          <Slider initialValue={[searchParams.get('price') ?? 50000]} defaultValue={[50000]} max={50000} step={500} unit='' formatter={new Intl.NumberFormat('en-US', {
+                          <Slider initialValue={[Number(searchParams.get('price')) ?? 50000]} label='Maximum Price' defaultValue={[50000]} max={50000} step={500} unit='' formatter={new Intl.NumberFormat('en-US', {
                             style: 'currency',
                             currency: 'USD',
                           })} onValueCommit={setPriceFilterParams} />
@@ -301,6 +321,53 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                           </>
                         )}
                     </Disclosure>
+                    <Disclosure as="div" key={'sqft'} className="border-t border-gray-200 px-4 py-6">
+                  {({ open }) => (
+                    <>
+                      <h3 className="-my-3 flow-root">
+                        <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                          <span className="font-medium text-lg text-gray-900">Sq. Feet</span>
+                          <span className="ml-6 flex items-center">
+                            {open ? (
+                              <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                            ) : (
+                              <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                            )}
+                          </span>
+                        </Disclosure.Button>
+                      </h3>
+                      <Disclosure.Panel className="pt-6">
+                        <div className="space-y-4">
+                          <Slider initialValue={[Number(searchParams.get('sqft')) ?? 1000]} label='Minimum' unit="Sq. Ft." step={50} max={1000} defaultValue={[1000]} onValueCommit={setSqFtFilterParams} />
+                        </div>
+                      </Disclosure.Panel>
+                    </>
+                  )}
+                </Disclosure>
+
+                <Disclosure as="div" key={'lotsqft'} className="border-t border-gray-200 px-4 py-6">
+                  {({ open }) => (
+                    <>
+                      <h3 className="-my-3 flow-root">
+                        <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                          <span className="font-medium text-gray-900 text-lg">Lot Size</span>
+                          <span className="ml-6 flex items-center">
+                            {open ? (
+                              <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                            ) : (
+                              <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                            )}
+                          </span>
+                        </Disclosure.Button>
+                      </h3>
+                      <Disclosure.Panel className="pt-6">
+                        <div className="space-y-4">
+                          <Slider initialValue={[Number(searchParams.get('lotsize')) ?? 50]} label='Minimum' step={1} max={50} defaultValue={[50]} unit="acres" onValueCommit={setLotSizeFilterParams} />
+                        </div>
+                      </Disclosure.Panel>
+                    </>
+                  )}
+                </Disclosure>
                   </form>
                 </Dialog.Panel>
               </Transition.Child>
@@ -313,14 +380,20 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
             <SearchBar searchParams={searchParams} setSearchParams={setSearchParams} />
 
             <div className="flex items-center">
+
               <button
                 type="button"
-                className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
+                className="-m-2 ml-4 mr-2 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
                 onClick={() => setMobileFiltersOpen(true)}
               >
                 <span className="sr-only">Filters</span>
                 <FunnelIcon className="h-5 w-5" aria-hidden="true" />
               </button>
+              {searchParams.toString() !== '' &&
+              <button type='button' onClick={clearFliterParams} className="lg:hidden m-2 rounded-lg border-2 px-2 border-black hover:border-red-600  p-1 text-xs  hover:bg-red-600 hover:text-white transition ease-in-out duration-200 h-fit">
+                      Clear 
+              </button>
+}
             </div>
           </div>
 
@@ -333,7 +406,14 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
               {/* Filters */}
               <form className="hidden lg:block">
                 <h3 className="sr-only">Categories</h3>
-                <h2 className="text-xl mb-5 font-bold">Categories</h2>
+                <div className='flex gap-4'>
+                <h2 className="text-xl mb-5 pl-2 font-bold">Categories</h2>
+                {searchParams.toString() !== '' &&  
+                  <button type='button' onClick={clearFliterParams} className='rounded-xl border-2 border-black hover:border-red-600  p-1 mt-5  hover:bg-red-600 hover:text-white transition ease-in-out duration-200 h-fit'>
+                    <span className='text-sm flex'>Clear Filters </span>
+                  </button>
+}
+                </div>
                 <ul className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
                   {subCategories.map((category) => (
                     <li key={category.name}>
@@ -361,7 +441,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                       </h3>
                       <Disclosure.Panel className="pt-6">
                         <div className="space-y-4">
-                          <Slider initialValue={[searchParams.get('price') ?? 50000]} defaultValue={[50000]} max={50000} step={500} unit='' formatter={new Intl.NumberFormat('en-US', {
+                          <Slider initialValue={[Number(searchParams.get('price')) ?? 50000]} label='Maximum Price' defaultValue={[50000]} max={50000} step={500} unit='' formatter={new Intl.NumberFormat('en-US', {
                             style: 'currency',
                             currency: 'USD',
                           })} onValueCommit={setPriceFilterParams} />
@@ -388,7 +468,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                       </h3>
                       <Disclosure.Panel className="pt-6">
                         <div className="space-y-4">
-                          <Slider initialValue={[searchParams.get('sqft') ?? 1000]} unit="Sq. Ft." step={50} max={1000} defaultValue={[1000]} onValueCommit={setSqFtFilterParams} />
+                          <Slider initialValue={[Number(searchParams.get('sqft')) ?? 1000]} label='Minimum' unit="Sq. Ft." step={50} max={1000} defaultValue={[1000]} onValueCommit={setSqFtFilterParams} />
                         </div>
                       </Disclosure.Panel>
                     </>
@@ -412,7 +492,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                       </h3>
                       <Disclosure.Panel className="pt-6">
                         <div className="space-y-4">
-                          <Slider initialValue={[searchParams.get('lotsize') ?? 50]} step={1} max={50} defaultValue={[50]} unit="acres" onValueCommit={setLotSizeFilterParams} />
+                          <Slider initialValue={[Number(searchParams.get('lotsize')) ?? 50]} label='Minimum' step={1} max={50} defaultValue={[50]} unit="acres" onValueCommit={setLotSizeFilterParams} />
                         </div>
                       </Disclosure.Panel>
                     </>
