@@ -10,7 +10,7 @@ const BlogPage = () => {
   const [blog, setBlog] = useState<Blog>()
   const { slug } = useParams<{ slug: string }>()
 
-  const fetchBlog = useCallback(async () => {
+  const fetchBlog = useCallback( async () => {
     const response = await fetch(getEnvionmentApiUrl() + `/blog/${slug}`)
     const data = await response.json()
     setBlog(data)
