@@ -20,6 +20,7 @@ import BlogPage from './pages/BlogPage/BlogPage';
 import ProfilePage from './pages/ProfilePage';
 import { Auth0ProviderWithNavigate } from './context/Auth0Provider';
 import { AuthenticationGuard } from './components/AuthGuard';
+import PrivacyPolicyPage from './pages/PrivacyPolicy';
 
 
 // Define your root component
@@ -50,6 +51,7 @@ const routes = (
       <Route path='contact' element={<ContactPage/>} />
     <Route path='login' element={<LoginPage/>} />
       <Route path='profile' element={<AuthenticationGuard component={ProfilePage} />} />
+      <Route path='policy' element={<PrivacyPolicyPage />} />
     </Route>
   </React.Fragment>
 );
