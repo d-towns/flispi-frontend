@@ -6,4 +6,6 @@ export type Blog = {
     created_at: string;
     author: string;
     tag: string;
+    slug: string;
+    author_image: string;
 }

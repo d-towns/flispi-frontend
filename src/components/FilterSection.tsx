@@ -2,24 +2,65 @@ import React, { FC, Fragment, useState, useEffect, useCallback } from 'react'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon, MapIcon } from '@heroicons/react/20/solid'
-import { cities } from '../utils/utils';
+import { cities, getSlidingWindow, PAGE_SIZE } from '../utils/utils';
 import { Property } from '../models/Property.model';
 import GridList from './GridList';
 import SearchBar from './SearchBar';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import Skeleton from './Skeleton';
 import Dropdown from './MultiSelect';
 import { ChevronLeftIcon, ChevronRightIcon, ChevronDoubleRightIcon, ChevronDoubleLeftIcon } from '@heroicons/react/20/solid'
 import Slider from './Slider';
 import * as Tabs from '@radix-ui/react-tabs';
 import PropertyMap from './PropertyMap';
+import { fetchPropertySearchData, fetchZipCodes } from '../services/property.service';
+
+const sortOptions = [
+  { 
+    name: 'Newest', 
+    sortFilter: 'year_built,DESC',
+    current: false,
+  },
+  { 
+    name: 'Sq. Feet: Low to High', 
+    sortFilter: 'square_feet,ASC',
+    current: false,
+  },
+  { 
+    name: 'Sq. Feet: High to Low', 
+    sortFilter: 'square_feet,DESC',
+    current: false,
+  },
+  { 
+    name: 'Price: Low to High', 
+    sortFilter: 'price,ASC',
+    current: false,
+  },
+  { 
+    name: 'Price: High to Low', 
+    sortFilter: 'price,DESC',
+    current: false,
+  },
+];
 
 const subCategories = [
   { name: 'Featured Properties ', href: '?featured=true' },
   { name: 'Ready For Rehab', href: '?propertyClass=Res+Imp' },
   { name: 'Commercial Opportunities', href: '?propertyClass=Com+Imp%2CCom+Vac+Lot' },
 ]
-const filters = [
+
+const filterIds = [
+  'city',
+  'zip',
+  'propertyClass',
+  'price',
+  'sqft',
+  'lotSize',
+  'sort',
+  'featured'
+]
+
+const filtersFormData = [
   {
     id: 'propertyClass',
     name: 'Property Class',
@@ -43,105 +84,66 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
 }
 
-const PAGE_SIZE = 30;
-
-interface FilterSectionProps {
-  isLoading: boolean;
-  setSearchParams: (value: any) => void;
-  resultsTotal: number;
-  searchParams: URLSearchParams;
-  currentPage: Array<Property>;
-  zipCodes: Array<string>;
-  sortOptions: Array<any>;
-}
-
 export type FilterOptions = {
   city?: string[];
   zip?: string[];
   propertyClass?: string[];
 }
 
-const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, resultsTotal, zipCodes, setSearchParams, searchParams, sortOptions }) => {
+const FilterSection: FC = () => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
-  const [page, setPage] = useState(0); // Pagination
+  const [page, setPage] = useState(1); // Pagination
+  const [searchTotal, setSearchTotal] = useState(0); // Pagination
+  const [isLoadingPage, setIsLoadingPage] = useState(false); // Pagination
+  const [zipCodes, setZipCodes] = useState<string[]>([]);
   const [pageList, setPageList] = useState<number[]>([1, 2]); // Pagination
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState<Property[]>([]);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const setFilterSearchParams = (filterId: string) => {
-    const selectedFilters: string[] = filters.find((filter) => filter.id === filterId)?.options.filter((option) => option.checked).map((option) => option.value) || [''];
-    const filterString = selectedFilters.join(',')
+  const fetchZipCodeData = useCallback(async () => {
+    const response = await fetchZipCodes();
+    setZipCodes(response);
+  }, [])
+
+
+  const fetchData = useCallback(async () => {
+    setIsLoadingPage(true);
+    const data = await fetchPropertySearchData(searchParams, page, 30);
+    setCurrentPage(data.properties);
+    setSearchTotal(data.metadata.total)
+    const {
+      startIndex,
+      endIndex,
+      totalPages
+    } = getSlidingWindow(page, data.metadata.total);
+    // Generate the sliding window array
+    setPageList(Array.from({ length: totalPages }, (_, index) => index + 1).slice(startIndex - 1, endIndex));
+    setIsLoadingPage(false);
+  }, [searchParams, page, setPageList])
+
+
+
+  useEffect(() => {
+    fetchData();
+  }, [searchParams, fetchData, page]);
+
+  useEffect(() => {
+    fetchZipCodeData();
+  }, [fetchZipCodeData])
+
+  const setFilterParams = (filterId: string, filterValue: string | string[]| number[]) => {
+    const filterString = Array.isArray(filterValue) ? filterValue.join(',') : filterValue;
     searchParams.set(filterId, filterString as string);
     setSearchParams(searchParams);
   }
 
   const clearFliterParams = () => {
-    searchParams.delete('city');
-    searchParams.delete('zip');
-    searchParams.delete('propertyClass');
-    searchParams.delete('price');
-    searchParams.delete('sqft');
-    searchParams.delete('lotSize');
-    searchParams.delete('sort');
-    searchParams.delete('featured');
+    filterIds.forEach((filter) => {
+      searchParams.delete(filter);
+    })
     setSearchParams(searchParams);
     navigate(0)
-  }
-
-
-  const updatePageList = useCallback(() => {
-    const totalPages = Math.ceil(currentPage.length / PAGE_SIZE); // Total number of pages
-
-    const windowSize = 2; // The size of the sliding window
-
-    // Calculate the start index for the slice
-    let startIndex = page - Math.floor(windowSize / 2);
-    startIndex = Math.max(startIndex, 1); // Ensure start index is not less than 1
-
-    // Adjust the start index if we're near the end of the page range
-    if (startIndex > totalPages - windowSize + 1) {
-      startIndex = totalPages - windowSize + 1;
-    }
-
-    // Ensure the end index does not exceed the total pages
-    let endIndex = startIndex + windowSize;
-    endIndex = Math.min(endIndex, totalPages);
-
-    // Generate the sliding window array
-    setPageList(Array.from({ length: totalPages }, (_, index) => index + 1).slice(startIndex - 1, endIndex));
-  }, [currentPage, page])
-
-  useEffect(() => {
-    updatePageList();
-  }, [page, updatePageList])
-
-
-  const setZipCodeFilterParams = (zipCodes: string[]) => {
-    const filterString = zipCodes.join(',')
-    searchParams.set('zip', filterString as string);
-    setSearchParams(searchParams);
-  }
-
-  const setPriceFilterParams = (price: number[]) => {
-    const filterString = price.join(',')
-    searchParams.set('price', filterString as string);
-    setSearchParams(searchParams);
-  }
-
-  const setSqFtFilterParams = (price: number[]) => {
-    const filterString = price.join(',')
-    searchParams.set('sqft', filterString as string);
-    setSearchParams(searchParams);
-  }
-
-  const setLotSizeFilterParams = (price: number[]) => {
-    const filterString = price.join(',')
-    searchParams.set('lotSize', filterString as string);
-    setSearchParams(searchParams);
-  }
-
-  const setSortFilterParams = (sort: string) => {
-    searchParams.set('sort', sort);
-    setSearchParams(searchParams);
   }
 
   const clearSort = () => {
@@ -152,18 +154,16 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
     setSearchParams(searchParams);
   }
 
-
-
   useEffect(() => {
     // set the checked value to true for all filters that are in the search params by the filter id 
-    filters.forEach((filter) => {
+    filtersFormData.forEach((filter) => {
       const filterValues = searchParams.get(filter.id)?.split(',') || [];
       filter.options.forEach((option) => {
         option.checked = filterValues.includes(option.value)
       })
     })
-    updatePageList();
-  }, [searchParams, updatePageList])
+
+  }, [searchParams])
 
   return (
     <div className="bg-transparent w-full">
@@ -182,7 +182,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
             >
               <div className="fixed inset-0 bg-black bg-opacity-25" />
             </Transition.Child>
-
+            {/* Mobile sidebar */}
             <div className="fixed inset-0 z-40 flex">
               <Transition.Child
                 as={Fragment}
@@ -193,6 +193,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full"
               >
+                {/* Mobile sidebar header */}
                 <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
                   <div className="flex items-center justify-between px-4">
                     <div className=" ">
@@ -223,8 +224,8 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                         </li>
                       ))}
                     </ul>
-
-                    {filters.map((section) => (
+                    {/* Mobile City & Property Class Filter */}
+                    {filtersFormData.map((section) => (
                       <Disclosure as="div" key={section.id} className="border-t border-gray-200 px-4 py-6">
                         {({ open }) => (
                           <>
@@ -252,7 +253,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                                       defaultChecked={option.checked}
                                       onChange={() => {
                                         option.checked = !option.checked;
-                                        setFilterSearchParams(section.id);
+                                        setFilterParams(section.id, filtersFormData.find((filter) => filter.id === section.id)?.options.filter((option) => option.checked).map((option) => option.value) || ['']);
                                       }}
                                       className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                     />
@@ -270,7 +271,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                         )}
                       </Disclosure>
                     ))}
-
+                    {/* Mobile Zip Filter */}
                     <Disclosure as="div" className="border-t border-gray-200 px-4 py-6">
                       
                         {({ open }) => (
@@ -289,12 +290,13 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                             </h3>
                             <Disclosure.Panel className="pt-6">
                         <div className="space-y-4">
-                          <Dropdown selectedOptions={searchParams.get('zip')?.split(',')} options={zipCodes} handleChange={setZipCodeFilterParams} />
+                          <Dropdown selectedOptions={searchParams.get('zip')?.split(',')} options={zipCodes} handleChange={(zips) => setFilterParams('zip', zips)} />
                         </div>
                       </Disclosure.Panel>
                           </>
                         )}
                     </Disclosure>
+                    {/* Mobile Price Filter */}
                     <Disclosure as="div" className="border-t border-gray-200 px-4 py-6">
                         {({ open }) => (
                           <>
@@ -315,12 +317,15 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                           <Slider initialValue={[Number(searchParams.get('price')) ?? 50000]} label='Maximum Price' defaultValue={[50000]} max={50000} step={500} unit='' formatter={new Intl.NumberFormat('en-US', {
                             style: 'currency',
                             currency: 'USD',
-                          })} onValueCommit={setPriceFilterParams} />
+                          })} onValueCommit={
+                            (price) => setFilterParams('price', price)
+                          } />
                         </div>
                       </Disclosure.Panel>
                           </>
                         )}
                     </Disclosure>
+                    {/* Mobile Sqft Filter */}
                     <Disclosure as="div" key={'sqft'} className="border-t border-gray-200 px-4 py-6">
                   {({ open }) => (
                     <>
@@ -338,13 +343,15 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                       </h3>
                       <Disclosure.Panel className="pt-6">
                         <div className="space-y-4">
-                          <Slider initialValue={[Number(searchParams.get('sqft')) ?? 1000]} label='Minimum' unit="Sq. Ft." step={50} max={1000} defaultValue={[1000]} onValueCommit={setSqFtFilterParams} />
+                          <Slider initialValue={[Number(searchParams.get('sqft')) ?? 1000]} label='Minimum' unit="Sq. Ft." step={50} max={1000} defaultValue={[1000]} onValueCommit={
+                            (sqft) => setFilterParams('sqft', sqft)
+                          } />
                         </div>
                       </Disclosure.Panel>
                     </>
                   )}
                 </Disclosure>
-
+                {/* Mobile Lot Size Filter */}
                 <Disclosure as="div" key={'lotsqft'} className="border-t border-gray-200 px-4 py-6">
                   {({ open }) => (
                     <>
@@ -362,7 +369,9 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                       </h3>
                       <Disclosure.Panel className="pt-6">
                         <div className="space-y-4">
-                          <Slider initialValue={[Number(searchParams.get('lotsize')) ?? 50]} label='Minimum' step={1} max={50} defaultValue={[50]} unit="acres" onValueCommit={setLotSizeFilterParams} />
+                          <Slider initialValue={[Number(searchParams.get('lotsize')) ?? 50]} label='Minimum' step={1} max={50} defaultValue={[50]} unit="acres" onValueCommit={
+                            (lotSize) => setFilterParams('lotSize', lotSize)
+                          } />
                         </div>
                       </Disclosure.Panel>
                     </>
@@ -403,14 +412,14 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
             </h2>
 
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
-              {/* Filters */}
+              {/* Desktop Filters */}
               <form className="hidden lg:block">
                 <h3 className="sr-only">Categories</h3>
-                <div className='flex gap-4'>
+                <div className='flex gap-4 justify-between'>
                 <h2 className="text-xl mb-5 pl-2 font-bold">Categories</h2>
                 {searchParams.toString() !== '' &&  
-                  <button type='button' onClick={clearFliterParams} className='rounded-xl border-2 border-black hover:border-red-600  p-1 mt-5  hover:bg-red-600 hover:text-white transition ease-in-out duration-200 h-fit'>
-                    <span className='text-sm flex'>Clear Filters </span>
+                  <button type='button' onClick={clearFliterParams} className='rounded-lg border-2 border-black hover:border-red-600  p-1 mt-5  hover:bg-red-600 hover:text-white transition ease-in-out duration-200 h-fit'>
+                    <span className='text-sm flex'>Clear All</span>
                   </button>
 }
                 </div>
@@ -421,9 +430,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                     </li>
                   ))}
                 </ul>
-
-
-
+                {/* Desktop Price Filter */}
                 <Disclosure as="div" key={'price'} className="border-b border-gray-200 py-6">
                   {({ open }) => (
                     <>
@@ -444,13 +451,15 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                           <Slider initialValue={[Number(searchParams.get('price')) ?? 50000]} label='Maximum Price' defaultValue={[50000]} max={50000} step={500} unit='' formatter={new Intl.NumberFormat('en-US', {
                             style: 'currency',
                             currency: 'USD',
-                          })} onValueCommit={setPriceFilterParams} />
+                          })} onValueCommit={
+                            (price) => setFilterParams('price', price)
+                          } />
                         </div>
                       </Disclosure.Panel>
                     </>
                   )}
               </Disclosure>
-
+                {/* Desktop Sqft Filter */}
                 <Disclosure as="div" key={'sqft'} className="border-b border-gray-200 py-6">
                   {({ open }) => (
                     <>
@@ -468,13 +477,15 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                       </h3>
                       <Disclosure.Panel className="pt-6">
                         <div className="space-y-4">
-                          <Slider initialValue={[Number(searchParams.get('sqft')) ?? 1000]} label='Minimum' unit="Sq. Ft." step={50} max={1000} defaultValue={[1000]} onValueCommit={setSqFtFilterParams} />
+                          <Slider initialValue={[Number(searchParams.get('sqft')) ?? 1000]} label='Minimum' unit="Sq. Ft." step={50} max={1000} defaultValue={[1000]} onValueCommit={
+                            (lotSize) => setFilterParams('sqft', lotSize)
+                          } />
                         </div>
                       </Disclosure.Panel>
                     </>
                   )}
                 </Disclosure>
-
+                {/* Desktop Lot Size Filter */}
                 <Disclosure as="div" key={'lotsqft'} className="border-b border-gray-200 py-6">
                   {({ open }) => (
                     <>
@@ -492,13 +503,15 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                       </h3>
                       <Disclosure.Panel className="pt-6">
                         <div className="space-y-4">
-                          <Slider initialValue={[Number(searchParams.get('lotsize')) ?? 50]} label='Minimum' step={1} max={50} defaultValue={[50]} unit="acres" onValueCommit={setLotSizeFilterParams} />
+                          <Slider initialValue={[Number(searchParams.get('lotsize')) ?? 50]} label='Minimum' step={1} max={50} defaultValue={[50]} unit="acres" onValueCommit={
+                            (lotSize) => setFilterParams('lotSize', lotSize)
+                          } />
                         </div>
                       </Disclosure.Panel>
                     </>
                   )}
                 </Disclosure>
-
+                {/* Desktop Zip Filter */}
                 <Disclosure as="div" key={'zip'} className="border-b border-gray-200 py-6">
                   {({ open }) => (
                     <>
@@ -516,14 +529,16 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                       </h3>
                       <Disclosure.Panel className="pt-6">
                         <div className="space-y-4">
-                          <Dropdown selectedOptions={searchParams.get('zip')?.split(',')} options={zipCodes} handleChange={setZipCodeFilterParams} />
+                          <Dropdown selectedOptions={searchParams.get('zip')?.split(',')} options={zipCodes} handleChange={
+                            (zips) => setFilterParams('zip', zips)
+                          } />
                         </div>
                       </Disclosure.Panel>
                     </>
                   )}
                 </Disclosure>
-
-                {filters.map((section) => (
+                {/* Desktop City & Property Class Filter */}
+                {filtersFormData.map((section) => (
                   <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
                     {({ open }) => (
                       <>
@@ -551,7 +566,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                                   defaultChecked={option.checked}
                                   onChange={() => {
                                     option.checked = !option.checked;
-                                    setFilterSearchParams(section.id);
+                                    setFilterParams(section.id, filtersFormData.find((filter) => filter.id === section.id)?.options.filter((option) => option.checked).map((option) => option.value) || ['']);
                                   }}
                                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                 />
@@ -606,14 +621,15 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                       <div className="hidden pt-4 sm:flex sm:flex-1 sm:items-center sm:justify-between">
                         <div>
                           <p className="text-sm text-gray-700">
-                            Showing <span className="font-medium">{page * PAGE_SIZE}</span> to <span className="font-medium">{(page + 1) * PAGE_SIZE > currentPage.length ? currentPage.length : (page + 1) * PAGE_SIZE}</span> of{' '}
-                            <span className="font-medium">{currentPage.length}</span> results
+                          Showing <span className="font-medium">{page === 1 ? 0 : page * PAGE_SIZE}</span> to <span className="font-medium">{(page + 1) * PAGE_SIZE > currentPage.length ? currentPage.length : (page + 1) * PAGE_SIZE}</span> of{' '}
+                          <span className="font-medium">{searchTotal}</span> results
                           </p>
                         </div>
+                        {/* Desktop Sort */}
                         <div className='flex flex-row items-center'>
                           <Menu as="div" className="relative inline-block text-left">
                             <div >
-                              <Menu.Button className="relative inline-flex items-center rounded-md px-2 py-[6px] ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 mr-4">
+                              <Menu.Button className="relative inline-flex bg-white items-center rounded-md px-2 py-[6px] ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 mr-4">
                                 Sort
                                 <ChevronDownIcon
                                   className="mr-1 ml-1 w-5 flex-shrink-0  group-hover:text-gray-500"
@@ -639,7 +655,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                                         <button
                                           onClick={() => {
                                             clearSort();
-                                            setSortFilterParams(option.sortFilter);
+                                            setFilterParams('sort', option.sortFilter);
                                             option.current = true;
                                           }}
                                           type='button'
@@ -660,17 +676,17 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                           </Menu>
                           <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
                             <button
-                              className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                              onClick={() => setPage(0)}
-                              disabled={page === 0}
+                              className="relative inline-flex bg-white items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                              onClick={() => setPage(1)}
+                              disabled={page === 1}
                             >
                               <span className="sr-only">Previous</span>
                               <ChevronDoubleLeftIcon className="h-5 w-5" aria-hidden="true" />
                             </button>
                             <button
-                              className="relative inline-flex items-center px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                              className="relative inline-flex bg-white items-center px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                               onClick={() => setPage(page - 1)}
-                              disabled={page === 0}
+                              disabled={page === 1}
                             >
                               <span className="sr-only">Previous</span>
                               <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
@@ -684,7 +700,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                                   disabled={currentPage.length < PAGE_SIZE}
                                   className="relative inline-flex items-center px-4 py-2 text-sm hover:bg-gray-200 font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0"
                                   style={
-                                    page === number - 1 ? { backgroundColor: '#003366', color: 'white' } : {}
+                                    page === number ? { backgroundColor: '#003366', color: 'white' } : {}
                                   }
                                 >
                                   {number}
@@ -711,12 +727,13 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                         </div>
                       </div>
                     </div>
-                    {!isLoading ? <GridList currentPage={currentPage.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE)} /> : <Skeleton />}
+                    {!isLoadingPage ? <GridList currentPage={currentPage}/> : <Skeleton />}
+                    {/* Pagination */}
                     <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
                       <div>
                         <p className="text-sm text-gray-700">
-                          Showing <span className="font-medium">{page * PAGE_SIZE}</span> to <span className="font-medium">{(page + 1) * PAGE_SIZE > currentPage.length ? currentPage.length : (page + 1) * PAGE_SIZE}</span> of{' '}
-                          <span className="font-medium">{currentPage.length}</span> results
+                          Showing <span className="font-medium">{page === 1 ? 0 : page * PAGE_SIZE}</span> to <span className="font-medium">{(page + 1) * PAGE_SIZE > currentPage.length ? currentPage.length : (page + 1) * PAGE_SIZE}</span> of{' '}
+                          <span className="font-medium">{searchTotal}</span> results
                         </p>
                       </div>
                       <div>
@@ -729,7 +746,7 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                             <span className="sr-only">Previous</span>
                             <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
                           </button>
-                          {/* Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
+
                           {pageList.map((number) => {
                             return (
                               <button
@@ -759,9 +776,9 @@ const FilterSection: FC<FilterSectionProps> = ({ isLoading, currentPage, results
                   </div>
 
                 </Tabs.Content>
+                {/* Map View */}
                 <Tabs.Content className="TabsContent" value="tab2">
-                  {!isLoading ? <PropertyMap properties={currentPage} /> : <Skeleton />}
-
+                  {!isLoadingPage ? <PropertyMap properties={currentPage} /> : <Skeleton />}
                 </Tabs.Content>
               </Tabs.Root>
             </div>

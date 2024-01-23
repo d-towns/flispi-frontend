@@ -1,71 +1,8 @@
-import React, { useState, useEffect, FC, useCallback } from 'react';
-import { Property } from '../models/Property.model';
+import React, {FC } from 'react';
 import FilterSection from '../components/FilterSection';
-import { useSearchParams } from 'react-router-dom';
-import { fetchPropertySearchData, fetchZipCodes} from '../services/property.service';
 
-
-const sortOptions = [
-  { 
-    name: 'Newest', 
-    sortFilter: 'year_built,DESC',
-    current: false,
-  },
-  { 
-    name: 'Sq. Feet: Low to High', 
-    sortFilter: 'square_feet,ASC',
-    current: false,
-  },
-  { 
-    name: 'Sq. Feet: High to Low', 
-    sortFilter: 'square_feet,DESC',
-    current: false,
-  },
-  { 
-    name: 'Price: Low to High', 
-    sortFilter: 'price,ASC',
-    current: false,
-  },
-  { 
-    name: 'Price: High to Low', 
-    sortFilter: 'price,DESC',
-    current: false,
-  },
-];
 
 const SearchPage: FC = () => {
-
-  const [data, setData] = useState<Property[]>([]);
-  const [zipCodes, setZipCodes] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  let [searchParams, setSearchParams] = useSearchParams()
-
-
-  const fetchData = useCallback(async () => {
-    setIsLoading(true);
-    const properties = await fetchPropertySearchData(searchParams);
-    setData(properties);
-    setIsLoading(false);
-  }, [searchParams])
-
-  const fetchZipCodeData =useCallback(async () => {
-    const response = await fetchZipCodes();
-    setZipCodes(response);
-  }, [])
-
-  useEffect(() => {
-    fetchZipCodeData();
-    sortOptions.forEach((option) => {
-      if(searchParams.get("sort") === option.sortFilter) {
-        option.current = true;
-      }
-    });
-
-  }, [searchParams, fetchZipCodeData]);
-
-  useEffect(() => {
-    fetchData();
-  }, [searchParams, fetchData]);
 
   return (
     <div className="min-h-full">
@@ -98,7 +35,7 @@ const SearchPage: FC = () => {
       
         <div className="mx-auto max-w-8xl mx-24 py-2 sm:px-6 lg:px-8">
           <div className="bg-taupe h-full">
-            <FilterSection zipCodes={zipCodes} sortOptions={sortOptions} isLoading={isLoading} resultsTotal={data.length} currentPage={data} searchParams={searchParams} setSearchParams={setSearchParams} />
+            <FilterSection />
           </div>
         </div>
       </main>

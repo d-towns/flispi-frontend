@@ -1,8 +1,25 @@
+import { Property } from "../models/Property.model";
 import { getEnvionmentApiUrl } from "../utils/utils";
 import axios from "axios";
 
-export const fetchPropertySearchData = async (searchParams: any) => {
-    const response = await axios.get(getEnvionmentApiUrl() + '/properties', {
+interface ResponseMetadata {
+    total: number;
+    limit: number;
+    offset: number;
+}
+
+// Define an interface for the entire API response
+interface PropertyApiResponse {
+    properties: Property[];
+    metadata: ResponseMetadata;
+}
+
+
+export const fetchPropertySearchData = async (searchParams: any, pageNumber: number, pageSize: number) : Promise<PropertyApiResponse> => {
+    // Calculate the offset
+    const offset = (pageNumber - 1) * pageSize;
+
+    const response = await axios.get<PropertyApiResponse>(getEnvionmentApiUrl() + '/properties', {
         params: {
             searchTerm: searchParams.get("searchTerm")?.replace('-', ''),
             city: searchParams.get("city"),
@@ -13,19 +30,22 @@ export const fetchPropertySearchData = async (searchParams: any) => {
             lotSize: searchParams.get("lotSize"),
             sort: searchParams.get("sort"),
             featured: searchParams.get("featured"),
-            limit: 10000,
+            limit: pageSize, // Set the limit to the page size
+            offset: offset, // Set the offset based on the current page number
         },
+
         headers:{
             'Content-Type': 'application/json'
-          },
+        },
         withCredentials: true
-    },);
+    });
+
+
     return response.data;
 };
 
-
-export const fetchFeaturedProperties = async () => {
-    const response = await axios.get(getEnvionmentApiUrl() + '/properties', {
+export const fetchFeaturedProperties = async (): Promise<PropertyApiResponse> => {
+    const response = await axios.get<PropertyApiResponse>(getEnvionmentApiUrl() + '/properties', {
         params: {
             featured: true,
             limit: 4,

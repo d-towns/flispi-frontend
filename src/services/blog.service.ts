@@ -6,7 +6,7 @@ export const fetchBlogs = async () => {
     return response.data;
 };
 
-export const fetchBlog = async (id: string) => {
-    const response = await axios.get(getEnvionmentApiUrl() + '/blog/' + id);
+export const fetchBlog = async (slug: string) => {
+    const response = await axios.get(getEnvionmentApiUrl() + '/blog/' + slug);
     return response.data;
 };

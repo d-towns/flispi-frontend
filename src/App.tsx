@@ -43,12 +43,12 @@ const routes = (
       <Route path='search' element={<SearchPage />}/>
       <Route path='property/:id' element={<PropertyDetailsPage />} />
       <Route path='blog' element={<BlogHome />} />
-      <Route path='blog/:id' element={<BlogPage />} />
+      <Route path='blog/:slug' element={<BlogPage />} />
       <Route path='about' element={<StaffPage/>} />
       <Route path='staff' element={<StaffPage/>} />
       <Route path='board' element={<StaffPage/>} />
       <Route path='contact' element={<ContactPage/>} />
-      <Route path='login' element={<LoginPage/>} />
+    <Route path='login' element={<LoginPage/>} />
       <Route path='profile' element={<AuthenticationGuard component={ProfilePage} />} />
     </Route>
   </React.Fragment>
