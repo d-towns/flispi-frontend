@@ -17,18 +17,18 @@ export default function TermsPage() {
         />
       </div>
       <div className="mx-auto max-w-2xl text-left">
-        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Privacy Policy</h2>
+        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Terms of Service</h2>
         <p className="mt-2 text-lg leading-8 text-gray-600">
-        <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl font-semibold text-gray-900 mb-4">Terms of Service for [Your Website Name]</h1>
-        <p className="mb-2"><strong>Last updated:</strong> [Date]</p>
+        <div className="container mx-auto  py-8">
+        <h1 className="text-2xl font-semibold text-gray-900 mb-4">Terms of Service for Flint Property Search</h1>
+        <p className="mb-2"><strong>Last updated:</strong> 1/1/2024</p>
         
         <h2 className="text-xl font-semibold text-gray-900 mb-2">1. Introduction</h2>
-        <p className="mb-4">These Terms of Service govern your use of our website located at [Your Website URL] and any related services provided by [Your Company Name].</p>
+        <p className="mb-4">These Terms of Service govern your use of our website located at www.flintpropertysearch.com and any related services provided by Towns Captial-Flint LLC.</p>
         <p className="mb-4">By accessing our website, you agree to abide by these Terms of Service and any amendments to them that we may publish from time to time.</p>
 
         <h2 className="text-xl font-semibold text-gray-900 mb-2">2. Intellectual Property</h2>
-        <p className="mb-4">All content published and made available on our site is the property of [Your Company Name] and the site's creators. This includes, but is not limited to images, text, logos, documents, downloadable files and anything that contributes to the composition of our site.</p>
+        <p className="mb-4">All content published and made available on our site is the property of Towns Captial-Flint LLC and the site's creators. This includes, but is not limited to images, text, logos, documents, downloadable files and anything that contributes to the composition of our site.</p>
 
         <h2 className="text-xl font-semibold text-gray-900 mb-2">3. Acceptable Use</h2>
         <p className="mb-4">As a user of our site, you agree to use our site legally, not to use our site for illegal purposes, and not to:</p>
@@ -48,18 +48,20 @@ export default function TermsPage() {
         <p className="mb-4">We reserve the right to modify our website and services at any time, with or without notice to you.</p>
 
         <h2 className="text-xl font-semibold text-gray-900 mb-2">6. Limitation of Liability</h2>
-        <p className="mb-4">[Your Company Name] and its employees will not be held liable for any actions, claims, losses, damages, liabilities and expenses including legal fees from your use of the site.</p>
+        <p className="mb-4">Towns Captial-Flint LLC and its employees will not be held liable for any actions, claims, losses, damages, liabilities and expenses including legal fees from your use of the site.</p>
 
         <h2 className="text-xl font-semibold text-gray-900 mb-2">7. Governing Law</h2>
-        <p className="mb-4">These Terms of Service are governed by the laws of the Country/State in which [Your Company Name] is located.</p>
+        <p className="mb-4">These Terms of Service are governed by the laws of the Country/State in which Towns Captial-Flint LLC is located.</p>
 
         <h2 className="text-xl font-semibold text-gray-900 mb-2">8. Changes to These Terms</h2>
         <p className="mb-4">We reserve the right to modify these terms at any time, so please review them frequently. Changes and clarifications will take effect immediately upon their posting on the website.</p>
 
         <h2 className="text-xl font-semibold text-gray-900 mb-2">9. Contact Details</h2>
         <p>Please contact us if you have any questions or concerns. Our contact details are as follows:</p>
-        <p>[Your email address]</p>
-        <p>[Your phone number]</p>
+        <div className="mt-10" >
+            <a className="hover:underline" href='mailto:dennis@dennistowns.com'>Email: dennis@dennistowns.com</a>
+
+        </div>
     </div>
             </p>
       </div>

@@ -57,7 +57,6 @@ export default function PrivacyPolicyPage() {
         <p>If you have any questions regarding this privacy policy, you may contact us using the information below.</p>
         <div className="mt-10" >
             <a className="hover:underline" href='mailto:dennis@dennistowns.com'>Send us an email to dennis@dennistowns.com</a>
-
         </div>
     </div>
         </p>
