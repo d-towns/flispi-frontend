@@ -34,6 +34,16 @@ const Footer = () => {
                                     Contact Us
                                 </a>
                             </li>
+                            <li>
+                                <a href="/policy" className="text-base text-gray-500 hover:text-gray-900">
+                                    Privacy Policy
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/terms" className="text-base text-gray-500 hover:text-gray-900">
+                                    Terms of Service
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
