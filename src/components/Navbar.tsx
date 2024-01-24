@@ -54,6 +54,9 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { user, logout, isLoading } = useAuth0();
 
+  console.log(user, isLoading);
+  
+
   const navigate = useNavigate()
 
   return (
