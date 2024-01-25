@@ -12,7 +12,7 @@ export const Auth0ProviderWithNavigate = ({ children } : {
   const redirectUri = process.env.REACT_APP_AUTH0_CALLBACK_URL;
 
   const onRedirectCallback = (appState : any) => {
-    navigate(appState?.returnTo || window.location.pathname);
+    return appState?.returnTo || window.location.pathname
   };
 
   if (!(domain && clientId && redirectUri)) {
