@@ -56,6 +56,8 @@ export default function Navbar() {
 
   const getToken = useCallback(async () => {
     const token = await getAccessTokenWithPopup();
+    console.log(token);
+    
   }, [getAccessTokenWithPopup]);
 
   useEffect( () => {
