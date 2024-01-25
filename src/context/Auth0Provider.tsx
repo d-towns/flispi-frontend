@@ -26,6 +26,7 @@ export const Auth0ProviderWithNavigate = ({ children } : {
       authorizationParams={{
         redirect_uri: redirectUri,
       }}
+      useRefreshTokens={true}
       onRedirectCallback={onRedirectCallback}
     >
       {children}
