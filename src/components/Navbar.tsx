@@ -52,12 +52,11 @@ function classNames(...classes: string[]) {
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const { user, logout, isLoading, isAuthenticated, getAccessTokenSilently} = useAuth0();
+  const { user, logout, isLoading, isAuthenticated, getAccessTokenWithPopup} = useAuth0();
 
   const getToken = useCallback(async () => {
-    const token = await getAccessTokenSilently();
-    console.log(token);
-  }, [getAccessTokenSilently]);
+    const token = await getAccessTokenWithPopup();
+  }, [getAccessTokenWithPopup]);
 
   useEffect( () => {
     console.log('user', user);
