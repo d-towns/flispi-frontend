@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useEffect, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react'
 import { HomeIcon, StarIcon, FlagIcon, WrenchScrewdriverIcon, MagnifyingGlassIcon, MapPinIcon } from '@heroicons/react/20/solid';
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon, XMarkIcon, Bars3Icon, BuildingOffice2Icon, BuildingOfficeIcon, ArrowUturnRightIcon, UserCircleIcon, HeartIcon} from '@heroicons/react/20/solid'
@@ -52,21 +52,9 @@ function classNames(...classes: string[]) {
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const { user, logout, isLoading, isAuthenticated, getAccessTokenWithPopup} = useAuth0();
+  const { user, logout, isLoading, isAuthenticated} = useAuth0();
 
-  const getToken = useCallback(async () => {
-    const token = await getAccessTokenWithPopup();
-    console.log(token);
-    
-  }, [getAccessTokenWithPopup]);
-
-  useEffect( () => {
-    console.log('user', user);
-    getToken().then(
-      (token) => console.log('token', token)
-    )
-    console.log(user, isAuthenticated);
-  },[getToken, isAuthenticated, user])
+  console.log(user, isLoading);
   
 
   const navigate = useNavigate()
