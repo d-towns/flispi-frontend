@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react'
 import { HomeIcon, StarIcon, FlagIcon, WrenchScrewdriverIcon, MagnifyingGlassIcon, MapPinIcon } from '@heroicons/react/20/solid';
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon, XMarkIcon, Bars3Icon, BuildingOffice2Icon, BuildingOfficeIcon, ArrowUturnRightIcon, UserCircleIcon, HeartIcon} from '@heroicons/react/20/solid'
@@ -52,25 +52,7 @@ function classNames(...classes: string[]) {
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const { user, logout, isLoading, isAuthenticated, getAccessTokenSilently, getIdTokenClaims} = useAuth0();
-
-  // useEffect(() => {
-  //   const getUserMetadata = async () => {
-  //     try {
-  //       const accessToken = await getAccessTokenSilently({
-  //         detailedResponse: true,
-  //         authorizationParams: {
-  //           scope: 'read:current_user',
-  //         },
-  //       });
-  //       const idToken = await getIdTokenClaims();
-  //     } catch (e :any) {
-  //       console.log(e.message);
-  //     }
-  //   };
-  //   getUserMetadata();
-  // }, [getAccessTokenSilently, getIdTokenClaims, user]);
-
+  const { user, logout, isLoading} = useAuth0();
   const navigate = useNavigate()
 
   return (
