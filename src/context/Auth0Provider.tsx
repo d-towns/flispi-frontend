@@ -11,9 +11,9 @@ export const Auth0ProviderWithNavigate = ({ children } : {
   const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
   const redirectUri = process.env.REACT_APP_AUTH0_CALLBACK_URL;
 
-  // const onRedirectCallback = (appState : any) => {
-  //   navigate(appState?.returnTo || window.location.pathname);
-  // };
+  const onRedirectCallback = (appState : any) => {
+    navigate(appState?.returnTo || window.location.pathname);
+  };
 
   if (!(domain && clientId && redirectUri)) {
     return null;
@@ -26,6 +26,9 @@ export const Auth0ProviderWithNavigate = ({ children } : {
       authorizationParams={{
         redirect_uri: redirectUri,
       }}
+      onRedirectCallback={onRedirectCallback}
+      cacheLocation="localstorage"
+      useRefreshTokens={true}
     >
       {children}
     </Auth0Provider>
