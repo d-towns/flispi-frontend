@@ -52,10 +52,9 @@ function classNames(...classes: string[]) {
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const { user, logout, isLoading, isAuthenticated} = useAuth0();
+  const { user, logout, isLoading, isAuthenticated, getAccessTokenSilently, getIdTokenClaims} = useAuth0();
 
-  console.log(user, isLoading);
-  
+  console.log(user, isAuthenticated);
 
   const navigate = useNavigate()
 
