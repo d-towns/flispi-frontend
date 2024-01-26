@@ -54,25 +54,22 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { user, logout, isLoading, isAuthenticated, getAccessTokenSilently, getIdTokenClaims} = useAuth0();
 
-  useEffect(() => {
-    const getUserMetadata = async () => {
-      try {
-        const accessToken = await getAccessTokenSilently({
-          detailedResponse: true,
-          authorizationParams: {
-            scope: 'read:current_user',
-          },
-        });
-        const idToken = await getIdTokenClaims();
-        console.log('idtoken', idToken)
-        console.log('accessToken', accessToken)
-        console.log('user' , user)
-      } catch (e :any) {
-        console.log(e.message);
-      }
-    };
-    getUserMetadata();
-  }, [getAccessTokenSilently, getIdTokenClaims, user]);
+  // useEffect(() => {
+  //   const getUserMetadata = async () => {
+  //     try {
+  //       const accessToken = await getAccessTokenSilently({
+  //         detailedResponse: true,
+  //         authorizationParams: {
+  //           scope: 'read:current_user',
+  //         },
+  //       });
+  //       const idToken = await getIdTokenClaims();
+  //     } catch (e :any) {
+  //       console.log(e.message);
+  //     }
+  //   };
+  //   getUserMetadata();
+  // }, [getAccessTokenSilently, getIdTokenClaims, user]);
 
   const navigate = useNavigate()
 
