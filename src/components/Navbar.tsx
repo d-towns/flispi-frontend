@@ -54,8 +54,6 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { user, logout, isLoading, isAuthenticated, getAccessTokenSilently, getIdTokenClaims} = useAuth0();
 
-  console.log(user, isAuthenticated);
-
   useEffect(() => {
     const getUserMetadata = async () => {
       try {
@@ -66,9 +64,9 @@ export default function Navbar() {
           },
         });
         const idToken = await getIdTokenClaims();
-        console.log(idToken)
-        console.log(accessToken)
-        console.log(user)
+        console.log('idtoken', idToken)
+        console.log('accessToken', accessToken)
+        console.log('user' , user)
       } catch (e :any) {
         console.log(e.message);
       }
