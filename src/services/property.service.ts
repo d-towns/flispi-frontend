@@ -17,7 +17,9 @@ interface PropertyApiResponse {
 
 export const fetchPropertySearchData = async (searchParams: any, pageNumber: number, pageSize: number) : Promise<PropertyApiResponse> => {
     // Calculate the offset
-    const offset = pageNumber === 0 ? 0 : (pageNumber - 1) * pageSize;
+    console.log(pageNumber, pageSize);
+    
+    const offset = pageNumber === 0 ? 0 : (pageNumber) * pageSize;
 
 
     const response = await axios.get<PropertyApiResponse>(getEnvionmentApiUrl() + '/properties', {
