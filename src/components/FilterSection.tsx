@@ -604,7 +604,7 @@ const FilterSection: FC = () => {
                       <div className="flex flex-1 justify-between sm:hidden">
                         <button
                           onClick={() => setPage(page - 1)}
-                          disabled={currentPage.length < PAGE_SIZE || ( page === Math.ceil(currentPage.length / PAGE_SIZE) - 1 || page === 0)}
+                          disabled={searchTotal < PAGE_SIZE || ( page === Math.ceil(searchTotal / PAGE_SIZE) - 1 || page === 0)}
                           className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                         >
                           Previous
@@ -612,7 +612,7 @@ const FilterSection: FC = () => {
 
                         <button
                         onClick={() => setPage(page + 1)}
-                        disabled={currentPage.length < PAGE_SIZE || page === Math.ceil(currentPage.length / PAGE_SIZE) - 1}
+                        disabled={searchTotal < PAGE_SIZE || page === Math.ceil(searchTotal / PAGE_SIZE) - 1}
                           className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                         >
                           Next
