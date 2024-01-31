@@ -1,8 +1,8 @@
 import axios from "axios";
-import { getEnvionmentApiUrl } from "../utils/utils";
+import { getEnvironmentApiUrl } from "../utils/utils";
 
 export const login = async (parmas : { username: string, password: string}) => {
-    const response = await axios.post( getEnvionmentApiUrl() + '/login', parmas, { headers:{
+    const response = await axios.post( getEnvironmentApiUrl() + '/login', parmas, { headers:{
         'Content-Type': 'application/json'
       },
       withCredentials: true
@@ -12,7 +12,7 @@ export const login = async (parmas : { username: string, password: string}) => {
 };
 
 export const signUp = async (parmas : {username: string, email: string, password: string, phone:string, firstName: string, lastName: string, company: string}) => {
-    const response = await axios.post( getEnvionmentApiUrl() + '/register', parmas,{
+    const response = await axios.post( getEnvironmentApiUrl() + '/register', parmas,{
     headers: {
         'Content-Type': 'application/json'
       },
@@ -21,7 +21,7 @@ export const signUp = async (parmas : {username: string, email: string, password
 };
 
 export const logout = async () => {
-    const response = await axios.post( getEnvionmentApiUrl() + '/logout', {} ,{
+    const response = await axios.post( getEnvironmentApiUrl() + '/logout', {} ,{
     headers: {
         'Content-Type': 'application/json'
       },
@@ -30,7 +30,7 @@ export const logout = async () => {
 }
 
 export const getCurrentUser = async () => {
-    const response = await axios.get( getEnvionmentApiUrl() + '/user',{
+    const response = await axios.get( getEnvironmentApiUrl() + '/user',{
     headers: {
         'Content-Type': 'application/json'
       },

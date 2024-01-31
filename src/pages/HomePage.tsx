@@ -74,7 +74,7 @@ const HomePage = () => {
         />
       </div>
       <div className="grid xl:m-auto xl:w-[1500px] w-full grid-cols-1 my-auto mt-12 mb-8 md:grid-cols-2 xl:gap-14 pr-8">
-        <div className="mx-10 flex flex-col justify-center col-span-1 text-left lg:text-start">
+        <div className="mx-10 flex flex-col justify-center col-span-1 text-left lg:text-start" data-aos="fade-up" data-aos-duration="1000">
           <div className="flex items-start mb-4 lg:justify-normal">
             <img className="h-5 rounded-lg hidden lg:block" src="/map_medium.png" alt="logo" />
             <h4 className="ml-2 text-sm font-bold tracking-widest text-primary uppercase">Explore the latest vacant land and rehab opportunites</h4>
@@ -96,21 +96,22 @@ const HomePage = () => {
             </Link>
           </div>
         </div>
+        <div data-aos="fade-up" data-aos-duration="1000">
         <ImageCarousel />
+        </div>
       </div>
       <div className="bg-transparent max-w-7xl mx-auto py-8 my-10 sm:my-24 sm:py-16 ">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <h2 className="mb-8 text-2xl font-extrabold leading-tight text-center lg:text-4xl text-dark-grey-900 mb-20"> Genesee County Land Bank is taking action!</h2>
-
           <dl className="grid grid-cols-1 gap-x-8 gap-y-16 text-center md:grid-cols-3">
-            <div className="relative mx-auto flex max-w-xs flex-col gap-y-4" data-aos="fade-right">
+            <div className="relative mx-auto flex max-w-xs flex-col gap-y-4" data-aos="zoom-in-right" data-aos-duration="1000">
               <div className="absolute right-2 bottom-2 h-3/4 w-full rounded-lg bg-[#8ba2be] z-0"></div>
               <dl className="relative border border-black order-first z-10 mb-4 rounded-lg bg-white p-6 text-3xl font-semibold tracking-tight text-gray-900 shadow-md lg:text-7xl sm:text-3xl">
                 <dd className="relative z-10 text-base leading-7 text-gray-600 text-xl">Funds Secured for Demolition</dd>
                 $43.7 M
               </dl>
             </div>
-            <div className="relative mx-auto flex max-w-sm flex-col gap-y-4" data-aos="fade-up">
+            <div className="relative mx-auto flex max-w-sm flex-col gap-y-4" data-aos="zoom-in-up" data-aos-duration="1000">
               <div className="absolute right-2 bottom-2 h-3/4 w-full rounded-lg bg-[#8ba2be] z-0"></div>
               <dl className="relative border border-black order-first z-10 mb-4 rounded-lg bg-white p-6 text-3xl font-semibold tracking-tight text-gray-900 shadow-md lg:text-7xl sm:text-3xl">
                 <dd className="relative z-10 text-base leading-7 text-gray-600 text-xl">Planned Demolitions <span className="hidden sm:inline">( A/O Nov 2023 )</span>     </dd>
@@ -118,7 +119,7 @@ const HomePage = () => {
                 1,910
               </dl>
             </div>
-            <div className="relative mx-auto flex max-w-xs flex-col gap-y-4" data-aos="fade-left">
+            <div className="relative mx-auto flex max-w-xs flex-col gap-y-4" data-aos="zoom-in-left" data-aos-duration="1000">
               <div className="absolute right-2 bottom-2 h-3/4 w-full rounded-lg bg-[#8ba2be] z-0"></div>
               <dl className="relative border border-black order-first z-10 mb-4 rounded-lg bg-white p-6 text-3xl font-semibold tracking-tight text-gray-900 shadow-md lg:text-7xl sm:text-3xl">
                 <dt className="relative z-10 text-base leading-7 text-gray-600 text-xl">Community Feedback Surveys</dt>
@@ -130,10 +131,10 @@ const HomePage = () => {
       </div>
       <div className="bg-gray-200 mx-auto py-16 sm:py-32 text-sm">
         <div className="mx-auto xl:max-w-[100rem] px-6 lg:px-8">
-          <div className="mx-auto max-w-4xl lg:text-center">
-            <h2 className="sm:text-base text-base font-semibold leading-7 text-[#8ba2be]">Flint Property Search</h2>
-            <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">Featued properties of the week </p>
-            <p className="mt-6 mx-autos sm:text-lg text-lg leading-8 text-gray-600">The Genesee County Land Bank works with partners to address challenges on tax-foreclosed properties received from the Genesee County Treasurer and position them for re-use when feasible. Some of the best available are listed below:</p>
+          <div className="mx-auto max-w-4xl lg:text-center" data-aos="fade-up" data-aos-duration="1000">
+            <h2 className="sm:text-xl text-base font-semibold leading-7 text-[#8ba2be]">Flint Property Search</h2>
+            <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 md:text-5xl">Featued properties of the week </p>
+            <p className="mt-6 mx-autos sm:text-xl text-lg sm:leading-relaxed text-gray-600">The Genesee County Land Bank works with partners to address challenges on tax-foreclosed properties received from the Genesee County Treasurer and position them for re-use when feasible. Some of the best available are listed below:</p>
           </div>
           <div className="mx-auto w-full mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
             <dl className="grid max-w-none w-full grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-2 xl:max-w-none xl:grid-cols-4 lg:gap-y-16">
@@ -142,8 +143,10 @@ const HomePage = () => {
               <div className="w-20 h-20 border-purple-200 border-2 rounded-full"></div>
               <div className="w-20 h-20 border-purple-700 border-t-2 animate-spin rounded-full absolute left-0 top-0"></div>
           </div>:
-              featuredProperties.map((property) => (
+              featuredProperties.map((property, idx) => (
+                <div data-aos="fade-right" data-aos-duration={`${500 * (idx+1)}`}>
                 <GridItem key={property.id} property={property} />
+                </div>
               )) }
             </dl>
           </div>
@@ -151,14 +154,14 @@ const HomePage = () => {
       </div>
       <div className="bg-transparent py-24  max-w-7xl mx-auto sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl lg:mx-0">
+          <div className="mx-auto max-w-2xl lg:mx-0" data-aos="fade-up" data-aos-duration="1000">
             <h2 className="font-bold tracking-tight text-gray-900 sm:text-4xl text-2xl">Check Out Our Blog!</h2>
             <p className="mt-2 sm:text-lg  text-base leading-8 text-gray-600">Learn how you can get involved in mission to activate vacant land, promote affordable homeownership and fight blight</p>
           </div>
           <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
             {blogs.map((blog) => {
               return (
-                <article key={blog.slug} className="flex max-w-xl flex-col items-start justify-between" data-aos-duration="200" data-aos="fade-in">
+                <article key={blog.slug} className="flex max-w-xl flex-col items-start justify-between" data-aos-duration="500" data-aos="fade-in">
               <div className="flex items-center gap-x-4 text-xs">
                 <span className="text-gray-500">{format(parseISO(blog.created_at), 'yyyy-MM-d')}</span>
                 <a href={`blog/${blog.slug}`} className="relative z-10 rounded-full bg-gray-100 shadow px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">{blog.tag}</a>
@@ -190,7 +193,7 @@ const HomePage = () => {
         </div>
       </div>
       <>
-        <div className="relative mx-auto flex max-w-6xl flex-col gap-y-4 mb-32 hidden sm:block px-8">
+        <div className="relative mx-auto flex max-w-6xl flex-col gap-y-4 mb-32 hidden sm:block px-8" data-aos="fade-up" data-aos-duration="1000">
           <div className="absolute xl:right-1 left-5 top-3 h-full xl:w-[94%] rounded-lg bg-[#8ba2be] z-0 w-[80%]"></div>
           <dd className="relative border  border-black flex flex-row sm:gap-8 order-first z-10 mb-4 rounded-lg bg-white p-6 text-3xl font-semibold tracking-tight text-gray-900 shadow-md sm:text-5xl">
             <div className="max-w-xl lg:max-w-lg">

@@ -18,7 +18,7 @@ export const parseImages = (images: string) : string[] => {
     return parsedImages
   }
 
-export const getEnvionmentApiUrl = () => {
+export const getEnvironmentApiUrl = () => {
     return process.env.REACT_APP_NODE_ENV === 'development' ? process.env.REACT_APP_API_URL : process.env.REACT_APP_PROD_API_URL
 }
 
@@ -29,7 +29,7 @@ export const currencyFormat = new Intl.NumberFormat('en-US', {
 
  export const getSlidingWindow = (currentPage : number, resultsTotal: number) : {startIndex: number, endIndex: number, totalPages: number} => {
     const totalPages = Math.ceil(resultsTotal / PAGE_SIZE); // Total number of pages
-    
+
     const windowSize = 2; // The size of the sliding window
 
     // Calculate the start index for the slice

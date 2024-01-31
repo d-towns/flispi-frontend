@@ -31,6 +31,8 @@ const PropertyDetailsPage = () => {
     fetchPropertyFromApi()
     if(!id || !user?.sub) return
     getSavedProperty(user.sub, id).then((response) => {
+      console.log(response);
+      
       setIsFavorite(response)
     })
   }, [user, id, fetchPropertyFromApi])
@@ -40,6 +42,8 @@ const PropertyDetailsPage = () => {
       setOpenLoginDialog(true)
       return
     }
+    console.log(isFavorite);
+    
     isFavorite ? 
       unfavoriteProperty(property.id, user.sub).then(() => {
         setIsFavorite(false)
@@ -90,11 +94,11 @@ const PropertyDetailsPage = () => {
             }
           </div>
           <div className="bg-white border border-black shadow-lg rounded-lg h-full flex flex-col">
-            <h1 className="text-2xl text-center font-semibold rounded-t-lg py-10 bg-gray-100">Property Details</h1>
+            <h1 className="text-3xl text-center font-semibold rounded-t-lg py-10 bg-gray-100">Property Details</h1>
             <div className="flex flex-col w-full">
               <div className="flex justify-items-start border-t borger-gray-100 px-5 justify-between  py-6 font-sans">
                 <div className="flex flex-col ">
-                  <span className="my-auto text-xl font-semibold">{property?.address}</span>
+                  <span className="my-auto md:text-2xl text-lg font-semibold">{property?.address}</span>
                   <span className="my-auto">{property?.city}, {property?.zip}</span>
                   <span className="h-full" ></span>
                 </div>
@@ -105,7 +109,7 @@ const PropertyDetailsPage = () => {
                   </button>
                 </div>
               </div>
-              <div className="flex w-full flex-row border-t border-b borger-gray-100 px-5 justify-between py-6 font-sans">
+              <div className="flex w-full md:flex-row flex-col border-t border-b borger-gray-100 px-5 justify-between py-6 font-sans md:text-lg text-base">
                 <div className="flex flex-col ">
                   <span> <span className="font-bold">Tax ID:</span> {property?.parcel_id}</span>
                   <span><span className="font-bold">Property Class: </span> {property?.property_class}</span>
@@ -172,21 +176,21 @@ const PropertyDetailsPage = () => {
           </Dialog.Root>
 
           <div className="lg:col-span-2 col-span-1  lg:h-fit rounded-lg shadow-lg border border-black overflow-hidden">
-            <h1 className="text-2xl text-center  pl-8 font-semibold rounded-t-lg py-10 bg-gray-100 ">More Information</h1>
+            <h1 className="md:text-3xl  text-xl text-center  pl-8 font-semibold rounded-t-lg py-10 bg-gray-100 ">More Information</h1>
             <div className="flex flex-row w-full h-full p-4 text-gray-800 overflow-hidden">
               <div className="flex md:flex-row  flex-col gap-4 w-full h-full">
                 <div className="md:h-full h-fit w-full text-center">
-                  <h3 className="font-bold">Showtimes</h3>
+                  <h3 className="font-bold text-xl mb-4">Showtimes</h3>
                   <p>{property?.next_showtime ? formatInTimeZone(parseISO(property.next_showtime), 'America/New_York', 'PPpp') : 'None scheduled'}</p>
                 </div>
-                <div className="h-fit md:border-r md:border-l md:border-b-0 md:border-t-0  border-b border-t border-gray-300 border-solid w-full text-center">
-                  <h3 className="font-bold mt-3 md:mt-0">Exterior Repairs</h3>
+                <div className="h-fit md:border-r md:border-l md:border-b-0 md:border-t-0  border-b border-t border-gray-300 border-solid w-full text-center pb-5">
+                  <h3 className="font-bold mt-3 md:mt-0 text-xl mb-4">Exterior Repairs</h3>
                   {property?.exterior_repairs ? <ul>{property.exterior_repairs.map((repair: string) =>
                     <li key={repair}>{repair}</li>
                   )}</ul> : <p>None needed</p>}
                 </div>
                 <div className="h-full w-full text-center">
-                  <h3 className="font-bold">Interior Repairs</h3>
+                  <h3 className="font-bold text-xl mb-4">Interior Repairs</h3>
                   {property?.interior_repairs ? <ul>{property.interior_repairs.map((repair: string) =>
                     <li key={repair}>{repair}</li>
                   )}</ul> : <p>None needed</p>}

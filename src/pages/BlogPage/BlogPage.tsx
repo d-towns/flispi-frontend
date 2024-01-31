@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { getEnvionmentApiUrl } from '../../utils/utils'
+import { getEnvironmentApiUrl } from '../../utils/utils'
 import { Blog } from '../../models/Blog.model'
 import Markdown from 'react-markdown'
 import './BlogPage.css'
@@ -11,7 +11,7 @@ const BlogPage = () => {
   const { slug } = useParams<{ slug: string }>()
 
   const fetchBlog = useCallback( async () => {
-    const response = await fetch(getEnvionmentApiUrl() + `/blog/${slug}`)
+    const response = await fetch(getEnvironmentApiUrl() + `/blog/${slug}`)
     const data = await response.json()
     setBlog(data)
   },[slug])
@@ -22,7 +22,7 @@ const BlogPage = () => {
 
   return (
     <div>
-    <div className="py-10 w-4/6 mx-auto">
+    <div className="py-10 w-4/6 mx-auto blog-container">
 
       <div className="mb-4 md:mb-0 w-full mx-auto relative">
         <div className="px-4 lg:px-0">

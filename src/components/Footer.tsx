@@ -20,7 +20,7 @@ const Footer = () => {
             <div className="lg:col-span-1 mt-0">
                 <div className="flex flex-col ">
                     <div>
-                        <h3 className="text-gray-700 text-xl mt-6 font-semibold tracking-wider">
+                        <h3 className="text-gray-700 text-xl max-sm:mt-6 font-semibold tracking-wider">
                             More
                         </h3>
                         <ul className="mt-4 space-y-4">
@@ -50,7 +50,7 @@ const Footer = () => {
             </div>
         </div>
         <div className='flex flex-col text-center'>
-        <img className="mx-auto max-w-[14em] mb-10 rounded-lg" src="/map_medium.png" alt="Company Logo" />
+        <img className="mx-auto max-w-[14em] md:mb-10 mb-0 rounded-lg" src="/map_medium.png" alt="Company Logo" />
         <span className='text-lg my-1 ml-2 w-full font-semibold'><i>Flint Property Search</i></span>
         <span className='text-gray-600'> © Towns Captial-Flint LLC </span>
         </div>

@@ -1,12 +1,11 @@
-import { getEnvionmentApiUrl } from "../utils/utils";
-import axios from "axios";
+import axios from "./axios";
 
 export const fetchBlogs = async () => {
-    const response = await axios.get( getEnvionmentApiUrl() + '/blog');
+    const response = await axios.get('/blog');
     return response.data;
 };
 
 export const fetchBlog = async (slug: string) => {
-    const response = await axios.get(getEnvionmentApiUrl() + '/blog/' + slug);
+    const response = await axios.get('/blog/' + slug);
     return response.data;
 };
