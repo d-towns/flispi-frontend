@@ -37,7 +37,7 @@ const LoginPage = () => {
           }}
         />
       </div>
-      <div className=" mx-7 xl:m-auto block max-md:hidden  w-1/2 flex flex-col justify-center col-span-1 text-left lg:text-start">
+      <div className=" mx-7 xl:m-auto block max-md:hidden  w-1/2 flex flex-col justify-center col-span-1 text-left lg:text-start" data-aos="fade-up" data-aos-duration="1000">
           <div className="flex items-start mb-4 lg:justify-normal">
             <img className="h-5 rounded-lg hidden lg:block" src="/map_medium.png" alt="logo" />
             <h4 className="ml-2 text-sm font-bold tracking-widest text-primary uppercase">Explore the latest vacant land and rehab opportunites</h4>
