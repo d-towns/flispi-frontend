@@ -124,8 +124,12 @@ const PropertyDetailsPage = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-row w-full p-4 text-gray-800">
+            <div className="flex flex-col w-full p-4 text-gray-800 gap-6">
               No property description available
+              <p>
+              <strong>**Note**</strong>
+              </p>
+              <p>All properties without a set price have a start at a minimum value of $3000.00, and are negotiable upon offer.</p>
             </div>
           </div>
         </div>
