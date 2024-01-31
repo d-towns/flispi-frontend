@@ -155,7 +155,10 @@ const PropertyDetailsPage = () => {
                   Fill out an application
                 </Dialog.Title>
                 <Dialog.Description className="text-mauve11 mt-[10px] mb-5 text-[15px] leading-normal">
+                  
                   This is a <span className="font-bold">{property?.property_class} </span> property, which means you need a <span className="font-bold"> {findProperApplication(property)} </span>to apply.
+
+                  <p className="mt-5">If you are unsure on the details on how to apply for a purchase a home form the land bank, please visit <a href="https://www.thelandbank.org/homeownership.asp" target="_blank" rel="noreferrer" className="text-blue-500">The Land Bank's home ownership guide</a> page for more information.</p>
                 </Dialog.Description>
                 <div className="mt-[25px] flex justify-center gap-5">
                   <button onClick={() => navigateToApplication(property)} className=" text-white transition duration-300 bg-gradient-to-br from-[#8ba2be] to-[#A9A9A9] hover:scale-105 transition focus:ring-gray-300 inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-medium leading-none focus:shadow-[0_0_0_2px] focus:outline-none">

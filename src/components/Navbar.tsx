@@ -23,6 +23,7 @@ const ourProperties : NavItem = [
 ]
 
 const applications  : NavItem = [
+  { name: 'How To Apply', description: 'Instuctions on how to purchase homes from the Genesee County Land Bank', href: 'https://www.thelandbank.org/homeownership.asp', icon: WrenchScrewdriverIcon},
   { name: 'Lots Available Application', description: '', href: 'https://www.thelandbank.org/downloads/lots_available_application_221006.pdf', icon: MapPinIcon },
   { name: 'Residential Property Interest Application', description: '', href: 'https://www.thelandbank.org/downloads/residential_interest_form_221006.pdf', icon: HomeIcon },
   { name: 'Residential Poor/Demo Condition Application', description: '', href: 'https://www.thelandbank.org/downloads/poor_or_demo_application_221006.pdf', icon: FlagIcon },
