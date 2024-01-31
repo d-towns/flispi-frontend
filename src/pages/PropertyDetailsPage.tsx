@@ -2,57 +2,52 @@ import React, { useCallback, useState } from "react"
 import { Property } from "../models/Property.model"
 import { useParams } from 'react-router-dom';
 import ImageGallery from "../components/ImageGallery";
-import { currencyFormat, getEnvionmentApiUrl, parseImages } from "../utils/utils";
+import { currencyFormat, parseImages } from "../utils/utils";
 import { parseISO, } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 import * as Dialog from '@radix-ui/react-dialog';
 import { XMarkIcon, HeartIcon } from '@heroicons/react/20/solid'
-import { favoriteProperty, getFavoriteProperties, unfavoriteProperty } from "../services/property.service";
+import { favoriteProperty, getSavedProperty, unfavoriteProperty, fetchProperty } from "../services/property.service";
 import { useAuth0 } from "@auth0/auth0-react";
 import { NotLoggedInDialog } from "../components/NotLoggedInDialog";
 
 const PropertyDetailsPage = () => {
 
   const [property, setProperty] = useState<Property>()
-  const [favoriteProperties, setFavoriteProperties] = useState<Property[]>([])
+  const [isFavorite, setIsFavorite] = useState(false)
   const { id } = useParams<{ id: string }>()
   const { user } = useAuth0()
   const [openLoginDialog, setOpenLoginDialog] = useState(false)
 
 
-  const fetchProperty = useCallback(async () => {
-    const response = await fetch(getEnvionmentApiUrl() + `/property/${id}`)
-    const data = await response.json()
-    setProperty(data)
+  const fetchPropertyFromApi = useCallback(async () => {
+    if(!id) return
+    const response = await fetchProperty(id)
+    setProperty(response.properties[0])
   },[id])
 
   React.useEffect(() => {
     window.scrollTo(0, 0)
-    fetchProperty()
-    if (user?.sub) {
-      getFavoriteProperties(user.sub).then((properties) => {
-        setFavoriteProperties(properties)
-      })
-    }
-  }, [user, fetchProperty])
+    fetchPropertyFromApi()
+    if(!id || !user?.sub) return
+    getSavedProperty(user.sub, id).then((response) => {
+      setIsFavorite(response)
+    })
+  }, [user, id, fetchPropertyFromApi])
 
   const toggleFavorite = (property: Property) => {
     if(!user?.sub) { 
       setOpenLoginDialog(true)
       return
     }
-    if (favoriteProperties && favoriteProperties?.find((favoriteProperty) => favoriteProperty.id === property.id) && user?.sub) {
+    isFavorite ? 
       unfavoriteProperty(property.id, user.sub).then(() => {
-        setFavoriteProperties(favoriteProperties.filter((favoriteProperty) => favoriteProperty.id !== property.id))
-      })
-    } else if (user?.sub) {
+        setIsFavorite(false)
+      }) :
       favoriteProperty(property.id, user?.sub).then(() => {
-        setFavoriteProperties([...favoriteProperties, property])
+        setIsFavorite(true)
       })
-    }
   }
-
-
 
   const navigateToApplication = (property?: Property) => {
     switch (property?.property_class) {
@@ -106,9 +101,7 @@ const PropertyDetailsPage = () => {
                 <div>
                   <NotLoggedInDialog open={openLoginDialog} setOpen={setOpenLoginDialog} />
                   <button title="Save this property to your favorites" onClick={() => property && toggleFavorite(property)}>
-                    <HeartIcon className={`h-12 w-12 text-gray-300 hover:text-red-200 hover:scale-110 transition ease-in-out duration-200 ${favoriteProperties && favoriteProperties.find(
-                      (favoriteProperty) => favoriteProperty?.id === property?.id
-                    ) && 'text-red-800 hover:text-red-200'}`} aria-hidden="true" />
+                    <HeartIcon className={`h-12 w-12 text-gray-300 hover:text-red-200 hover:scale-110 transition ease-in-out duration-200 ${isFavorite && 'text-red-800 hover:text-red-200'}`} aria-hidden="true" />
                   </button>
                 </div>
               </div>

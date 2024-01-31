@@ -92,7 +92,7 @@ export type FilterOptions = {
 
 const FilterSection: FC = () => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
-  const [page, setPage] = useState(0); // Pagination
+  const [pageNumber, setPage] = useState(0); // Pagination
   const [searchTotal, setSearchTotal] = useState(0); // Pagination
   const [isLoadingPage, setIsLoadingPage] = useState(false); // Pagination
   const [zipCodes, setZipCodes] = useState<string[]>([]);
@@ -109,24 +109,24 @@ const FilterSection: FC = () => {
 
   const fetchData = useCallback(async () => {
     setIsLoadingPage(true);
-    const data = await fetchPropertySearchData(searchParams, page, 30);
+    const data = await fetchPropertySearchData({searchParams, pageNumber, pageSize: 30 });
     setCurrentPage(data.properties);
     setSearchTotal(data.metadata.total)
     const {
       startIndex,
       endIndex,
       totalPages
-    } = getSlidingWindow(page, data.metadata.total);
+    } = getSlidingWindow(pageNumber, data.metadata.total);
     // Generate the sliding window array
     setPageList(Array.from({ length: totalPages }, (_, index) => index + 1).slice(startIndex - 1, endIndex));
     setIsLoadingPage(false);
-  }, [searchParams, page, setPageList])
+  }, [searchParams, pageNumber, setPageList])
 
 
 
   useEffect(() => {
     fetchData();
-  }, [searchParams, fetchData, page]);
+  }, [searchParams, fetchData, pageNumber]);
 
   useEffect(() => {
     fetchZipCodeData();
@@ -603,16 +603,16 @@ const FilterSection: FC = () => {
                     <div className="flex items-center justify-between bg-transparent px-4 py-3 sm:px-6">
                       <div className="flex flex-1 justify-between sm:hidden">
                         <button
-                          onClick={() => setPage(page - 1)}
-                          disabled={searchTotal < PAGE_SIZE || ( page === Math.ceil(searchTotal / PAGE_SIZE) - 1 || page === 0)}
+                          onClick={() => setPage(pageNumber - 1)}
+                          disabled={searchTotal < PAGE_SIZE || ( pageNumber === Math.ceil(searchTotal / PAGE_SIZE) - 1 || pageNumber === 0)}
                           className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                         >
                           Previous
                         </button>
 
                         <button
-                        onClick={() => setPage(page + 1)}
-                        disabled={searchTotal < PAGE_SIZE || page === Math.ceil(searchTotal / PAGE_SIZE) - 1}
+                        onClick={() => setPage(pageNumber + 1)}
+                        disabled={searchTotal < PAGE_SIZE || pageNumber === Math.ceil(searchTotal / PAGE_SIZE) - 1}
                           className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                         >
                           Next
@@ -621,7 +621,7 @@ const FilterSection: FC = () => {
                       <div className="hidden pt-4 sm:flex sm:flex-1 sm:items-center sm:justify-between">
                         <div>
                           <p className="text-sm text-gray-700">
-                          Showing <span className="font-medium">{page * PAGE_SIZE}</span> to <span className="font-medium">{(page + 1) * PAGE_SIZE > searchTotal ? searchTotal : (page + 1) * PAGE_SIZE}</span> of{' '}
+                          Showing <span className="font-medium">{pageNumber * PAGE_SIZE}</span> to <span className="font-medium">{(pageNumber + 1) * PAGE_SIZE > searchTotal ? searchTotal : (pageNumber + 1) * PAGE_SIZE}</span> of{' '}
                           <span className="font-medium">{searchTotal}</span> results
                           </p>
                         </div>
@@ -678,15 +678,15 @@ const FilterSection: FC = () => {
                             <button
                               className="relative inline-flex bg-white items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                               onClick={() => setPage(0)}
-                              disabled={page === 0}
+                              disabled={pageNumber === 0}
                             >
                               <span className="sr-only">Previous</span>
                               <ChevronDoubleLeftIcon className="h-5 w-5" aria-hidden="true" />
                             </button>
                             <button
                               className="relative inline-flex bg-white items-center px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                              onClick={() => setPage(page - 1)}
-                              disabled={page === 0}
+                              onClick={() => setPage(pageNumber - 1)}
+                              disabled={pageNumber === 0}
                             >
                               <span className="sr-only">Previous</span>
                               <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
@@ -700,7 +700,7 @@ const FilterSection: FC = () => {
                                   disabled={searchTotal < PAGE_SIZE}
                                   className="relative inline-flex items-center px-4 py-2 text-sm hover:bg-gray-200 font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0"
                                   style={
-                                    page === number -1 ? { backgroundColor: '#003366', color: 'white' } : {}
+                                    pageNumber === number -1 ? { backgroundColor: '#003366', color: 'white' } : {}
                                   }
                                 >
                                   {number}
@@ -708,8 +708,8 @@ const FilterSection: FC = () => {
                               )
                             })}
                             <button
-                              onClick={() => setPage(page + 1)}
-                              disabled={searchTotal < PAGE_SIZE || page === Math.ceil(searchTotal / PAGE_SIZE) - 1}
+                              onClick={() => setPage(pageNumber + 1)}
+                              disabled={searchTotal < PAGE_SIZE || pageNumber === Math.ceil(searchTotal / PAGE_SIZE) - 1}
                               className="relative inline-flex items-center px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                             >
                               <span className="sr-only">Next</span>
@@ -732,7 +732,7 @@ const FilterSection: FC = () => {
                     <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
                       <div>
                         <p className="text-sm text-gray-700">
-                          Showing <span className="font-medium">{page === 0 ? 0 : page * PAGE_SIZE}</span> to <span className="font-medium">{(page + 1) * PAGE_SIZE > searchTotal ? searchTotal: (page + 1) * PAGE_SIZE}</span> of{' '}
+                          Showing <span className="font-medium">{pageNumber === 0 ? 0 : pageNumber * PAGE_SIZE}</span> to <span className="font-medium">{(pageNumber + 1) * PAGE_SIZE > searchTotal ? searchTotal: (pageNumber + 1) * PAGE_SIZE}</span> of{' '}
                           <span className="font-medium">{searchTotal}</span> results
                         </p>
                       </div>
@@ -740,8 +740,8 @@ const FilterSection: FC = () => {
                         <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
                           <button
                             className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                            onClick={() => setPage(page - 1)}
-                            disabled={page === 0}
+                            onClick={() => setPage(pageNumber - 1)}
+                            disabled={pageNumber === 0}
                           >
                             <span className="sr-only">Previous</span>
                             <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
@@ -755,7 +755,7 @@ const FilterSection: FC = () => {
                                 disabled={searchTotal < PAGE_SIZE}
                                 className="relative inline-flex items-center px-4 py-2 text-sm hover:bg-gray-200 font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0"
                                 style={
-                                  page === number - 1 ? { backgroundColor: '#003366', color: 'white' } : {}
+                                  pageNumber === number - 1 ? { backgroundColor: '#003366', color: 'white' } : {}
                                 }
                               >
                                 {number}
@@ -763,7 +763,7 @@ const FilterSection: FC = () => {
                             )
                           })}
                           <button
-                            onClick={() => setPage(page + 1)}
+                            onClick={() => setPage(pageNumber + 1)}
                             disabled={searchTotal < PAGE_SIZE}
                             className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                           >

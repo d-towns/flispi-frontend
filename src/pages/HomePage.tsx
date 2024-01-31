@@ -9,7 +9,9 @@ import { Blog } from "../models/Blog.model";
 
 import { format, parseISO } from "date-fns";
 
+
 const HomePage = () => {
+
 
   const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
   const [blogs, setBlogs] = useState<Blog[]>([]);
@@ -101,14 +103,14 @@ const HomePage = () => {
         <h2 className="mb-8 text-2xl font-extrabold leading-tight text-center lg:text-4xl text-dark-grey-900 mb-20"> Genesee County Land Bank is taking action!</h2>
 
           <dl className="grid grid-cols-1 gap-x-8 gap-y-16 text-center md:grid-cols-3">
-            <div className="relative mx-auto flex max-w-xs flex-col gap-y-4">
+            <div className="relative mx-auto flex max-w-xs flex-col gap-y-4" data-aos="fade-right">
               <div className="absolute right-2 bottom-2 h-3/4 w-full rounded-lg bg-[#8ba2be] z-0"></div>
               <dl className="relative border border-black order-first z-10 mb-4 rounded-lg bg-white p-6 text-3xl font-semibold tracking-tight text-gray-900 shadow-md lg:text-7xl sm:text-3xl">
                 <dd className="relative z-10 text-base leading-7 text-gray-600 text-xl">Funds Secured for Demolition</dd>
                 $43.7 M
               </dl>
             </div>
-            <div className="relative mx-auto flex max-w-sm flex-col gap-y-4">
+            <div className="relative mx-auto flex max-w-sm flex-col gap-y-4" data-aos="fade-up">
               <div className="absolute right-2 bottom-2 h-3/4 w-full rounded-lg bg-[#8ba2be] z-0"></div>
               <dl className="relative border border-black order-first z-10 mb-4 rounded-lg bg-white p-6 text-3xl font-semibold tracking-tight text-gray-900 shadow-md lg:text-7xl sm:text-3xl">
                 <dd className="relative z-10 text-base leading-7 text-gray-600 text-xl">Planned Demolitions <span className="hidden sm:inline">( A/O Nov 2023 )</span>     </dd>
@@ -116,7 +118,7 @@ const HomePage = () => {
                 1,910
               </dl>
             </div>
-            <div className="relative mx-auto flex max-w-xs flex-col gap-y-4">
+            <div className="relative mx-auto flex max-w-xs flex-col gap-y-4" data-aos="fade-left">
               <div className="absolute right-2 bottom-2 h-3/4 w-full rounded-lg bg-[#8ba2be] z-0"></div>
               <dl className="relative border border-black order-first z-10 mb-4 rounded-lg bg-white p-6 text-3xl font-semibold tracking-tight text-gray-900 shadow-md lg:text-7xl sm:text-3xl">
                 <dt className="relative z-10 text-base leading-7 text-gray-600 text-xl">Community Feedback Surveys</dt>
@@ -156,7 +158,7 @@ const HomePage = () => {
           <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
             {blogs.map((blog) => {
               return (
-                <article key={blog.slug} className="flex max-w-xl flex-col items-start justify-between">
+                <article key={blog.slug} className="flex max-w-xl flex-col items-start justify-between" data-aos-duration="200" data-aos="fade-in">
               <div className="flex items-center gap-x-4 text-xs">
                 <span className="text-gray-500">{format(parseISO(blog.created_at), 'yyyy-MM-d')}</span>
                 <a href={`blog/${blog.slug}`} className="relative z-10 rounded-full bg-gray-100 shadow px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">{blog.tag}</a>

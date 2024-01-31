@@ -21,7 +21,8 @@ const BlogPage = () => {
   }, [fetchBlog])
 
   return (
-    <main className="my-10 w-4/6 mx-auto">
+    <div>
+    <div className="py-10 w-4/6 mx-auto">
 
       <div className="mb-4 md:mb-0 w-full mx-auto relative">
         <div className="px-4 lg:px-0">
@@ -69,7 +70,8 @@ const BlogPage = () => {
         </div>
 
       </div>
-    </main>
+    </div>
+    </div>
   )
 }
 

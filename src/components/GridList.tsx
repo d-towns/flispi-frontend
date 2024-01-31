@@ -8,10 +8,12 @@ interface GridListProps {
 }
 
 const GridList: FC<GridListProps> = ({ currentPage }) => {
+  console.log(currentPage);
+  
   return (
     <>
     {
-      currentPage.length > 0 ?
+      currentPage?.length > 0 ?
       <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4 p-4">
 
         {currentPage?.map((item) => (

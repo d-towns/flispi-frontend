@@ -22,9 +22,13 @@ import { Auth0ProviderWithNavigate } from './context/Auth0Provider';
 import { AuthenticationGuard } from './components/AuthGuard';
 import PrivacyPolicyPage from './pages/PrivacyPolicy';
 import TermsPage from './pages/TermsPage';
+import Aos from "aos";
+import 'aos/dist/aos.css';
+Aos.init();
 
 
 // Define your root component
+
 const Root = () => {
   return (
     <>
