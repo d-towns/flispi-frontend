@@ -103,7 +103,7 @@ const PropertyDetailsPage = () => {
                   <span className="h-full" ></span>
                 </div>
                 <div>
-                  <NotLoggedInDialog open={openLoginDialog} setOpen={setOpenLoginDialog} />
+                  <NotLoggedInDialog open={openLoginDialog} setOpen={setOpenLoginDialog}/>
                   <button title="Save this property to your favorites" onClick={() => property && toggleFavorite(property)}>
                     <HeartIcon className={`h-12 w-12 text-gray-300 hover:text-red-200 hover:scale-110 transition ease-in-out duration-200 ${isFavorite && 'text-red-800 hover:text-red-200'}`} aria-hidden="true" />
                   </button>

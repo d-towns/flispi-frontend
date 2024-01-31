@@ -6,11 +6,10 @@ import { useNavigate } from 'react-router-dom';
 interface NotLoggedInDialogProps {
     open: boolean;
     setOpen: (toggle: boolean) => void;
-    onOpenChange?: (open: boolean) => void;
 }
 
 export const NotLoggedInDialog = (
-    { open, onOpenChange }: NotLoggedInDialogProps
+    { open, setOpen}: NotLoggedInDialogProps
 ) => {
     const navigate = useNavigate();
 
@@ -31,13 +30,14 @@ export const NotLoggedInDialog = (
             Log In
             </button>
             <Dialog.Close asChild>
-            <button className="transition duration-300 bg-red-400 text-white hover:bg-red-600 hover:scale-105 inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-medium leading-none focus:shadow-[0_0_0_2px] focus:outline-none">
+            <button onClick={() => setOpen(false)} className="transition duration-300 bg-red-400 text-white hover:bg-red-600 hover:scale-105 inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-medium leading-none focus:shadow-[0_0_0_2px] focus:outline-none">
                 Close
             </button>
             </Dialog.Close>
         </div>
         <Dialog.Close asChild>
             <button
+            onClick={() => setOpen(false)}
             className="text-violet11 hover:bg-violet4 focus:shadow-violet7 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none"
             aria-label="Close"
             >
