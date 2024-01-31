@@ -25,11 +25,11 @@ const StaffPage = () => {
         />
       </div>
       <div className="bg-gray-100 max-w-none">
-        <div className="bg-gray-100 max-w-6xl mx-auto py-16 sm:py-24 text-sm px-5">
-          <div className="mx-auto max-w-4xl text-center mb-32">
+        <div className="bg-gray-100 max-w-6xl mx-auto py-16 sm:py-24 text-sm px-5" data-aos="fade-up" data-aos-duration="1000">
+          <div className="mx-auto max-w-4xl text-center mb-32" >
             <h2 className="sm:text-base text-base font-semibold leading-7 text-[#8ba2be]"> Flint Property Search</h2>
             <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">Our Mission </p>
-            <p className="mt-6 mx-auto max-w-2xl lg:max-w-none sm:text-lg text-lg leading-8 text-gray-600">
+            <p className="mt-6 mx-auto max-w-2xl lg:max-w-none sm:text-xl text-lg leading-8 text-gray-600">
               This tool was built to help you find information about properties in the City of Flint, but our mission is much bigger than that. Our core values are to:
             </p>
           </div>
@@ -96,7 +96,7 @@ const StaffPage = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-1 gap-6">
           {staff.map((member) => (
-            <div className="w-full hover:scale-110 transition ease-in-out duration-200 cursor-pointer bg-transparent rounded-lg p-12 flex flex-col justify-center items-center">
+            <div data-aos="fade-up" data-aos-duration="1000" className="w-fit mx-auto transition ease-in-out duration-200 cursor-pointer bg-transparent rounded-lg p-12 flex flex-col justify-center items-center hover:scale-110 ">
               <div className="mb-8">
                 <img className="object-center object-cover rounded-full h-48 w-48" src={member.photo} alt="profile avatar" />
               </div>
