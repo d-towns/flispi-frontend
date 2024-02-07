@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Lightbox from "yet-another-react-lightbox";
+import Zoom from "yet-another-react-lightbox/plugins/zoom"
 import "yet-another-react-lightbox/styles.css";
 
 interface ImageGalleryProps {
@@ -10,6 +11,17 @@ interface ImageGalleryProps {
 const ImageGallery = ({ images } : ImageGalleryProps) => {
   const [currentImage, setCurrentImage] = useState(images[0]);
   const [lightboxOpen, setLightboxOpen] = useState(false)
+  const animationDuration = 300;
+  const maxZoomPixelRatio = 2;
+  const zoomInMultiplier = 2;
+  const doubleTapDelay = 200;
+  const doubleClickDelay = 200;
+  const doubleClickMaxStops = 2;
+  const keyboardMoveDistance = 50;
+  const wheelZoomDistanceFactor = 100;
+  const pinchZoomDistanceFactor = 100;
+  const scrollToZoom = false;
+  
 
 
   
@@ -48,6 +60,19 @@ const ImageGallery = ({ images } : ImageGalleryProps) => {
           }
          })
       }
+      plugins={[Zoom]}
+      animation={{ zoom: animationDuration }}
+      zoom={{
+        maxZoomPixelRatio,
+        zoomInMultiplier,
+        doubleTapDelay,
+        doubleClickDelay,
+        doubleClickMaxStops,
+        keyboardMoveDistance,
+        wheelZoomDistanceFactor,
+        pinchZoomDistanceFactor,
+        scrollToZoom,
+      }}
       />
     </div>
   );
