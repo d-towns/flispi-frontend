@@ -22,14 +22,14 @@ const BlogPage = () => {
 
   return (
     <div>
-    <div className="py-10 w-4/6 mx-auto blog-container">
+    <div className="py-10 md:w-4/6 w-full px-6 mx-auto blog-container">
 
       <div className="mb-4 md:mb-0 w-full mx-auto relative">
-        <div className="px-4 lg:px-0">
-          <h1 className="text-4xl font-bold text-gray-800 leading-tight">
+        <div className=" lg:px-0">
+          <h1 className="md:text-4xl text-2xl font-bold text-gray-800 leading-tight">
             {blog?.title}
           </h1>
-          <h2 className="text-xl w-5/6 font-semibold text-gray-800 leading-tight">
+          <h2 className="md:text-xl text-base md:w-5/6 mt-5 w-full md:font-semibold text-gray-800 leading-tight">
             {blog?.subtitle}</h2>
 
           <span
@@ -44,7 +44,7 @@ const BlogPage = () => {
 
       <div className="flex flex-col lg:flex-row lg:space-x-12">
 
-        <div className="px-4 lg:px-0 mt-12 text-gray-700 text-lg leading-relaxed w-full lg:w-3/4">
+        <div className="body-container md:px-4 lg:px-0 mt-12 text-gray-700 text-lg leading-relaxed w-full lg:w-3/4">
 
           <Markdown>{blog?.body}</Markdown>
         </div>
