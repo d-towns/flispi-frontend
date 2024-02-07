@@ -1,5 +1,6 @@
 import React from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
+import { LockClosedIcon } from '@heroicons/react/24/outline';
 
 const LoginPage = () => {
   const { loginWithRedirect } = useAuth0();
@@ -43,9 +44,10 @@ const LoginPage = () => {
             <h4 className="ml-2 text-sm font-bold tracking-widest text-primary uppercase">Explore the latest vacant land and rehab opportunites</h4>
           </div>
           <h1 className="mb-8 text-4xl font-extrabold leading-tight lg:text-6xl text-dark-grey-900"> <span className="text-[#8ba2be]">Flint </span> Property Search</h1>
-          <p className="mb-6 text-base font-normal leading-7 lg:w-3/4 text-grey-900">
+          <p className="mb-6 text-lg font-normal leading-7 lg:w-3/4 text-grey-900">
             Our mission is to restore value to the community by making Flint's abandoned land & properties easy to locate and acquire in cooperation with stakeholders who value responsible land ownership.
           </p>
+          <p className="mb-6  text-base font-normal leading-7 lg:w-3/4 text-grey-900"><LockClosedIcon className='w-6 h-6 inline'/> <strong>Secure Login with Auth0:</strong> We prioritize your security and privacy above all else. <a className="text-[#003366] hover:underline transition ease-in-out duration-200" href='https://auth0.com/'>Auth0</a> is a global leader in identity and access management, offering robust, adaptive security that protects your personal information.</p>
           <p className="mb-6 text-xs font-semibold leading-7 lg:w-3/4 text-grey-900">
             **Disclaimer: Flint Propterty Search is in no way affiliated with the Genesee County Land Bank. This is a independent project for the purpose of showcasing the properties available for purchase in the City of Flint.**
           </p>
@@ -60,6 +62,7 @@ const LoginPage = () => {
 
 
           <h1 className="text-xl text-center md:text-3xl font-bold leading-tight">Log in to your account</h1>
+         
 
           <div className="mt-6" >
 
@@ -71,7 +74,7 @@ const LoginPage = () => {
               px-4 py-3 mt-6">Sign Up
           </button>
 
-
+          
         </div>
       </div>
 
