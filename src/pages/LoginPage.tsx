@@ -38,13 +38,13 @@ const LoginPage = () => {
           }}
         />
       </div>
-      <div className=" mx-7 xl:m-auto block max-md:hidden  w-1/2 flex flex-col justify-center col-span-1 text-left lg:text-start" data-aos="fade-up" data-aos-duration="1000">
+      <div className=" mx-7 xl:m-auto block md:w-1/2 w-full px-10 flex flex-col justify-center col-span-1 text-left lg:text-start" data-aos="fade-up" data-aos-duration="1000">
           <div className="flex items-start mb-4 lg:justify-normal">
             <img className="h-5 rounded-lg hidden lg:block" src="/map_medium.png" alt="logo" />
             <h4 className="ml-2 text-sm font-bold tracking-widest text-primary uppercase">Explore the latest vacant land and rehab opportunites</h4>
           </div>
           <h1 className="mb-8 text-4xl font-extrabold leading-tight lg:text-6xl text-dark-grey-900"> <span className="text-[#8ba2be]">Flint </span> Property Search</h1>
-          <p className="mb-6 text-lg font-normal leading-7 lg:w-3/4 text-grey-900">
+          <p className="mb-6 text-lg md:block hidden font-normal leading-7 lg:w-3/4 text-grey-900">
             Our mission is to restore value to the community by making Flint's abandoned land & properties easy to locate and acquire in cooperation with stakeholders who value responsible land ownership.
           </p>
           <p className="mb-6  text-base font-normal leading-7 lg:w-3/4 text-grey-900"><LockClosedIcon className='w-6 h-6 inline'/> <strong>Secure Login with Auth0:</strong> We prioritize your security and privacy above all else. <a className="text-[#003366] hover:underline transition ease-in-out duration-200" href='https://auth0.com/'>Auth0</a> is a global leader in identity and access management, offering robust, adaptive security that protects your personal information.</p>
@@ -56,7 +56,7 @@ const LoginPage = () => {
 
 
       <div className="bg-transparent w-full md:max-w-md lg:max-w-full md:mx-auto md:mx-0 md:w-1/2 xl:w-1/3 h-screen max-md:h-fit px-6 lg:px-16 xl:px-12
-        flex items-center justify-center">
+        flex items-center justify-center mb-32 mt-16">
 
         <div className="w-full h-100">
 
