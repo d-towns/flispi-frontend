@@ -62,7 +62,7 @@ const PropertyDetailsPage = () => {
         window.location.href = 'https://www.thelandbank.org/downloads/residential_interest_form_221006.pdf'
         break
       case 'Res Vac Lot':
-        window.location.href = 'https://www.thelandbank.org/downloads/lots_available_application_221006.pdf'
+        window.location.href = 'https://www.thelandbank.org/downloads/highest_and_best_offer_featured_vacant_lot_231114.pdf'
         break
       default:
         return null
@@ -129,7 +129,20 @@ const PropertyDetailsPage = () => {
             </div>
             <div className="flex flex-col w-full p-4 text-gray-800 gap-6">
               No property description available
-              <p>
+             
+            
+            {property?.property_class.includes('Lot') && <p>No land contract offers accepted on vacant land. Please submit proof of funds and feasibility along with your offer form to the Genesee County Land Bank office. Documents can be faxed, emailed or hand delivered. Please follow-up with office to confirm the offer has been received.</p>}
+            { property?.property_class.includes('Res Imp') &&
+            <>
+            <h3 className="font-bold"> Ready for Rehab Purchase Process:</h3>
+              <ul>
+              <li className="mb-1"><strong>Step 1 – </strong>Show up to view the home during the listed open house hours and pick up an offer form at the open house</li>
+              <li className="mb-1"><strong>Step 2 – </strong>Gather proof of funds/income as detailed on the form</li>
+              <li className="mb-1"><strong>Step 3 – </strong> Submit your offer (see below for more details)</li>
+            </ul>
+            </>
+            }
+             <p>
               <strong>**Note**</strong>
               </p>
               <p>All properties without a set price have a start at a minimum value of $3000.00, and are negotiable upon offer.</p>

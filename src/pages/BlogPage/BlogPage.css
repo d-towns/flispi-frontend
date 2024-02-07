@@ -4,10 +4,10 @@
       font-size: medium;
       margin-bottom: 20px;
     }
-    li {
+    .body-container li {
         font-size: medium;
     }
-    ul {
+    .body-container ul {
         margin-bottom: 50px;
     }
     .body-container h2 {
@@ -24,7 +24,7 @@
     p {
         margin-bottom: 20px;
       }
-      ul {
+      .body-container ul {
           margin-bottom: 50px;
       }
       .body-container h2 {

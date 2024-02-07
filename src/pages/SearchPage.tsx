@@ -25,7 +25,7 @@ const SearchPage: FC = () => {
           <div className="text-center flex flex-col h-full justify-center items-center">
             <h1 className="sm:text-3xl text-2xl font-bold  text-black mb-2">Search Properties</h1>
             <p className="text-black sm:text-lg sm:w-full max-w-2xl px-8 mx-auto sm:mx-8 text-base block">
-              Each place is a good choice, it will help you make the right decision, do not miss the opportunity to improve our community and reactivate our vacant land.
+            The Land Bank has vacant land throughout the county. Some of these parcels are in the form of undeveloped subdivisions that were started, but never completed by previous developers and others are parcels just waiting for the right owner.
             </p>
           </div>
         </div>

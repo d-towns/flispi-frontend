@@ -600,7 +600,9 @@ const FilterSection: FC = () => {
                 </Tabs.List>
                 <Tabs.Content className="TabsContent" value="tab1">
                   <div >
+                    
                     <div className="flex items-center justify-between bg-transparent px-4 py-3 sm:px-6">
+
                       <div className="flex flex-1 justify-between sm:hidden">
                         <button
                           onClick={() => setPage(pageNumber - 1)}
@@ -609,7 +611,12 @@ const FilterSection: FC = () => {
                         >
                           Previous
                         </button>
-
+                        <div className="pt-3 px-3 text-center">
+                      <p className="text-sm text-gray-700">
+                          Showing <span className="font-medium">{pageNumber * PAGE_SIZE}</span> to <span className="font-medium">{(pageNumber + 1) * PAGE_SIZE > searchTotal ? searchTotal : (pageNumber + 1) * PAGE_SIZE}</span> of{' '}
+                          <span className="font-medium">{searchTotal}</span> results
+                          </p>
+                      </div>
                         <button
                         onClick={() => setPage(pageNumber + 1)}
                         disabled={searchTotal < PAGE_SIZE || pageNumber === Math.ceil(searchTotal / PAGE_SIZE) - 1}
@@ -619,7 +626,7 @@ const FilterSection: FC = () => {
                         </button>
                       </div>
                       <div className="hidden pt-4 sm:flex sm:flex-1 sm:items-center sm:justify-between">
-                        <div>
+                        <div className='pt-4'>
                           <p className="text-sm text-gray-700">
                           Showing <span className="font-medium">{pageNumber * PAGE_SIZE}</span> to <span className="font-medium">{(pageNumber + 1) * PAGE_SIZE > searchTotal ? searchTotal : (pageNumber + 1) * PAGE_SIZE}</span> of{' '}
                           <span className="font-medium">{searchTotal}</span> results
