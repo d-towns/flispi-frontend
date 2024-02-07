@@ -1,6 +1,6 @@
 
 @media (max-width: 900px) {
-    p {
+    .body-container p {
       font-size: medium;
       margin-bottom: 20px;
     }
@@ -21,7 +21,7 @@
 }
 
 @media (min-width:900px) {
-    p {
+    .body-container p {
         margin-bottom: 20px;
       }
       .body-container ul {
