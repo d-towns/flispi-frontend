@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
 
 interface ImageGalleryProps {
     images: string[];
@@ -7,6 +9,7 @@ interface ImageGalleryProps {
 
 const ImageGallery = ({ images } : ImageGalleryProps) => {
   const [currentImage, setCurrentImage] = useState(images[0]);
+  const [lightboxOpen, setLightboxOpen] = useState(false)
 
 
   
@@ -15,6 +18,7 @@ const ImageGallery = ({ images } : ImageGalleryProps) => {
       <div className="mb-4">
         <img 
           src={currentImage} 
+          onClick={ () => setLightboxOpen(true)}
           alt="Displayed"
           className="w-full h-auto object-cover rounded-lg"
         />
@@ -32,6 +36,19 @@ const ImageGallery = ({ images } : ImageGalleryProps) => {
           </div>
         ))}
       </div>
+      <Lightbox
+        open={lightboxOpen}
+        close={() => setLightboxOpen(false)}
+        slides={images.map((image) => {
+          return {
+            src: image,
+            alt: "image 1",
+            width: 3840,
+            height: 2560,
+          }
+         })
+      }
+      />
     </div>
   );
 };
