@@ -111,18 +111,18 @@ const PropertyDetailsPage = () => {
               </div>
               <div className="flex w-full md:flex-row flex-col border-t border-b borger-gray-100 px-5 justify-between py-6 font-sans md:text-lg text-base">
                 <div className="flex flex-col ">
-                  <span className="max-md:flex max-md:w-2/3 max-md:justify-between"> <span className="font-bold">Tax ID:</span> {property?.parcel_id}</span>
-                  <span className="max-md:flex max-md:w-2/3 max-md:justify-between"><span className="font-bold">Property Class: </span> {property?.property_class}</span>
-                  <span className="max-md:flex max-md:w-2/3 max-md:justify-between"><span className="font-bold">Price:</span> {property?.price ? currencyFormat.format(property.price) : 'Price Negotiable'}</span>
+                  <span className="max-md:flex max-md:w-2/3 max-md:justify-between mb-1"> <span className="font-bold">Tax ID:</span> {property?.parcel_id}</span>
+                  <span className="max-md:flex max-md:w-2/3 max-md:justify-between mb-1"><span className="font-bold">Property Class: </span> {property?.property_class}</span>
+                  <span className="max-md:flex max-md:w-2/3 max-md:justify-between mb-1"><span className="font-bold">Price:</span> {property?.price ? currencyFormat.format(property.price) : 'Price Negotiable'}</span>
                   {!property?.property_class.includes('Lot') && <span className="max-md:flex max-md:w-2/3 max-md:justify-between"><span className="font-bold">Square Feet:</span> {property?.square_feet}</span>}
                 </div>
                 <div className="flex flex-col">
-                  <span className="max-md:flex max-md:w-2/3 max-md:justify-between"><span className="font-bold">Lot Size:</span> {property?.lot_size ?? 'N/A'}</span>
-                  <span className="max-md:flex max-md:w-2/3 max-md:justify-between"><span className="font-bold">Year Built:</span> {property?.year_built ?? 'N/A'}</span>
+                  <span className="max-md:flex max-md:w-2/3 max-md:justify-between mb-1"><span className="font-bold">Lot Size:</span> {property?.lot_size ?? 'N/A'}</span>
+                  <span className="max-md:flex max-md:w-2/3 max-md:justify-between mb-1"><span className="font-bold">Year Built:</span> {property?.year_built ?? 'N/A'}</span>
                   { !property?.property_class.includes('Lot') &&
                   
-                ( <> <span className="max-md:flex max-md:w-2/3 max-md:justify-between"><span className="font-bold">Bedrooms:</span> {property?.bedrooms ?? 'N/A'}</span>
-                  <span className="max-md:flex max-md:w-2/3 max-md:justify-between"><span className="font-bold">Bathrooms:</span> {property?.bathrooms ?? 'N/A'}</span></>
+                ( <> <span className="max-md:flex max-md:w-2/3 max-md:justify-between mb-1"><span className="font-bold">Bedrooms:</span> {property?.bedrooms ?? 'N/A'}</span>
+                  <span className="max-md:flex max-md:w-2/3 max-md:justify-between mb-1"><span className="font-bold">Bathrooms:</span> {property?.bathrooms ?? 'N/A'}</span></>
 )}
                 </div>
               </div>
