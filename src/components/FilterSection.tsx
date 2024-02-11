@@ -46,7 +46,7 @@ const sortOptions = [
 const subCategories = [
   { name: 'Featured Properties ', href: '?featured=true' },
   { name: 'Ready For Rehab', href: '?propertyClass=Res+Imp' },
-  { name: 'Commercial Opportunities', href: '?propertyClass=Com+Imp%2CCom+Vac+Lot' },
+  { name: 'Commercial Opportunities', href: '?featured=true&propertyClass=Com+Imp%2CCom+Vac+Lot' },
 ]
 
 const filterIds = [
@@ -587,18 +587,18 @@ const FilterSection: FC = () => {
               </form>
 
               {/* Product grid */}
-              <Tabs.Root className="TabsRoot lg:col-span-3" defaultValue="tab1">
+              <Tabs.Root className="TabsRoot lg:col-span-3" defaultValue="list-tab">
                 <Tabs.List className="TabsList w-full justify-center flex flex-row" aria-label="Manage your account">
-                  <Tabs.Trigger className="TabsTrigger items-center gap-2 flex data-[state=active]:border-2 font-bold rounded-lg p-2 bg-gray-100 shadow-md border-[#003366] mx-5" value="tab1">
+                  <Tabs.Trigger className="TabsTrigger items-center gap-2 flex data-[state=active]:border-2 font-bold rounded-lg p-2 bg-gray-100 shadow-md border-[#003366] mx-5" value="list-tab">
                     <Squares2X2Icon className="h-5 w-5" aria-hidden="true" />
                     List View
                   </Tabs.Trigger>
-                  <Tabs.Trigger className="TabsTrigger items-center flex gap-2 data-[state=active]:border-2 font-bold border-[#003366]  rounded-lg p-2 bg-gray-100 shadow-md mx-5" value="tab2">
+                  <Tabs.Trigger className="TabsTrigger items-center flex gap-2 data-[state=active]:border-2 font-bold border-[#003366]  rounded-lg p-2 bg-gray-100 shadow-md mx-5" value="map-tab">
                     <MapIcon className="h-5 w-5" aria-hidden="true" />
                     Map View
                   </Tabs.Trigger>
                 </Tabs.List>
-                <Tabs.Content className="TabsContent" value="tab1">
+                <Tabs.Content className="TabsContent" value="list-tab">
                   <div >
                     
                     <div className="flex items-center justify-between bg-transparent px-4 py-3 sm:px-6">
@@ -784,8 +784,10 @@ const FilterSection: FC = () => {
 
                 </Tabs.Content>
                 {/* Map View */}
-                <Tabs.Content className="TabsContent" value="tab2">
-                  {!isLoadingPage ? <PropertyMap properties={currentPage} /> : <Skeleton />}
+                <Tabs.Content className="TabsContent" value="map-tab">
+                  {!isLoadingPage ?
+                   <PropertyMap properties={currentPage} />
+                    : <Skeleton />}
                 </Tabs.Content>
               </Tabs.Root>
             </div>

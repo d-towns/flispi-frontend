@@ -31,8 +31,6 @@ const PropertyDetailsPage = () => {
     fetchPropertyFromApi()
     if(!id || !user?.sub) return
     getSavedProperty(user.sub, id).then((response) => {
-      console.log(response);
-      
       setIsFavorite(response)
     })
   }, [user, id, fetchPropertyFromApi])
@@ -42,7 +40,6 @@ const PropertyDetailsPage = () => {
       setOpenLoginDialog(true)
       return
     }
-    console.log(isFavorite);
     
     isFavorite ? 
       unfavoriteProperty(property.id, user.sub).then(() => {

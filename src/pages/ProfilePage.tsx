@@ -22,10 +22,8 @@ const ProfilePage = () => {
     
 
     useEffect(() => {
-        console.log(user);
         
         getFavoriteProperties(user?.sub || '').then((response) => {
-            console.log(response);
             
             setFavoriteProperties(response.properties)
         })
