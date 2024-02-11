@@ -419,7 +419,7 @@ const FilterSection: FC = () => {
                 <div className='flex gap-4 justify-between'>
                   <h2 className="text-xl mb-5 pl-2 font-bold">Categories</h2>
                   {searchParams.toString() !== '' &&
-                    <button type='button' onClick={clearFliterParams} className='rounded-lg border-2 border-black hover:border-red-600  p-1 mt-5  hover:bg-red-600 hover:text-white transition ease-in-out duration-200 h-fit'>
+                    <button type='button' onClick={clearFliterParams} className='rounded-lg border-2 border-black hover:border-red-600  p-1  hover:bg-red-600 hover:text-white transition ease-in-out duration-200 h-fit'>
                       <span className='text-sm flex'>Clear All</span>
                     </button>
                   }
