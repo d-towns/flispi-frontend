@@ -87,7 +87,7 @@ const PropertyMap = ({ properties, searchTotal, setPage, pageList, pageNumber }:
   return (
     <>
 
-      <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between mt-10">
+      <div className="hidden xl:flex xl:flex-1 xl:items-center xl:justify-between mt-10">
         <div>
           <p className="text-sm text-gray-700">
             Showing <span className="font-medium">{pageNumber === 0 ? 0 : pageNumber * PAGE_SIZE}</span> to <span className="font-medium">{(pageNumber + 1) * PAGE_SIZE > searchTotal ? searchTotal : (pageNumber + 1) * PAGE_SIZE}</span> of{' '}
@@ -133,7 +133,7 @@ const PropertyMap = ({ properties, searchTotal, setPage, pageList, pageNumber }:
       </div>
 
       <div className="grid grid-cols-3">
-        <div className="mt-4 max-sm:hidden">
+        <div className="mt-4 max-xl:hidden">
           {
             properties.length !== 0 ?
 
@@ -204,12 +204,12 @@ const PropertyMap = ({ properties, searchTotal, setPage, pageList, pageNumber }:
               }) : null
           }
         </div>
-        <div className="sm:col-span-2 sm:pl-5 col-span-3">
+        <div className="xl:col-span-2 xl:pl-5 col-span-3">
           <div id="map" style={{ height: "800px", width: "100%", marginTop: '1rem' }}></div>
         </div>
       </div>
-      <div className="sm:hidden max-sm:flex max-sm:flex-1 max-sm:items-center max-sm:justify-between mt-10">
-        <div className="flex flex-1 justify-between sm:hidden">
+      <div className="xl:hidden max-xl:flex max-xl:flex-1 max-xl:items-center max-xl:justify-between mt-10">
+        <div className="flex flex-1 justify-between xl:hidden">
           <button
             onClick={() => setPage(pageNumber - 1)}
             disabled={searchTotal < PAGE_SIZE || (pageNumber === Math.ceil(searchTotal / PAGE_SIZE) - 1 || pageNumber === 0)}
@@ -232,7 +232,7 @@ const PropertyMap = ({ properties, searchTotal, setPage, pageList, pageNumber }:
           </button>
         </div>
       </div>
-      <div className="mt-4 max-sm:block">
+      <div className="mt-4 max-xl:block hidden max-xl:grid max-xl:grid-rows-2 max-xl:grid-cols-2 max-md:grid-rows-4 max-md:grid-cols-1">
           {
             properties.length !== 0 ?
 
