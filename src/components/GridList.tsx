@@ -8,7 +8,6 @@ interface GridListProps {
 }
 
 const GridList: FC<GridListProps> = ({ currentPage }) => {
-  console.log(currentPage);
   
   return (
     <>
