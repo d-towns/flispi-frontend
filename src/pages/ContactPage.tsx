@@ -16,7 +16,7 @@ export default function ContactPage() {
           }}
         />
       </div>
-      <div className="mx-auto max-w-2xl text-center">
+      <div className="mx-auto h-full max-w-2xl text-center h-[500px]">
         <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Contact our office</h2>
         <p className="mt-2 text-lg leading-8 text-gray-600">
           Send an email to <a href="mailto:dennis@dennistowns.com" className='font-bold hover:underline'> dennis@dennistowns.com</a>
