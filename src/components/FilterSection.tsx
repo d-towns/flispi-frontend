@@ -16,28 +16,28 @@ import PropertyMap from './PropertyMap';
 import { fetchPropertySearchData, fetchZipCodes } from '../services/property.service';
 
 const sortOptions = [
-  { 
-    name: 'Newest', 
+  {
+    name: 'Newest',
     sortFilter: 'year_built,DESC',
     current: false,
   },
-  { 
-    name: 'Sq. Feet: Low to High', 
+  {
+    name: 'Sq. Feet: Low to High',
     sortFilter: 'square_feet,ASC',
     current: false,
   },
-  { 
-    name: 'Sq. Feet: High to Low', 
+  {
+    name: 'Sq. Feet: High to Low',
     sortFilter: 'square_feet,DESC',
     current: false,
   },
-  { 
-    name: 'Price: Low to High', 
+  {
+    name: 'Price: Low to High',
     sortFilter: 'price,ASC',
     current: false,
   },
-  { 
-    name: 'Price: High to Low', 
+  {
+    name: 'Price: High to Low',
     sortFilter: 'price,DESC',
     current: false,
   },
@@ -100,6 +100,7 @@ const FilterSection: FC = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState<Property[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [currentTab, setCurrentTab] = useState('list-tab');
 
   const fetchZipCodeData = useCallback(async () => {
     const response = await fetchZipCodes();
@@ -109,7 +110,7 @@ const FilterSection: FC = () => {
 
   const fetchData = useCallback(async () => {
     setIsLoadingPage(true);
-    const data = await fetchPropertySearchData({searchParams, pageNumber, pageSize: 30 });
+    const data = await fetchPropertySearchData({ searchParams, pageNumber, pageSize: currentTab === 'list-tab' ? 30 : 4 });
     setCurrentPage(data.properties);
     setSearchTotal(data.metadata.total)
     const {
@@ -120,19 +121,19 @@ const FilterSection: FC = () => {
     // Generate the sliding window array
     setPageList(Array.from({ length: totalPages }, (_, index) => index + 1).slice(startIndex - 1, endIndex));
     setIsLoadingPage(false);
-  }, [searchParams, pageNumber, setPageList])
+  }, [searchParams, pageNumber, setPageList, currentTab])
 
 
 
   useEffect(() => {
     fetchData();
-  }, [searchParams, fetchData, pageNumber]);
+  }, [searchParams, fetchData, pageNumber, currentTab]);
 
   useEffect(() => {
     fetchZipCodeData();
   }, [fetchZipCodeData])
 
-  const setFilterParams = (filterId: string, filterValue: string | string[]| number[]) => {
+  const setFilterParams = (filterId: string, filterValue: string | string[] | number[]) => {
     const filterString = Array.isArray(filterValue) ? filterValue.join(',') : filterValue;
     searchParams.set(filterId, filterString as string);
     setSearchParams(searchParams);
@@ -197,7 +198,7 @@ const FilterSection: FC = () => {
                 <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
                   <div className="flex items-center justify-between px-4">
                     <div className=" ">
-                    <h2 className="text-lg font-medium text-gray-900">Filters</h2>
+                      <h2 className="text-lg font-medium text-gray-900">Filters</h2>
                     </div>
                     <button
                       type="button"
@@ -212,7 +213,7 @@ const FilterSection: FC = () => {
                   {/* Filters */}
                   <form className="mt-4 border-t border-gray-200">
                     <div>
-                    <h3 className="sr-only">Categories</h3>
+                      <h3 className="sr-only">Categories</h3>
                     </div>
 
                     <ul className="px-2 py-3 font-medium text-gray-900">
@@ -273,110 +274,110 @@ const FilterSection: FC = () => {
                     ))}
                     {/* Mobile Zip Filter */}
                     <Disclosure as="div" className="border-t border-gray-200 px-4 py-6">
-                      
-                        {({ open }) => (
-                          <>
-                            <h3 className="-mx-2 -my-3 flow-root">
-                              <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
-                                <span className="font-medium text-gray-900">Zip Codes</span>
-                                <span className="ml-6 flex items-center">
-                                  {open ? (
-                                    <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                                  ) : (
-                                    <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                                  )}
-                                </span>
-                              </Disclosure.Button>
-                            </h3>
-                            <Disclosure.Panel className="pt-6">
-                        <div className="space-y-4">
-                          <Dropdown selectedOptions={searchParams.get('zip')?.split(',')} options={zipCodes} handleChange={(zips) => setFilterParams('zip', zips)} />
-                        </div>
-                      </Disclosure.Panel>
-                          </>
-                        )}
+
+                      {({ open }) => (
+                        <>
+                          <h3 className="-mx-2 -my-3 flow-root">
+                            <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
+                              <span className="font-medium text-gray-900">Zip Codes</span>
+                              <span className="ml-6 flex items-center">
+                                {open ? (
+                                  <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                                ) : (
+                                  <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                                )}
+                              </span>
+                            </Disclosure.Button>
+                          </h3>
+                          <Disclosure.Panel className="pt-6">
+                            <div className="space-y-4">
+                              <Dropdown selectedOptions={searchParams.get('zip')?.split(',')} options={zipCodes} handleChange={(zips) => setFilterParams('zip', zips)} />
+                            </div>
+                          </Disclosure.Panel>
+                        </>
+                      )}
                     </Disclosure>
                     {/* Mobile Price Filter */}
                     <Disclosure as="div" className="border-t border-gray-200 px-4 py-6">
-                        {({ open }) => (
-                          <>
-                            <h3 className="-mx-2 -my-3 flow-root">
-                              <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
-                                <span className="font-medium text-gray-900">Price</span>
-                                <span className="ml-6 flex items-center">
-                                  {open ? (
-                                    <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                                  ) : (
-                                    <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                                  )}
-                                </span>
-                              </Disclosure.Button>
-                            </h3>
-                            <Disclosure.Panel className="pt-6">
+                      {({ open }) => (
+                        <>
+                          <h3 className="-mx-2 -my-3 flow-root">
+                            <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
+                              <span className="font-medium text-gray-900">Price</span>
+                              <span className="ml-6 flex items-center">
+                                {open ? (
+                                  <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                                ) : (
+                                  <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                                )}
+                              </span>
+                            </Disclosure.Button>
+                          </h3>
+                          <Disclosure.Panel className="pt-6">
                             <div className="space-y-4">
-                          <Slider initialValue={[Number(searchParams.get('price')) ?? 50000]} label='Maximum Price' defaultValue={[50000]} max={50000} step={500} unit='' formatter={new Intl.NumberFormat('en-US', {
-                            style: 'currency',
-                            currency: 'USD',
-                          })} onValueCommit={
-                            (price) => setFilterParams('price', price)
-                          } />
-                        </div>
-                      </Disclosure.Panel>
-                          </>
-                        )}
+                              <Slider initialValue={[Number(searchParams.get('price')) ?? 50000]} label='Maximum Price' defaultValue={[50000]} max={50000} step={500} unit='' formatter={new Intl.NumberFormat('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                              })} onValueCommit={
+                                (price) => setFilterParams('price', price)
+                              } />
+                            </div>
+                          </Disclosure.Panel>
+                        </>
+                      )}
                     </Disclosure>
                     {/* Mobile Sqft Filter */}
                     <Disclosure as="div" key={'sqft'} className="border-t border-gray-200 px-4 py-6">
-                  {({ open }) => (
-                    <>
-                      <h3 className="-my-3 flow-root">
-                        <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                          <span className="font-medium text-lg text-gray-900">Sq. Feet</span>
-                          <span className="ml-6 flex items-center">
-                            {open ? (
-                              <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                            ) : (
-                              <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                            )}
-                          </span>
-                        </Disclosure.Button>
-                      </h3>
-                      <Disclosure.Panel className="pt-6">
-                        <div className="space-y-4">
-                          <Slider initialValue={[Number(searchParams.get('sqft')) ?? 1000]} label='Minimum' unit="Sq. Ft." step={50} max={1000} defaultValue={[1000]} onValueCommit={
-                            (sqft) => setFilterParams('sqft', sqft)
-                          } />
-                        </div>
-                      </Disclosure.Panel>
-                    </>
-                  )}
-                </Disclosure>
-                {/* Mobile Lot Size Filter */}
-                <Disclosure as="div" key={'lotsqft'} className="border-t border-gray-200 px-4 py-6">
-                  {({ open }) => (
-                    <>
-                      <h3 className="-my-3 flow-root">
-                        <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                          <span className="font-medium text-gray-900 text-lg">Lot Size</span>
-                          <span className="ml-6 flex items-center">
-                            {open ? (
-                              <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                            ) : (
-                              <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                            )}
-                          </span>
-                        </Disclosure.Button>
-                      </h3>
-                      <Disclosure.Panel className="pt-6">
-                        <div className="space-y-4">
-                          <Slider initialValue={[Number(searchParams.get('lotsize')) ?? 50]} label='Minimum' step={1} max={50} defaultValue={[50]} unit="acres" onValueCommit={
-                            (lotSize) => setFilterParams('lotSize', lotSize)
-                          } />
-                        </div>
-                      </Disclosure.Panel>
-                    </>
-                  )}
-                </Disclosure>
+                      {({ open }) => (
+                        <>
+                          <h3 className="-my-3 flow-root">
+                            <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                              <span className="font-medium text-lg text-gray-900">Sq. Feet</span>
+                              <span className="ml-6 flex items-center">
+                                {open ? (
+                                  <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                                ) : (
+                                  <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                                )}
+                              </span>
+                            </Disclosure.Button>
+                          </h3>
+                          <Disclosure.Panel className="pt-6">
+                            <div className="space-y-4">
+                              <Slider initialValue={[Number(searchParams.get('sqft')) ?? 1000]} label='Minimum' unit="Sq. Ft." step={50} max={1000} defaultValue={[1000]} onValueCommit={
+                                (sqft) => setFilterParams('sqft', sqft)
+                              } />
+                            </div>
+                          </Disclosure.Panel>
+                        </>
+                      )}
+                    </Disclosure>
+                    {/* Mobile Lot Size Filter */}
+                    <Disclosure as="div" key={'lotsqft'} className="border-t border-gray-200 px-4 py-6">
+                      {({ open }) => (
+                        <>
+                          <h3 className="-my-3 flow-root">
+                            <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                              <span className="font-medium text-gray-900 text-lg">Lot Size</span>
+                              <span className="ml-6 flex items-center">
+                                {open ? (
+                                  <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                                ) : (
+                                  <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                                )}
+                              </span>
+                            </Disclosure.Button>
+                          </h3>
+                          <Disclosure.Panel className="pt-6">
+                            <div className="space-y-4">
+                              <Slider initialValue={[Number(searchParams.get('lotsize')) ?? 50]} label='Minimum' step={1} max={50} defaultValue={[50]} unit="acres" onValueCommit={
+                                (lotSize) => setFilterParams('lotSize', lotSize)
+                              } />
+                            </div>
+                          </Disclosure.Panel>
+                        </>
+                      )}
+                    </Disclosure>
                   </form>
                 </Dialog.Panel>
               </Transition.Child>
@@ -399,10 +400,10 @@ const FilterSection: FC = () => {
                 <FunnelIcon className="h-5 w-5" aria-hidden="true" />
               </button>
               {searchParams.toString() !== '' &&
-              <button type='button' onClick={clearFliterParams} className="lg:hidden m-2 rounded-lg border-2 px-2 border-black hover:border-red-600  p-1 text-xs  hover:bg-red-600 hover:text-white transition ease-in-out duration-200 h-fit">
-                      Clear 
-              </button>
-}
+                <button type='button' onClick={clearFliterParams} className="lg:hidden m-2 rounded-lg border-2 px-2 border-black hover:border-red-600  p-1 text-xs  hover:bg-red-600 hover:text-white transition ease-in-out duration-200 h-fit">
+                  Clear
+                </button>
+              }
             </div>
           </div>
 
@@ -416,12 +417,12 @@ const FilterSection: FC = () => {
               <form className="hidden lg:block">
                 <h3 className="sr-only">Categories</h3>
                 <div className='flex gap-4 justify-between'>
-                <h2 className="text-xl mb-5 pl-2 font-bold">Categories</h2>
-                {searchParams.toString() !== '' &&  
-                  <button type='button' onClick={clearFliterParams} className='rounded-lg border-2 border-black hover:border-red-600  p-1 mt-5  hover:bg-red-600 hover:text-white transition ease-in-out duration-200 h-fit'>
-                    <span className='text-sm flex'>Clear All</span>
-                  </button>
-}
+                  <h2 className="text-xl mb-5 pl-2 font-bold">Categories</h2>
+                  {searchParams.toString() !== '' &&
+                    <button type='button' onClick={clearFliterParams} className='rounded-lg border-2 border-black hover:border-red-600  p-1 mt-5  hover:bg-red-600 hover:text-white transition ease-in-out duration-200 h-fit'>
+                      <span className='text-sm flex'>Clear All</span>
+                    </button>
+                  }
                 </div>
                 <ul className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
                   {subCategories.map((category) => (
@@ -458,7 +459,7 @@ const FilterSection: FC = () => {
                       </Disclosure.Panel>
                     </>
                   )}
-              </Disclosure>
+                </Disclosure>
                 {/* Desktop Sqft Filter */}
                 <Disclosure as="div" key={'sqft'} className="border-b border-gray-200 py-6">
                   {({ open }) => (
@@ -587,7 +588,7 @@ const FilterSection: FC = () => {
               </form>
 
               {/* Product grid */}
-              <Tabs.Root className="TabsRoot lg:col-span-3" defaultValue="list-tab">
+              <Tabs.Root className="TabsRoot lg:col-span-3" defaultValue="list-tab" onValueChange={(value) => setCurrentTab(value)}>
                 <Tabs.List className="TabsList w-full justify-center flex flex-row" aria-label="Manage your account">
                   <Tabs.Trigger className="TabsTrigger items-center gap-2 flex data-[state=active]:border-2 font-bold rounded-lg p-2 bg-gray-100 shadow-md border-[#003366] mx-5" value="list-tab">
                     <Squares2X2Icon className="h-5 w-5" aria-hidden="true" />
@@ -600,26 +601,26 @@ const FilterSection: FC = () => {
                 </Tabs.List>
                 <Tabs.Content className="TabsContent" value="list-tab">
                   <div >
-                    
+
                     <div className="flex items-center justify-between bg-transparent px-4 py-3 sm:px-6">
 
                       <div className="flex flex-1 justify-between sm:hidden">
                         <button
                           onClick={() => setPage(pageNumber - 1)}
-                          disabled={searchTotal < PAGE_SIZE || ( pageNumber === Math.ceil(searchTotal / PAGE_SIZE) - 1 || pageNumber === 0)}
+                          disabled={searchTotal < PAGE_SIZE || (pageNumber === Math.ceil(searchTotal / PAGE_SIZE) - 1 || pageNumber === 0)}
                           className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                         >
                           Previous
                         </button>
                         <div className="pt-3 px-3 text-center">
-                      <p className="text-sm text-gray-700">
-                          Showing <span className="font-medium">{pageNumber * PAGE_SIZE}</span> to <span className="font-medium">{(pageNumber + 1) * PAGE_SIZE > searchTotal ? searchTotal : (pageNumber + 1) * PAGE_SIZE}</span> of{' '}
-                          <span className="font-medium">{searchTotal}</span> results
+                          <p className="text-sm text-gray-700">
+                            Showing <span className="font-medium">{pageNumber * PAGE_SIZE}</span> to <span className="font-medium">{(pageNumber + 1) * PAGE_SIZE > searchTotal ? searchTotal : (pageNumber + 1) * PAGE_SIZE}</span> of{' '}
+                            <span className="font-medium">{searchTotal}</span> results
                           </p>
-                      </div>
+                        </div>
                         <button
-                        onClick={() => setPage(pageNumber + 1)}
-                        disabled={searchTotal < PAGE_SIZE || pageNumber === Math.ceil(searchTotal / PAGE_SIZE) - 1}
+                          onClick={() => setPage(pageNumber + 1)}
+                          disabled={searchTotal < PAGE_SIZE || pageNumber === Math.ceil(searchTotal / PAGE_SIZE) - 1}
                           className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                         >
                           Next
@@ -628,8 +629,8 @@ const FilterSection: FC = () => {
                       <div className="hidden pt-4 sm:flex sm:flex-1 sm:items-center sm:justify-between">
                         <div className='pt-4'>
                           <p className="text-sm text-gray-700">
-                          Showing <span className="font-medium">{pageNumber * PAGE_SIZE}</span> to <span className="font-medium">{(pageNumber + 1) * PAGE_SIZE > searchTotal ? searchTotal : (pageNumber + 1) * PAGE_SIZE}</span> of{' '}
-                          <span className="font-medium">{searchTotal}</span> results
+                            Showing <span className="font-medium">{pageNumber * PAGE_SIZE}</span> to <span className="font-medium">{(pageNumber + 1) * PAGE_SIZE > searchTotal ? searchTotal : (pageNumber + 1) * PAGE_SIZE}</span> of{' '}
+                            <span className="font-medium">{searchTotal}</span> results
                           </p>
                         </div>
                         {/* Desktop Sort */}
@@ -707,7 +708,7 @@ const FilterSection: FC = () => {
                                   disabled={searchTotal < PAGE_SIZE}
                                   className="relative inline-flex items-center px-4 py-2 text-sm hover:bg-gray-200 font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0"
                                   style={
-                                    pageNumber === number -1 ? { backgroundColor: '#003366', color: 'white' } : {}
+                                    pageNumber === number - 1 ? { backgroundColor: '#003366', color: 'white' } : {}
                                   }
                                 >
                                   {number}
@@ -734,12 +735,12 @@ const FilterSection: FC = () => {
                         </div>
                       </div>
                     </div>
-                    {!isLoadingPage ? <GridList currentPage={currentPage}/> : <Skeleton />}
+                    {!isLoadingPage ? <GridList currentPage={currentPage} /> : <Skeleton />}
                     {/* Pagination */}
                     <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
                       <div>
                         <p className="text-sm text-gray-700">
-                          Showing <span className="font-medium">{pageNumber === 0 ? 0 : pageNumber * PAGE_SIZE}</span> to <span className="font-medium">{(pageNumber + 1) * PAGE_SIZE > searchTotal ? searchTotal: (pageNumber + 1) * PAGE_SIZE}</span> of{' '}
+                          Showing <span className="font-medium">{pageNumber === 0 ? 0 : pageNumber * PAGE_SIZE}</span> to <span className="font-medium">{(pageNumber + 1) * PAGE_SIZE > searchTotal ? searchTotal : (pageNumber + 1) * PAGE_SIZE}</span> of{' '}
                           <span className="font-medium">{searchTotal}</span> results
                         </p>
                       </div>
@@ -786,7 +787,14 @@ const FilterSection: FC = () => {
                 {/* Map View */}
                 <Tabs.Content className="TabsContent" value="map-tab">
                   {!isLoadingPage ?
-                   <PropertyMap properties={currentPage} />
+                    <div className=''>
+                      <PropertyMap properties={currentPage}
+                        pageNumber={pageNumber}
+                        setPage={setPage}
+                        pageList={pageList}
+                        searchTotal={searchTotal}
+                      />
+                    </div>
                     : <Skeleton />}
                 </Tabs.Content>
               </Tabs.Root>
