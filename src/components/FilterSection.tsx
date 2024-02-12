@@ -47,7 +47,7 @@ const sortOptions = [
 const subCategories = [
   { name: 'Featured Properties ', href: '?featured=true' },
   { name: 'Ready For Rehab', href: '?propertyClass=Res+Imp&bedrooms=1&featured=true' },
-  { name: 'Commercial Opportunities', href: '?featured=true&propertyClass=Com+Imp%2CCom+Vac+Lot' },
+  { name: 'Commercial Opportunities', href: '?propertyClass=Ind+Imp%2CCom+Vac+Lot%2CCom+Imp%2CInd+Vac+Lot&featured=true' },
 ]
 
 const filterIds = [
@@ -70,8 +70,10 @@ const filtersFormData = [
     options: [
       { value: 'Res Imp', label: 'Res Imp', checked: false },
       { value: 'Res Vac Lot', label: 'Res Vac Lot', checked: false },
-      { value: 'Com Imp', label: 'Com Imp', checked: true },
+      { value: 'Com Imp', label: 'Com Imp', checked: false },
       { value: 'Com Vac Lot', label: 'Com Vac Lot', checked: false },
+      { value: 'Ind Imp', label: 'Ind Imp', checked: true },
+      { value: 'Ind Vac Lot', label: 'Ind Vac Lot', checked: false },
     ],
   },
   {

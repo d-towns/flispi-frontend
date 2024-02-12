@@ -17,8 +17,8 @@ type NavItem = Array<{
 
 const ourProperties : NavItem = [
   { name: 'Featured Lots for Development', description: 'Our best properties with scheduled showings', href: '/search?featured=true', icon: StarIcon },
-  { name: 'Ready for Rehab', description: 'Homes with structure ready to be restored', href: '/search?propertyClass=Res+Imp', icon: WrenchScrewdriverIcon },
-  { name: 'Commercial Opportunites', description: 'Prime properties and lots for commercial development', href: '/search?propertyClass=Res+Imp%2CCom+Vac+Lot', icon: BuildingOffice2Icon },
+  { name: 'Ready for Rehab', description: 'Homes with structure ready to be restored', href: '/search?propertyClass=Res+Imp&bedrooms=1&featured=true', icon: WrenchScrewdriverIcon },
+  { name: 'Commercial Opportunites', description: 'Prime properties and lots for commercial development', href: '/search?propertyClass=Ind+Imp%2CCom+Vac+Lot%2CCom+Imp%2CInd+Vac+Lot&featured=true', icon: BuildingOffice2Icon },
   { name: 'Search All Properties', description: '', href: '/search', icon: MagnifyingGlassIcon },
 ]
 
