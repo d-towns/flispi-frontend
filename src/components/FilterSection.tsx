@@ -483,7 +483,7 @@ const FilterSection: FC = () => {
                       </h3>
                       <Disclosure.Panel className="pt-6">
                         <div className="space-y-4">
-                          <SelectDropdown options={Array.from({ length: 5 }, (_, index) => `${index}`)} value={searchParams.get('bedrooms') ?? undefined} onValueChange={(value :string) => {searchParams.set('bedrooms', value); setSearchParams(searchParams)}}/>
+                          <SelectDropdown options={Array.from({ length: 5 }, (_, index) => `${index}`)} placeholder='Minimum Bedrooms...' value={searchParams.get('bedrooms') ?? undefined} onValueChange={(value :string) => {searchParams.set('bedrooms', value); setSearchParams(searchParams)}}/>
                         </div>
                       </Disclosure.Panel>
                     </>
@@ -507,7 +507,7 @@ const FilterSection: FC = () => {
                       </h3>
                       <Disclosure.Panel className="pt-6">
                         <div className="space-y-4">
-                          <SelectDropdown options={Array.from({ length: 5 }, (_, index) => `${index}`)} value={searchParams.get('bathrooms') ?? undefined} onValueChange={(value :string) => {searchParams.set('bathrooms', value); setSearchParams(searchParams)}}/>
+                          <SelectDropdown options={Array.from({ length: 5 }, (_, index) => `${index}`)} placeholder='Minimum Bathrooms...' value={searchParams.get('bathrooms') ?? undefined} onValueChange={(value :string) => {searchParams.set('bathrooms', value); setSearchParams(searchParams)}}/>
                         </div>
                       </Disclosure.Panel>
                     </>
