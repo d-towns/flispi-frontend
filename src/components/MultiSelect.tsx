@@ -48,7 +48,7 @@ zip?: string[];
     <p className='ml-1'>{optionsLabel}</p>
       <Combobox multiple value={selected} onChange={handleFilterChange}>
         <div className="relative mt-1">
-          <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
+          <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-[#003366] sm:text-sm">
             <Combobox.Input
               className="w-full border-none py-2 bg-gray-100 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
               placeholder="48505, 48423, ..."
@@ -82,7 +82,7 @@ zip?: string[];
                     key={option}
                     className={({ active }) =>
                       `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                        active ? 'bg-teal-600 text-white' : 'text-gray-900'
+                        active ? 'bg-[#003366] text-white' : 'text-gray-900'
                       }`
                     }
                     value={option}
@@ -99,7 +99,7 @@ zip?: string[];
                         {selected ? (
                           <span
                             className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                              active ? 'text-white' : 'text-teal-600'
+                              active ? 'text-white' : 'text-[#003366]'
                             }`}
                           >
                             <CheckIcon className="h-5 w-5" aria-hidden="true" />

@@ -22,17 +22,11 @@ export const fetchPropertySearchData = async ({ searchParams, pageNumber, pageSi
     try {
         const offset = pageNumber === 0 ? 0 : (pageNumber) * pageSize;
 
+        const searchParamsObj = Object.fromEntries(searchParams.entries());
+
         const response = await axios.get<PropertyApiResponse>('/properties', {
             params: {
-                searchTerm: searchParams.get("searchTerm")?.replace('-', ''),
-                city: searchParams.get("city"),
-                zip: searchParams.get("zip"),
-                price: searchParams.get("price"),
-                propertyClass: searchParams.get("propertyClass"),
-                sqft: searchParams.get("sqft"),
-                lotSize: searchParams.get("lotSize"),
-                sort: searchParams.get("sort"),
-                featured: searchParams.get("featured"),
+                ...searchParamsObj,
                 limit: pageSize, // Set the limit to the page size
                 offset: offset, // Set the offset based on the current page number
             },

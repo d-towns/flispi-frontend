@@ -14,6 +14,7 @@ import Slider from './Slider';
 import * as Tabs from '@radix-ui/react-tabs';
 import PropertyMap from './PropertyMap';
 import { fetchPropertySearchData, fetchZipCodes } from '../services/property.service';
+import SelectDropdown from './Select';
 
 const sortOptions = [
   {
@@ -45,7 +46,7 @@ const sortOptions = [
 
 const subCategories = [
   { name: 'Featured Properties ', href: '?featured=true' },
-  { name: 'Ready For Rehab', href: '?propertyClass=Res+Imp' },
+  { name: 'Ready For Rehab', href: '?propertyClass=Res+Imp&bedrooms=1&featured=true' },
   { name: 'Commercial Opportunities', href: '?featured=true&propertyClass=Com+Imp%2CCom+Vac+Lot' },
 ]
 
@@ -57,7 +58,9 @@ const filterIds = [
   'sqft',
   'lotSize',
   'sort',
-  'featured'
+  'featured',
+  'bedrooms',
+  'bathrooms'
 ]
 
 const filtersFormData = [
@@ -210,7 +213,8 @@ const FilterSection: FC = () => {
                     </button>
                   </div>
 
-                  {/* Filters */}
+                  {/* Mobile Filters */}
+
                   <form className="mt-4 border-t border-gray-200">
                     <div>
                       <h3 className="sr-only">Categories</h3>
@@ -274,7 +278,6 @@ const FilterSection: FC = () => {
                     ))}
                     {/* Mobile Zip Filter */}
                     <Disclosure as="div" className="border-t border-gray-200 px-4 py-6">
-
                       {({ open }) => (
                         <>
                           <h3 className="-mx-2 -my-3 flow-root">
@@ -455,6 +458,54 @@ const FilterSection: FC = () => {
                           })} onValueCommit={
                             (price) => setFilterParams('price', price)
                           } />
+                        </div>
+                      </Disclosure.Panel>
+                    </>
+                  )}
+                </Disclosure>
+                {/* Desktop Bedrooms Filter */}
+                <Disclosure as="div" key={'bedrooms'} className="border-b border-gray-200 py-6">
+                  {({ open }) => (
+                    <>
+                      <h3 className="-my-3 flow-root">
+                        <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                          <span className="font-medium text-gray-900">Bedrooms</span>
+                          <span className="ml-6 flex items-center">
+                            {open ? (
+                              <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                            ) : (
+                              <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                            )}
+                          </span>
+                        </Disclosure.Button>
+                      </h3>
+                      <Disclosure.Panel className="pt-6">
+                        <div className="space-y-4">
+                          <SelectDropdown options={Array.from({ length: 5 }, (_, index) => `${index}`)} value={searchParams.get('bedrooms') ?? undefined} onValueChange={(value :string) => {searchParams.set('bedrooms', value); setSearchParams(searchParams)}}/>
+                        </div>
+                      </Disclosure.Panel>
+                    </>
+                  )}
+                </Disclosure>
+                {/* Desktop Bathrooms Filter */}
+                <Disclosure as="div" key={'bathrooms'} className="border-b border-gray-200 py-6">
+                  {({ open }) => (
+                    <>
+                      <h3 className="-my-3 flow-root">
+                        <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                          <span className="font-medium text-gray-900">Bathrooms</span>
+                          <span className="ml-6 flex items-center">
+                            {open ? (
+                              <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                            ) : (
+                              <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                            )}
+                          </span>
+                        </Disclosure.Button>
+                      </h3>
+                      <Disclosure.Panel className="pt-6">
+                        <div className="space-y-4">
+                          <SelectDropdown options={Array.from({ length: 5 }, (_, index) => `${index}`)} value={searchParams.get('bathrooms') ?? undefined} onValueChange={(value :string) => {searchParams.set('bathrooms', value); setSearchParams(searchParams)}}/>
                         </div>
                       </Disclosure.Panel>
                     </>
