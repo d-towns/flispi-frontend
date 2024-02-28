@@ -10,6 +10,7 @@ interface ResponseMetadata {
 interface PropertyApiResponse {
     properties: Property[];
     metadata: ResponseMetadata;
+    errors?: string[];
 }
 
 interface PropertySearchRequest {

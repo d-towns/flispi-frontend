@@ -15,7 +15,7 @@ export type Property = {
   year_built: string;
   stories: number;
   garage: string;
-  coords: string;
+  coords: {lat: number, lng: number};
   images: string;
   next_showtime: string;
   exterior_repairs: Array<string>;

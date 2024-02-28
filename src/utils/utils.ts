@@ -10,6 +10,88 @@ export enum cities {
     MtMorris = 'Mt. Morris',
 }
 
+export const sortOptions = [
+  {
+    name: 'Newest',
+    sortFilter: 'year_built,DESC',
+    current: false,
+  },
+  {
+    name: 'Sq. Feet: Low to High',
+    sortFilter: 'square_feet,ASC',
+    current: false,
+  },
+  {
+    name: 'Sq. Feet: High to Low',
+    sortFilter: 'square_feet,DESC',
+    current: false,
+  },
+  {
+    name: 'Price: Low to High',
+    sortFilter: 'price,ASC',
+    current: false,
+  },
+  {
+    name: 'Price: High to Low',
+    sortFilter: 'price,DESC',
+    current: false,
+  },
+];
+
+export const subCategories = [
+  { name: 'Featured Properties ', href: '?featured=true' },
+  { name: 'Ready For Rehab', href: '?propertyClass=Res+Imp&bedrooms=1&featured=true' },
+  { name: 'Commercial Opportunities', href: '?propertyClass=Ind+Imp%2CCom+Vac+Lot%2CCom+Imp%2CInd+Vac+Lot&featured=true' },
+]
+
+export const filterIds = [
+  'city',
+  'zip',
+  'propertyClass',
+  'price',
+  'sqft',
+  'lotSize',
+  'sort',
+  'featured',
+  'bedrooms',
+  'bathrooms'
+]
+
+type FilterOption = {
+  value: string;
+  label: string;
+  checked: boolean;
+};
+
+type FilterFormData = {
+  id: string;
+  name: string;
+  options: FilterOption[];
+};
+
+export const filtersFormData : FilterFormData[] = [
+  {
+    id: 'propertyClass',
+    name: 'Property Class',
+    options: [
+      { value: 'Res Imp', label: 'Res Imp', checked: false },
+      { value: 'Res Vac Lot', label: 'Res Vac Lot', checked: false },
+      { value: 'Com Imp', label: 'Com Imp', checked: false },
+      { value: 'Com Vac Lot', label: 'Com Vac Lot', checked: false },
+      { value: 'Ind Imp', label: 'Ind Imp', checked: true },
+      { value: 'Ind Vac Lot', label: 'Ind Vac Lot', checked: false },
+    ],
+  },
+  {
+    id: 'city',
+    name: 'City',
+    options: Object.values(cities).map((city: any) => {
+      return { value: city, label: city, checked: false }
+    }),
+  },
+]
+
+
 export const PAGE_SIZE = 30;
 
 export const parseImages = (images: string) : string[] => {

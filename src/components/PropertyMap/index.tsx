@@ -42,7 +42,7 @@ const PropertyMap = ({ properties, searchTotal, setPage, pageList, pageNumber }:
       await loader.importLibrary('marker')
       const map = new google.maps.Map(document.getElementById("map") as HTMLElement, mapOptions);
       Array.from(properties).forEach((property) => {
-        let coords = JSON.parse(property.coords);
+        let coords = property.coords
         let marker = new google.maps.Marker({
           position: { lat: coords?.lat, lng: coords?.lng },
           map: map,
@@ -76,8 +76,9 @@ const PropertyMap = ({ properties, searchTotal, setPage, pageList, pageNumber }:
             shouldFocus: false,
           });
         });
-      });
-      const center = new google.maps.LatLng(JSON.parse(properties[0].coords));
+      }); 
+      
+      const center = new google.maps.LatLng(properties[0].coords);
       map.setCenter(center);
     }
 

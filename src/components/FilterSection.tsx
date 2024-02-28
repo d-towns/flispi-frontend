@@ -1,89 +1,19 @@
-import React, { FC, Fragment, useState, useEffect, useCallback } from 'react'
+import React, { FC, Fragment} from 'react'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon, MapIcon } from '@heroicons/react/20/solid'
-import { cities, getSlidingWindow, PAGE_SIZE } from '../utils/utils';
-import { Property } from '../models/Property.model';
 import GridList from './GridList';
 import SearchBar from './SearchBar';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import Skeleton from './Skeleton';
 import Dropdown from './MultiSelect';
 import { ChevronLeftIcon, ChevronRightIcon, ChevronDoubleRightIcon, ChevronDoubleLeftIcon } from '@heroicons/react/20/solid'
 import Slider from './Slider';
 import * as Tabs from '@radix-ui/react-tabs';
 import PropertyMap from './PropertyMap';
-import { fetchPropertySearchData, fetchZipCodes } from '../services/property.service';
 import SelectDropdown from './Select';
-
-const sortOptions = [
-  {
-    name: 'Newest',
-    sortFilter: 'year_built,DESC',
-    current: false,
-  },
-  {
-    name: 'Sq. Feet: Low to High',
-    sortFilter: 'square_feet,ASC',
-    current: false,
-  },
-  {
-    name: 'Sq. Feet: High to Low',
-    sortFilter: 'square_feet,DESC',
-    current: false,
-  },
-  {
-    name: 'Price: Low to High',
-    sortFilter: 'price,ASC',
-    current: false,
-  },
-  {
-    name: 'Price: High to Low',
-    sortFilter: 'price,DESC',
-    current: false,
-  },
-];
-
-const subCategories = [
-  { name: 'Featured Properties ', href: '?featured=true' },
-  { name: 'Ready For Rehab', href: '?propertyClass=Res+Imp&bedrooms=1&featured=true' },
-  { name: 'Commercial Opportunities', href: '?propertyClass=Ind+Imp%2CCom+Vac+Lot%2CCom+Imp%2CInd+Vac+Lot&featured=true' },
-]
-
-const filterIds = [
-  'city',
-  'zip',
-  'propertyClass',
-  'price',
-  'sqft',
-  'lotSize',
-  'sort',
-  'featured',
-  'bedrooms',
-  'bathrooms'
-]
-
-const filtersFormData = [
-  {
-    id: 'propertyClass',
-    name: 'Property Class',
-    options: [
-      { value: 'Res Imp', label: 'Res Imp', checked: false },
-      { value: 'Res Vac Lot', label: 'Res Vac Lot', checked: false },
-      { value: 'Com Imp', label: 'Com Imp', checked: false },
-      { value: 'Com Vac Lot', label: 'Com Vac Lot', checked: false },
-      { value: 'Ind Imp', label: 'Ind Imp', checked: true },
-      { value: 'Ind Vac Lot', label: 'Ind Vac Lot', checked: false },
-    ],
-  },
-  {
-    id: 'city',
-    name: 'City',
-    options: Object.values(cities).map((city: any) => {
-      return { value: city, label: city, checked: false }
-    }),
-  },
-]
+import { subCategories, sortOptions, filtersFormData, PAGE_SIZE } from '../utils/utils';
+import usePropertySearch from '../hooks/usePropertySearch';
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
@@ -96,80 +26,24 @@ export type FilterOptions = {
 }
 
 const FilterSection: FC = () => {
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
-  const [pageNumber, setPage] = useState(0); // Pagination
-  const [searchTotal, setSearchTotal] = useState(0); // Pagination
-  const [isLoadingPage, setIsLoadingPage] = useState(false); // Pagination
-  const [zipCodes, setZipCodes] = useState<string[]>([]);
-  const [pageList, setPageList] = useState<number[]>([1, 2]); // Pagination
-  const navigate = useNavigate();
-  const [currentPage, setCurrentPage] = useState<Property[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [currentTab, setCurrentTab] = useState('list-tab');
 
-  const fetchZipCodeData = useCallback(async () => {
-    const response = await fetchZipCodes();
-    setZipCodes(response);
-  }, [])
+  const {
+    mobileFiltersOpen,
+    setMobileFiltersOpen,
+    pageNumber,
+    setPageNumber,
+    searchTotal,
+    isLoadingPage,
+    pageList,
+    setCurrentTab,
+    zipCodes,
+    currentPage,
+    setFilterParams,
+    clearFilterParams,
+    clearSort
+  } = usePropertySearch();
 
-
-  const fetchData = useCallback(async () => {
-    setIsLoadingPage(true);
-    const data = await fetchPropertySearchData({ searchParams, pageNumber, pageSize: currentTab === 'list-tab' ? 30 : 4 });
-    setCurrentPage(data.properties);
-    setSearchTotal(data.metadata.total)
-    const {
-      startIndex,
-      endIndex,
-      totalPages
-    } = getSlidingWindow(pageNumber, data.metadata.total);
-    // Generate the sliding window array
-    setPageList(Array.from({ length: totalPages }, (_, index) => index + 1).slice(startIndex - 1, endIndex));
-    setIsLoadingPage(false);
-  }, [searchParams, pageNumber, setPageList, currentTab])
-
-
-
-  useEffect(() => {
-    fetchData();
-  }, [searchParams, fetchData, pageNumber, currentTab]);
-
-  useEffect(() => {
-    fetchZipCodeData();
-  }, [fetchZipCodeData])
-
-  const setFilterParams = (filterId: string, filterValue: string | string[] | number[]) => {
-    const filterString = Array.isArray(filterValue) ? filterValue.join(',') : filterValue;
-    searchParams.set(filterId, filterString as string);
-    setSearchParams(searchParams);
-  }
-
-  const clearFliterParams = () => {
-    filterIds.forEach((filter) => {
-      searchParams.delete(filter);
-    })
-    setSearchParams(searchParams);
-    navigate(0)
-  }
-
-  const clearSort = () => {
-    searchParams.delete('sort');
-    sortOptions.forEach((option) => {
-      option.current = false;
-    });
-    setSearchParams(searchParams);
-  }
-
-  useEffect(() => {
-    // set the checked value to true for all filters that are in the search params by the filter id 
-    filtersFormData.forEach((filter) => {
-      const filterValues = searchParams.get(filter.id)?.split(',') || [];
-      filter.options.forEach((option) => {
-        option.checked = filterValues.includes(option.value)
-      })
-    })
-
-  }, [searchParams])
 
   return (
     <div className="bg-transparent w-full">
@@ -405,7 +279,7 @@ const FilterSection: FC = () => {
                 <FunnelIcon className="h-5 w-5" aria-hidden="true" />
               </button>
               {searchParams.toString() !== '' &&
-                <button type='button' onClick={clearFliterParams} className="lg:hidden m-2 rounded-lg border-2 px-2 border-black hover:border-red-600  p-1 text-xs  hover:bg-red-600 hover:text-white transition ease-in-out duration-200 h-fit">
+                <button type='button' onClick={clearFilterParams} className="lg:hidden m-2 rounded-lg border-2 px-2 border-black hover:border-red-600  p-1 text-xs  hover:bg-red-600 hover:text-white transition ease-in-out duration-200 h-fit">
                   Clear
                 </button>
               }
@@ -424,7 +298,7 @@ const FilterSection: FC = () => {
                 <div className='flex gap-4 justify-between'>
                   <h2 className="text-xl mb-5 pl-2 font-bold">Categories</h2>
                   {searchParams.toString() !== '' &&
-                    <button type='button' onClick={clearFliterParams} className='rounded-lg border-2 border-black hover:border-red-600  p-1  hover:bg-red-600 hover:text-white transition ease-in-out duration-200 h-fit'>
+                    <button type='button' onClick={clearFilterParams} className='rounded-lg border-2 border-black hover:border-red-600  p-1  hover:bg-red-600 hover:text-white transition ease-in-out duration-200 h-fit'>
                       <span className='text-sm flex'>Clear All</span>
                     </button>
                   }
@@ -483,7 +357,7 @@ const FilterSection: FC = () => {
                       </h3>
                       <Disclosure.Panel className="pt-6">
                         <div className="space-y-4">
-                          <SelectDropdown options={Array.from({ length: 5 }, (_, index) => `${index}`)} placeholder='Minimum Bedrooms...' value={searchParams.get('bedrooms') ?? undefined} onValueChange={(value :string) => {searchParams.set('bedrooms', value); setSearchParams(searchParams)}}/>
+                          <SelectDropdown options={Array.from({ length: 5 }, (_, index) => `${index}`)} placeholder='Minimum Bedrooms...' value={searchParams.get('bedrooms') ?? undefined} onValueChange={(value: string) => { searchParams.set('bedrooms', value); setSearchParams(searchParams) }} />
                         </div>
                       </Disclosure.Panel>
                     </>
@@ -507,7 +381,7 @@ const FilterSection: FC = () => {
                       </h3>
                       <Disclosure.Panel className="pt-6">
                         <div className="space-y-4">
-                          <SelectDropdown options={Array.from({ length: 5 }, (_, index) => `${index}`)} placeholder='Minimum Bathrooms...' value={searchParams.get('bathrooms') ?? undefined} onValueChange={(value :string) => {searchParams.set('bathrooms', value); setSearchParams(searchParams)}}/>
+                          <SelectDropdown options={Array.from({ length: 5 }, (_, index) => `${index}`)} placeholder='Minimum Bathrooms...' value={searchParams.get('bathrooms') ?? undefined} onValueChange={(value: string) => { searchParams.set('bathrooms', value); setSearchParams(searchParams) }} />
                         </div>
                       </Disclosure.Panel>
                     </>
@@ -659,7 +533,7 @@ const FilterSection: FC = () => {
 
                       <div className="flex flex-1 justify-between sm:hidden">
                         <button
-                          onClick={() => setPage(pageNumber - 1)}
+                          onClick={() => setPageNumber(pageNumber - 1)}
                           disabled={searchTotal < PAGE_SIZE || (pageNumber === Math.ceil(searchTotal / PAGE_SIZE) - 1 || pageNumber === 0)}
                           className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                         >
@@ -672,7 +546,7 @@ const FilterSection: FC = () => {
                           </p>
                         </div>
                         <button
-                          onClick={() => setPage(pageNumber + 1)}
+                          onClick={() => setPageNumber(pageNumber + 1)}
                           disabled={searchTotal < PAGE_SIZE || pageNumber === Math.ceil(searchTotal / PAGE_SIZE) - 1}
                           className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                         >
@@ -738,7 +612,7 @@ const FilterSection: FC = () => {
                           <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
                             <button
                               className="relative inline-flex bg-white items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                              onClick={() => setPage(0)}
+                              onClick={() => setPageNumber(0)}
                               disabled={pageNumber === 0}
                             >
                               <span className="sr-only">Previous</span>
@@ -746,7 +620,7 @@ const FilterSection: FC = () => {
                             </button>
                             <button
                               className="relative inline-flex bg-white items-center px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                              onClick={() => setPage(pageNumber - 1)}
+                              onClick={() => setPageNumber(pageNumber - 1)}
                               disabled={pageNumber === 0}
                             >
                               <span className="sr-only">Previous</span>
@@ -757,7 +631,7 @@ const FilterSection: FC = () => {
                               return (
                                 <button
                                   key={"pgn-" + number}
-                                  onClick={() => setPage(number - 1)}
+                                  onClick={() => setPageNumber(number - 1)}
                                   disabled={searchTotal < PAGE_SIZE}
                                   className="relative inline-flex items-center px-4 py-2 text-sm hover:bg-gray-200 font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0"
                                   style={
@@ -769,7 +643,7 @@ const FilterSection: FC = () => {
                               )
                             })}
                             <button
-                              onClick={() => setPage(pageNumber + 1)}
+                              onClick={() => setPageNumber(pageNumber + 1)}
                               disabled={searchTotal < PAGE_SIZE || pageNumber === Math.ceil(searchTotal / PAGE_SIZE) - 1}
                               className="relative inline-flex items-center px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                             >
@@ -777,7 +651,7 @@ const FilterSection: FC = () => {
                               <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
                             </button>
                             <button
-                              onClick={() => setPage(Math.ceil(searchTotal / PAGE_SIZE) - 1)}
+                              onClick={() => setPageNumber(Math.ceil(searchTotal / PAGE_SIZE) - 1)}
                               disabled={searchTotal < PAGE_SIZE}
                               className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                             >
@@ -801,7 +675,7 @@ const FilterSection: FC = () => {
                         <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
                           <button
                             className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                            onClick={() => setPage(pageNumber - 1)}
+                            onClick={() => setPageNumber(pageNumber - 1)}
                             disabled={pageNumber === 0}
                           >
                             <span className="sr-only">Previous</span>
@@ -812,7 +686,7 @@ const FilterSection: FC = () => {
                             return (
                               <button
                                 key={"pgn-" + number}
-                                onClick={() => setPage(number)}
+                                onClick={() => setPageNumber(number)}
                                 disabled={searchTotal < PAGE_SIZE}
                                 className="relative inline-flex items-center px-4 py-2 text-sm hover:bg-gray-200 font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0"
                                 style={
@@ -824,7 +698,7 @@ const FilterSection: FC = () => {
                             )
                           })}
                           <button
-                            onClick={() => setPage(pageNumber + 1)}
+                            onClick={() => setPageNumber(pageNumber + 1)}
                             disabled={searchTotal < PAGE_SIZE}
                             className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                           >
@@ -843,7 +717,7 @@ const FilterSection: FC = () => {
                     <div className=''>
                       <PropertyMap properties={currentPage}
                         pageNumber={pageNumber}
-                        setPage={setPage}
+                        setPage={setPageNumber}
                         pageList={pageList}
                         searchTotal={searchTotal}
                       />
