@@ -1,7 +1,7 @@
-import React, { FC, Fragment} from 'react'
-import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
+import React, { FC, Fragment } from 'react'
+import { Dialog, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon, MapIcon } from '@heroicons/react/20/solid'
+import { ChevronDownIcon, FunnelIcon, Squares2X2Icon, MapIcon } from '@heroicons/react/20/solid'
 import GridList from './GridList';
 import SearchBar from './SearchBar';
 import { Link, useSearchParams } from 'react-router-dom';
@@ -14,6 +14,7 @@ import PropertyMap from './PropertyMap';
 import SelectDropdown from './Select';
 import { subCategories, sortOptions, filtersFormData, PAGE_SIZE } from '../utils/utils';
 import usePropertySearch from '../hooks/usePropertySearch';
+import FilterComponent from './FilterBar';
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
@@ -90,7 +91,6 @@ const FilterSection: FC = () => {
                   </div>
 
                   {/* Mobile Filters */}
-
                   <form className="mt-4 border-t border-gray-200">
                     <div>
                       <h3 className="sr-only">Categories</h3>
@@ -105,158 +105,84 @@ const FilterSection: FC = () => {
                         </li>
                       ))}
                     </ul>
-                    {/* Mobile City & Property Class Filter */}
-                    {filtersFormData.map((section) => (
-                      <Disclosure as="div" key={section.id} className="border-t border-gray-200 px-4 py-6">
-                        {({ open }) => (
-                          <>
-                            <h3 className="-mx-2 -my-3 flow-root">
-                              <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
-                                <span className="font-medium text-gray-900">{section.name}</span>
-                                <span className="ml-6 flex items-center">
-                                  {open ? (
-                                    <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                                  ) : (
-                                    <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                                  )}
-                                </span>
-                              </Disclosure.Button>
-                            </h3>
-                            <Disclosure.Panel className="pt-6">
-                              <div className="space-y-6">
-                                {section.options.map((option, optionIdx) => (
-                                  <div key={option.value} className="flex items-center">
-                                    <input
-                                      id={`filter-mobile-${section.id}-${optionIdx}`}
-                                      name={`${section.id}[]`}
-                                      defaultValue={option.value}
-                                      type="checkbox"
-                                      defaultChecked={option.checked}
-                                      onChange={() => {
-                                        option.checked = !option.checked;
-                                        setFilterParams(section.id, filtersFormData.find((filter) => filter.id === section.id)?.options.filter((option) => option.checked).map((option) => option.value) || ['']);
-                                      }}
-                                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                    />
-                                    <label
-                                      htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                                      className="ml-3 min-w-0 flex-1 text-gray-500"
-                                    >
-                                      {option.label}
-                                    </label>
-                                  </div>
-                                ))}
-                              </div>
-                            </Disclosure.Panel>
-                          </>
-                        )}
-                      </Disclosure>
-                    ))}
+                    {/* Mobile City  */}
+                    <FilterComponent
+                      title="City"
+                      panelComponent={
+                        <Dropdown selectedOptions={searchParams.get('city')?.split(',')} options={filtersFormData.find((filter) => filter.id === 'city')?.options.map((option) => option.value) || []} handleChange={
+                          (cities) => setFilterParams('city', cities)
+                        } />
+                      }
+                    />
+                    {/* Mobile Property Class Filter */}
+                    <FilterComponent
+                      title="Property Class"
+                      panelComponent={
+                        <div className="space-y-4">
+                          {filtersFormData.find((filter) => filter.id === 'propertyClass')?.options.map((option, optionIdx) => (
+                            <div key={option.value} className="flex items-center">
+                              <input
+                                id={`filter-${optionIdx}`}
+                                name={`propertyClass[]`}
+                                defaultValue={option.value}
+                                type="checkbox"
+                                defaultChecked={option.checked}
+                                onChange={() => {
+                                  option.checked = !option.checked;
+                                  setFilterParams('propertyClass', filtersFormData.find((filter) => filter.id === 'propertyClass')?.options.filter((option) => option.checked).map((option) => option.value) || ['']);
+                                }}
+                                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                              />
+                              <label
+                                htmlFor={`filter-${optionIdx}`}
+                                className="ml-3 text-sm text-gray-600"
+                              >
+                                {option.label}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                      }
+                    />
                     {/* Mobile Zip Filter */}
-                    <Disclosure as="div" className="border-t border-gray-200 px-4 py-6">
-                      {({ open }) => (
-                        <>
-                          <h3 className="-mx-2 -my-3 flow-root">
-                            <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
-                              <span className="font-medium text-gray-900">Zip Codes</span>
-                              <span className="ml-6 flex items-center">
-                                {open ? (
-                                  <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                                ) : (
-                                  <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                                )}
-                              </span>
-                            </Disclosure.Button>
-                          </h3>
-                          <Disclosure.Panel className="pt-6">
-                            <div className="space-y-4">
-                              <Dropdown selectedOptions={searchParams.get('zip')?.split(',')} options={zipCodes} handleChange={(zips) => setFilterParams('zip', zips)} />
-                            </div>
-                          </Disclosure.Panel>
-                        </>
-                      )}
-                    </Disclosure>
+                    <FilterComponent
+                      title="Zip Codes"
+                      panelComponent={
+                        <Dropdown selectedOptions={searchParams.get('zip')?.split(',')} options={zipCodes} handleChange={
+                          (zips) => setFilterParams('zip', zips)
+                        } />
+                      }
+                    />
                     {/* Mobile Price Filter */}
-                    <Disclosure as="div" className="border-t border-gray-200 px-4 py-6">
-                      {({ open }) => (
-                        <>
-                          <h3 className="-mx-2 -my-3 flow-root">
-                            <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
-                              <span className="font-medium text-gray-900">Price</span>
-                              <span className="ml-6 flex items-center">
-                                {open ? (
-                                  <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                                ) : (
-                                  <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                                )}
-                              </span>
-                            </Disclosure.Button>
-                          </h3>
-                          <Disclosure.Panel className="pt-6">
-                            <div className="space-y-4">
-                              <Slider initialValue={[Number(searchParams.get('price')) ?? 50000]} label='Maximum Price' defaultValue={[50000]} max={50000} step={500} unit='' formatter={new Intl.NumberFormat('en-US', {
-                                style: 'currency',
-                                currency: 'USD',
-                              })} onValueCommit={
-                                (price) => setFilterParams('price', price)
-                              } />
-                            </div>
-                          </Disclosure.Panel>
-                        </>
-                      )}
-                    </Disclosure>
+                    <FilterComponent
+                      title="Price"
+                      panelComponent={
+                        <Slider initialValue={[Number(searchParams.get('price')) ?? 50000]} label='Maximum Price' defaultValue={[50000]} max={50000} step={500} unit='' formatter={new Intl.NumberFormat('en-US', {
+                          style: 'currency',
+                          currency: 'USD',
+                        })} onValueCommit={
+                          (price) => setFilterParams('price', price)
+                        } />
+                      }
+                    />
                     {/* Mobile Sqft Filter */}
-                    <Disclosure as="div" key={'sqft'} className="border-t border-gray-200 px-4 py-6">
-                      {({ open }) => (
-                        <>
-                          <h3 className="-my-3 flow-root">
-                            <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                              <span className="font-medium text-lg text-gray-900">Sq. Feet</span>
-                              <span className="ml-6 flex items-center">
-                                {open ? (
-                                  <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                                ) : (
-                                  <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                                )}
-                              </span>
-                            </Disclosure.Button>
-                          </h3>
-                          <Disclosure.Panel className="pt-6">
-                            <div className="space-y-4">
-                              <Slider initialValue={[Number(searchParams.get('sqft')) ?? 1000]} label='Minimum' unit="Sq. Ft." step={50} max={1000} defaultValue={[1000]} onValueCommit={
-                                (sqft) => setFilterParams('sqft', sqft)
-                              } />
-                            </div>
-                          </Disclosure.Panel>
-                        </>
-                      )}
-                    </Disclosure>
+                    <FilterComponent
+                      title="Sq. Feet"
+                      panelComponent={
+                        <Slider initialValue={[Number(searchParams.get('sqft')) ?? 1000]} label='Minimum' unit="Sq. Ft." step={50} max={1000} defaultValue={[1000]} onValueCommit={
+                          (sqft) => setFilterParams('sqft', sqft)
+                        } />
+                      }
+                    />
                     {/* Mobile Lot Size Filter */}
-                    <Disclosure as="div" key={'lotsqft'} className="border-t border-gray-200 px-4 py-6">
-                      {({ open }) => (
-                        <>
-                          <h3 className="-my-3 flow-root">
-                            <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                              <span className="font-medium text-gray-900 text-lg">Lot Size</span>
-                              <span className="ml-6 flex items-center">
-                                {open ? (
-                                  <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                                ) : (
-                                  <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                                )}
-                              </span>
-                            </Disclosure.Button>
-                          </h3>
-                          <Disclosure.Panel className="pt-6">
-                            <div className="space-y-4">
-                              <Slider initialValue={[Number(searchParams.get('lotsize')) ?? 50]} label='Minimum' step={1} max={50} defaultValue={[50]} unit="acres" onValueCommit={
-                                (lotSize) => setFilterParams('lotSize', lotSize)
-                              } />
-                            </div>
-                          </Disclosure.Panel>
-                        </>
-                      )}
-                    </Disclosure>
+                    <FilterComponent
+                      title="Lot Size"
+                      panelComponent={
+                        <Slider initialValue={[Number(searchParams.get('lotsize')) ?? 50]} label='Minimum' step={1} max={50} defaultValue={[50]} unit="acres" onValueCommit={
+                          (lotSize) => setFilterParams('lotSize', lotSize)
+                        } />
+                      }
+                    />
                   </form>
                 </Dialog.Panel>
               </Transition.Child>
@@ -311,207 +237,111 @@ const FilterSection: FC = () => {
                   ))}
                 </ul>
                 {/* Desktop Price Filter */}
-                <Disclosure as="div" key={'price'} className="border-b border-gray-200 py-6">
-                  {({ open }) => (
-                    <>
-                      <h3 className="-my-3 flow-root">
-                        <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                          <span className="font-medium text-gray-900">Price</span>
-                          <span className="ml-6 flex items-center">
-                            {open ? (
-                              <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                            ) : (
-                              <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                            )}
-                          </span>
-                        </Disclosure.Button>
-                      </h3>
-                      <Disclosure.Panel className="pt-6">
-                        <div className="space-y-4">
-                          <Slider initialValue={[Number(searchParams.get('price')) ?? 50000]} label='Maximum Price' defaultValue={[50000]} max={50000} step={500} unit='' formatter={new Intl.NumberFormat('en-US', {
-                            style: 'currency',
-                            currency: 'USD',
-                          })} onValueCommit={
-                            (price) => setFilterParams('price', price)
-                          } />
-                        </div>
-                      </Disclosure.Panel>
-                    </>
-                  )}
-                </Disclosure>
+                <FilterComponent 
+                title="Price" 
+                panelComponent={
+                  <Slider initialValue={[Number(searchParams.get('price')) ?? 50000]} label='Maximum Price' defaultValue={[50000]} max={50000} step={500} unit='' formatter={new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                  })} onValueCommit={
+                    (price) => setFilterParams('price', price)
+                  } />
+                }
+                />
                 {/* Desktop Bedrooms Filter */}
-                <Disclosure as="div" key={'bedrooms'} className="border-b border-gray-200 py-6">
-                  {({ open }) => (
-                    <>
-                      <h3 className="-my-3 flow-root">
-                        <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                          <span className="font-medium text-gray-900">Bedrooms</span>
-                          <span className="ml-6 flex items-center">
-                            {open ? (
-                              <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                            ) : (
-                              <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                            )}
-                          </span>
-                        </Disclosure.Button>
-                      </h3>
-                      <Disclosure.Panel className="pt-6">
-                        <div className="space-y-4">
-                          <SelectDropdown options={Array.from({ length: 5 }, (_, index) => `${index}`)} placeholder='Minimum Bedrooms...' value={searchParams.get('bedrooms') ?? undefined} onValueChange={(value: string) => { searchParams.set('bedrooms', value); setSearchParams(searchParams) }} />
-                        </div>
-                      </Disclosure.Panel>
-                    </>
-                  )}
-                </Disclosure>
+                <FilterComponent
+                  title="Bedrooms"
+                  panelComponent={
+                    <SelectDropdown
+                      options={Array.from({ length: 5 }, (_, index) => `${index}`)}
+                      placeholder='Minimum Bedrooms...' value={searchParams.get('bedrooms') ?? undefined}
+                      onValueChange={(value: string) => {
+                        searchParams.set('bedrooms', value);
+                        setSearchParams(searchParams)
+                      }}
+                    />
+                  }
+                />
                 {/* Desktop Bathrooms Filter */}
-                <Disclosure as="div" key={'bathrooms'} className="border-b border-gray-200 py-6">
-                  {({ open }) => (
-                    <>
-                      <h3 className="-my-3 flow-root">
-                        <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                          <span className="font-medium text-gray-900">Bathrooms</span>
-                          <span className="ml-6 flex items-center">
-                            {open ? (
-                              <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                            ) : (
-                              <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                            )}
-                          </span>
-                        </Disclosure.Button>
-                      </h3>
-                      <Disclosure.Panel className="pt-6">
-                        <div className="space-y-4">
-                          <SelectDropdown options={Array.from({ length: 5 }, (_, index) => `${index}`)} placeholder='Minimum Bathrooms...' value={searchParams.get('bathrooms') ?? undefined} onValueChange={(value: string) => { searchParams.set('bathrooms', value); setSearchParams(searchParams) }} />
+                <FilterComponent
+                  title="bathrooms"
+                  panelComponent={
+                    <SelectDropdown
+                      options={Array.from({ length: 5 }, (_, index) => `${index}`)}
+                      placeholder='Minimum Bathrooms...' value={searchParams.get('bathrooms') ?? undefined}
+                      onValueChange={(value: string) => {
+                        searchParams.set('bathrooms', value);
+                        setSearchParams(searchParams)
+                      }}
+                    />
+                  }
+                />
+                <FilterComponent
+                  title="Property Class"
+                  panelComponent={
+                    <div className="space-y-4">
+                      {filtersFormData.find((filter) => filter.id === 'propertyClass')?.options.map((option, optionIdx) => (
+                        <div key={option.value} className="flex items-center">
+                          <input
+                            id={`filter-${optionIdx}`}
+                            name={`propertyClass[]`}
+                            defaultValue={option.value}
+                            type="checkbox"
+                            defaultChecked={option.checked}
+                            onChange={() => {
+                              option.checked = !option.checked;
+                              setFilterParams('propertyClass', filtersFormData.find((filter) => filter.id === 'propertyClass')?.options.filter((option) => option.checked).map((option) => option.value) || ['']);
+                            }}
+                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                          />
+                          <label
+                            htmlFor={`filter-${optionIdx}`}
+                            className="ml-3 text-sm text-gray-600"
+                          >
+                            {option.label}
+                          </label>
                         </div>
-                      </Disclosure.Panel>
-                    </>
-                  )}
-                </Disclosure>
+                      ))}
+                    </div>
+                  }
+                />
+
                 {/* Desktop Sqft Filter */}
-                <Disclosure as="div" key={'sqft'} className="border-b border-gray-200 py-6">
-                  {({ open }) => (
-                    <>
-                      <h3 className="-my-3 flow-root">
-                        <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                          <span className="font-medium text-gray-900">Sq. Feet</span>
-                          <span className="ml-6 flex items-center">
-                            {open ? (
-                              <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                            ) : (
-                              <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                            )}
-                          </span>
-                        </Disclosure.Button>
-                      </h3>
-                      <Disclosure.Panel className="pt-6">
-                        <div className="space-y-4">
-                          <Slider initialValue={[Number(searchParams.get('sqft')) ?? 1000]} label='Minimum' unit="Sq. Ft." step={50} max={1000} defaultValue={[1000]} onValueCommit={
-                            (lotSize) => setFilterParams('sqft', lotSize)
-                          } />
-                        </div>
-                      </Disclosure.Panel>
-                    </>
-                  )}
-                </Disclosure>
+                <FilterComponent
+                  title="Sq. Feet"
+                  panelComponent={
+                    <Slider initialValue={[Number(searchParams.get('sqft')) ?? 1000]} label='Minimum' unit="Sq. Ft." step={50} max={1000} defaultValue={[1000]} onValueCommit={
+                      (lotSize) => setFilterParams('sqft', lotSize)
+                    } />
+                  }
+                />
                 {/* Desktop Lot Size Filter */}
-                <Disclosure as="div" key={'lotsqft'} className="border-b border-gray-200 py-6">
-                  {({ open }) => (
-                    <>
-                      <h3 className="-my-3 flow-root">
-                        <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                          <span className="font-medium text-gray-900">Lot Size</span>
-                          <span className="ml-6 flex items-center">
-                            {open ? (
-                              <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                            ) : (
-                              <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                            )}
-                          </span>
-                        </Disclosure.Button>
-                      </h3>
-                      <Disclosure.Panel className="pt-6">
-                        <div className="space-y-4">
-                          <Slider initialValue={[Number(searchParams.get('lotsize')) ?? 50]} label='Minimum' step={1} max={50} defaultValue={[50]} unit="acres" onValueCommit={
-                            (lotSize) => setFilterParams('lotSize', lotSize)
-                          } />
-                        </div>
-                      </Disclosure.Panel>
-                    </>
-                  )}
-                </Disclosure>
+                <FilterComponent 
+                  title="Lot Size"
+                  panelComponent={
+                    <Slider initialValue={[Number(searchParams.get('lotsize')) ?? 50]} label='Minimum' step={1} max={50} defaultValue={[50]} unit="acres" onValueCommit={
+                      (lotSize) => setFilterParams('lotSize', lotSize)
+                    } />
+                  }
+                />
                 {/* Desktop Zip Filter */}
-                <Disclosure as="div" key={'zip'} className="border-b border-gray-200 py-6">
-                  {({ open }) => (
-                    <>
-                      <h3 className="-my-3 flow-root">
-                        <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                          <span className="font-medium text-gray-900">Zip Codes</span>
-                          <span className="ml-6 flex items-center">
-                            {open ? (
-                              <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                            ) : (
-                              <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                            )}
-                          </span>
-                        </Disclosure.Button>
-                      </h3>
-                      <Disclosure.Panel className="pt-6">
-                        <div className="space-y-4">
-                          <Dropdown selectedOptions={searchParams.get('zip')?.split(',')} options={zipCodes} handleChange={
-                            (zips) => setFilterParams('zip', zips)
-                          } />
-                        </div>
-                      </Disclosure.Panel>
-                    </>
-                  )}
-                </Disclosure>
-                {/* Desktop City & Property Class Filter */}
-                {filtersFormData.map((section) => (
-                  <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
-                    {({ open }) => (
-                      <>
-                        <h3 className="-my-3 flow-root">
-                          <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                            <span className="font-medium text-gray-900">{section.name}</span>
-                            <span className="ml-6 flex items-center">
-                              {open ? (
-                                <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                              ) : (
-                                <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                              )}
-                            </span>
-                          </Disclosure.Button>
-                        </h3>
-                        <Disclosure.Panel className="pt-6">
-                          <div className="space-y-4">
-                            {section.options.map((option, optionIdx) => (
-                              <div key={option.value} className="flex items-center">
-                                <input
-                                  id={`filter-${section.id}-${optionIdx}`}
-                                  name={`${section.id}[]`}
-                                  defaultValue={option.value}
-                                  type="checkbox"
-                                  defaultChecked={option.checked}
-                                  onChange={() => {
-                                    option.checked = !option.checked;
-                                    setFilterParams(section.id, filtersFormData.find((filter) => filter.id === section.id)?.options.filter((option) => option.checked).map((option) => option.value) || ['']);
-                                  }}
-                                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                />
-                                <label
-                                  htmlFor={`filter-${section.id}-${optionIdx}`}
-                                  className="ml-3 text-sm text-gray-600"
-                                >
-                                  {option.label}
-                                </label>
-                              </div>
-                            ))}
-                          </div>
-                        </Disclosure.Panel>
-                      </>
-                    )}
-                  </Disclosure>
-                ))}
+                <FilterComponent
+                  title="Zip Codes"
+                  panelComponent={
+                    <Dropdown selectedOptions={searchParams.get('zip')?.split(',')} options={zipCodes} handleChange={
+                      (zips) => setFilterParams('zip', zips)
+                    } />
+                  }
+                />
+                {/* Desktop City Filter */}
+                <FilterComponent
+                  title="City"
+                  panelComponent={
+                    <Dropdown selectedOptions={searchParams.get('city')?.split(',')} options={filtersFormData.find((filter) => filter.id === 'city')?.options.map((option) => option.value) || []} handleChange={
+                      (cities) => setFilterParams('city', cities)
+                    } />
+                  }
+                />
               </form>
 
               {/* Product grid */}
