@@ -10,6 +10,10 @@ import { XMarkIcon, HeartIcon } from '@heroicons/react/20/solid'
 import { favoriteProperty, getSavedProperty, unfavoriteProperty, fetchProperty } from "../services/property.service";
 import { useAuth0 } from "@auth0/auth0-react";
 import { NotLoggedInDialog } from "../components/NotLoggedInDialog";
+import { ServiceItem } from "../models/ServiceItem";
+import CountdownTimer from "../components/CountdownTimer";
+import InfoPopover from "../components/InfoPopover";
+import ServiceItemsTable from "../components/ServiceItemsTable";
 
 const PropertyDetailsPage = () => {
 
@@ -21,27 +25,27 @@ const PropertyDetailsPage = () => {
 
 
   const fetchPropertyFromApi = useCallback(async () => {
-    if(!id) return
+    if (!id) return
     const response = await fetchProperty(id)
     setProperty(response.properties[0])
-  },[id])
+  }, [id])
 
   React.useEffect(() => {
     window.scrollTo(0, 0)
     fetchPropertyFromApi()
-    if(!id || !user?.sub) return
+    if (!id || !user?.sub) return
     getSavedProperty(user.sub, id).then((response) => {
       setIsFavorite(response)
     })
   }, [user, id, fetchPropertyFromApi])
 
   const toggleFavorite = (property: Property) => {
-    if(!user?.sub) { 
+    if (!user?.sub) {
       setOpenLoginDialog(true)
       return
     }
-    
-    isFavorite ? 
+
+    isFavorite ?
       unfavoriteProperty(property.id, user.sub).then(() => {
         setIsFavorite(false)
       }) :
@@ -100,7 +104,7 @@ const PropertyDetailsPage = () => {
                   <span className="h-full" ></span>
                 </div>
                 <div>
-                  <NotLoggedInDialog open={openLoginDialog} setOpen={setOpenLoginDialog}/>
+                  <NotLoggedInDialog open={openLoginDialog} setOpen={setOpenLoginDialog} />
                   <button title="Save this property to your favorites" onClick={() => property && toggleFavorite(property)}>
                     <HeartIcon className={`h-12 w-12 text-gray-300 hover:text-red-200 hover:scale-110 transition ease-in-out duration-200 ${isFavorite && 'text-red-800 hover:text-red-200'}`} aria-hidden="true" />
                   </button>
@@ -116,31 +120,31 @@ const PropertyDetailsPage = () => {
                 <div className="flex flex-col">
                   <span className="max-md:flex max-md:w-2/3  max-sm:w-full max-sm:w-full  max-md:justify-between mb-1"><span className="font-bold">Lot Size:</span> {property?.lot_size ?? 'N/A'}</span>
                   <span className="max-md:flex max-md:w-2/3 max-sm:w-full  max-md:justify-between mb-1"><span className="font-bold">Year Built:</span> {property?.year_built ?? 'N/A'}</span>
-                  { !property?.property_class.includes('Lot') &&
-                  
-                ( <> <span className="max-md:flex max-md:w-2/3 max-sm:w-full max-md:justify-between mb-1"><span className="font-bold">Bedrooms:</span> {property?.bedrooms ?? 'N/A'}</span>
-                  <span className="max-md:flex max-md:w-2/3 max-sm:w-full  max-md:justify-between mb-1"><span className="font-bold">Bathrooms:</span> {property?.bathrooms ?? 'N/A'}</span></>
-)}
+                  {!property?.property_class.includes('Lot') &&
+
+                    (<> <span className="max-md:flex max-md:w-2/3 max-sm:w-full max-md:justify-between mb-1"><span className="font-bold">Bedrooms:</span> {property?.bedrooms ?? 'N/A'}</span>
+                      <span className="max-md:flex max-md:w-2/3 max-sm:w-full  max-md:justify-between mb-1"><span className="font-bold">Bathrooms:</span> {property?.bathrooms ?? 'N/A'}</span></>
+                    )}
                 </div>
               </div>
             </div>
             <div className="flex flex-col w-full p-4 text-gray-800 gap-6">
               No property description available
-             
-            
-            {property?.property_class.includes('Lot') && <p>No land contract offers accepted on vacant land. Please submit proof of funds and feasibility along with your offer form to the Genesee County Land Bank office. Documents can be faxed, emailed or hand delivered. Please follow-up with office to confirm the offer has been received.</p>}
-            { property?.property_class.includes('Res Imp') &&
-            <>
-            <h3 className="font-bold"> Ready for Rehab Purchase Process:</h3>
-              <ul>
-              <li className="mb-1"><strong>Step 1 – </strong>Show up to view the home during the listed open house hours and pick up an offer form at the open house</li>
-              <li className="mb-1"><strong>Step 2 – </strong>Gather proof of funds/income as detailed on the form</li>
-              <li className="mb-1"><strong>Step 3 – </strong> Submit your offer (see below for more details)</li>
-            </ul>
-            </>
-            }
-             <p>
-              <strong>**Note**</strong>
+
+
+              {property?.property_class.includes('Lot') && <p>No land contract offers accepted on vacant land. Please submit proof of funds and feasibility along with your offer form to the Genesee County Land Bank office. Documents can be faxed, emailed or hand delivered. Please follow-up with office to confirm the offer has been received.</p>}
+              {property?.property_class.includes('Res Imp') &&
+                <>
+                  <h3 className="font-bold"> Ready for Rehab Purchase Process:</h3>
+                  <ul>
+                    <li className="mb-1"><strong>Step 1 – </strong>Show up to view the home during the listed open house hours and pick up an offer form at the open house</li>
+                    <li className="mb-1"><strong>Step 2 – </strong>Gather proof of funds/income as detailed on the form</li>
+                    <li className="mb-1"><strong>Step 3 – </strong> Submit your offer (see below for more details)</li>
+                  </ul>
+                </>
+              }
+              <p>
+                <strong>**Note**</strong>
               </p>
               <p>All properties without a set price have a start at a minimum value of $3000.00, and are negotiable upon offer.</p>
             </div>
@@ -149,8 +153,8 @@ const PropertyDetailsPage = () => {
         <div className="grid xl:grid-cols-3 xl:grid-rows-1 grid-cols-1 grid-rows-auto gap-2 my-4 col-span-3 md:h-full h-fit">
           <Dialog.Root>
             <Dialog.Trigger asChild>
-              <button className="md:h-full h-fit bg-white rounded-lg shadow-lg data-[state=open]:opacity-100 relative overflow-hidden" >
-                <div className="group relative m-0 flex md:h-full h-fit  w-full rounded-xl shadow-xl ring-gray-900/5 xl:mx-auto xl:max-w-lg">
+              <button className="md:h-full h-fit rounded-lg bg-transparent data-[state=open]:opacity-100 relative overflow-hidden" >
+                <div className="group relative m-0 flex md:h-full h-fit  w-full rounded-xl ring-gray-900/5 xl:mx-auto xl:max-w-lg">
                   <div className=" md:h-full h-fit w-full overflow-hidden rounded-xl border border-gray-200 opacity-40 transition duration-300 ease-in-out group-hover:opacity-100 dark:border-gray-700 dark:opacity-90">
                     <img src="/keys_and_hand.jpeg" className="animate-fade-in block lg:h-full h-fit w-full scale-100 transform object-cover object-center opacity-100 transition duration-300 group-hover:scale-110" alt="" />
                   </div>
@@ -168,7 +172,7 @@ const PropertyDetailsPage = () => {
                   Fill out an application
                 </Dialog.Title>
                 <Dialog.Description className="text-mauve11 mt-[10px] mb-5 text-[15px] leading-normal">
-                  
+
                   This is a <span className="font-bold">{property?.property_class} </span> property, which means you need a <span className="font-bold"> {findProperApplication(property)} </span>to apply.
 
                   <p className="mt-5">If you are unsure on the details on how to apply to a purchase a home from the Genesee County Land Bank, please visit <a href="https://www.thelandbank.org/homeownership.asp" target="_blank" rel="noreferrer" className="text-blue-500">The Land Bank's home ownership guide</a> page for more information.</p>
@@ -197,24 +201,33 @@ const PropertyDetailsPage = () => {
 
           <div className="lg:col-span-2 col-span-1  lg:h-fit rounded-lg shadow-lg border border-black overflow-hidden">
             <h1 className="md:text-3xl  text-xl text-center  pl-8 font-semibold rounded-t-lg py-10 bg-gray-100 ">More Information</h1>
-            <div className="flex flex-row w-full h-full p-4 text-gray-800 overflow-hidden">
-              <div className="flex md:flex-row  flex-col gap-4 w-full h-full">
-                <div className="md:h-full h-fit w-full text-center">
-                  <h3 className="font-bold text-xl mb-4">Showtimes</h3>
-                  <p>{property?.next_showtime ? formatInTimeZone(parseISO(property.next_showtime), 'America/New_York', 'PPpp') : 'None scheduled'}</p>
+            <div className="grid md:grid-cols-2 grid-cols-1 w-full h-full p-4 text-gray-800 overflow-hidden">
+              <div className="h-full w-full text-center flex flex-col px-4 ">
+                <div className="border-b border-gray-300 border-solid pb-4 ">
+                  <h3 className="text-2xl font-bold mt-3 md:mt-0  mb-4 text-center w-full ">Showtimes</h3>
+                  <p className="text-xl font-semibold text-red-700 w-full text-center">{property?.next_showtime ? formatInTimeZone(parseISO(property.next_showtime), 'America/New_York', 'PP p') : 'None scheduled'}</p>
                 </div>
-                <div className="h-fit md:border-r md:border-l md:border-b-0 md:border-t-0  border-b border-t border-gray-300 border-solid w-full text-center pb-5">
-                  <h3 className="font-bold mt-3 md:mt-0 text-xl mb-4">Exterior Repairs</h3>
-                  {property?.exterior_repairs ? <ul>{property.exterior_repairs.map((repair: string) =>
-                    <li key={repair}>{repair}</li>
-                  )}</ul> : <p>None needed</p>}
+                {property?.next_showtime &&
+                  <div className="py-10 h-full">
+                    <CountdownTimer targetDate={property?.next_showtime ? parseISO(property.next_showtime) : new Date()} eventTitle={
+                      `Property Showing at ${property?.address}, ${property?.city}, ${property?.zip}`
+                    } />
+                  </div>
+                }
+              </div>
+              <div className="h-full md:border-l md:border-b-0 md:border-t-0  border-b border-t border-gray-300 border-solid w-full text-center pb-5 px-5">
+                <div className="border-b border-gray-300 border-soli pb-4">
+                  <h3 className="text-2xl font-bold my-4 md:mt-0 text-center w-full mr-2">Total Repair Cost Estimate
+                    <InfoPopover
+                      title="How do we calculate this?"
+                      content="We calculate our repair estimates using data from the land bank, as well as our own market data for materials and labor prices."
+                      side="top"
+                    />
+                  </h3>
+
+                  <h4 className=" text-xl font-semibold text- w-full text-center text-green-700">{property?.repair_cost_min ? currencyFormat.format(property.repair_cost_min) : 'N/A'} - {property?.repair_cost_max ? currencyFormat.format(property.repair_cost_max) : 'N/A'}</h4>
                 </div>
-                <div className="h-full w-full text-center">
-                  <h3 className="font-bold text-xl mb-4">Interior Repairs</h3>
-                  {property?.interior_repairs ? <ul>{property.interior_repairs.map((repair: string) =>
-                    <li key={repair}>{repair}</li>
-                  )}</ul> : <p>None needed</p>}
-                </div>
+                {property?.service_items && <ServiceItemsTable serviceItems={property?.service_items || []} />}
               </div>
             </div>
           </div>

@@ -109,6 +109,16 @@ export const currencyFormat = new Intl.NumberFormat('en-US', {
     currency: 'USD',
   });
 
+ export const formatIsoStringToCalendar = (isoString: string) : string =>  {
+    // Extract the date and time parts from the ISO string
+    const [datePart, timePart] = isoString.split('T');
+    // Remove dashes from the date part and colons from the time part
+    const formattedDate = datePart.replace(/-/g, '');
+    const formattedTime = timePart.replace(/:/g, '').substring(0, 6); // Taking only HHMMSS part
+
+    return `${formattedDate}T${formattedTime}`;
+}
+
  export const getSlidingWindow = (currentPage : number, resultsTotal: number) : {startIndex: number, endIndex: number, totalPages: number} => {
     const totalPages = Math.ceil(resultsTotal / PAGE_SIZE); // Total number of pages
 

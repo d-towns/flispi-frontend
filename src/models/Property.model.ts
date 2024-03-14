@@ -1,3 +1,5 @@
+import { ServiceItem } from "./ServiceItem";
+
 export type Property = {
   id: string;
   parcel_id: string;
@@ -20,4 +22,7 @@ export type Property = {
   next_showtime: string;
   exterior_repairs: Array<string>;
   interior_repairs: Array<string>;
+  repair_cost_min: number;
+  repair_cost_max: number;
+  service_items: Array<ServiceItem>;
 }
