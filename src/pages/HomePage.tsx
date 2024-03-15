@@ -1,13 +1,14 @@
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ImageCarousel from "../components/ImageCarousel";
 import { Link } from "react-router-dom";
 import { Property } from "../models/Property.model";
 import GridItem from "../components/GridItem";
-import {fetchFeaturedProperties} from '../services/property.service';
+import { fetchFeaturedProperties } from '../services/property.service';
 import { fetchBlogs } from "../services/blog.service";
 import { Blog } from "../models/Blog.model";
 
 import { format, parseISO } from "date-fns";
+import CountyStats from "../components/CountyStats";
 
 
 const HomePage = () => {
@@ -16,7 +17,7 @@ const HomePage = () => {
   const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [subscribed , setSubscribed] = useState(false);
+  const [subscribed, setSubscribed] = useState(false);
 
   const fetchFeaturedData = async () => {
     setIsLoading(true);
@@ -40,7 +41,7 @@ const HomePage = () => {
       <div
         className="absolute inset-x-10 top-[-50rem] -z-30 transform-gpu overflow-hidden blur-3xl sm:top-[-5rem]"
         aria-hidden="true"
-        >
+      >
         <div
           className="relative left-1/2 -z-10 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr to-[#8ba2be] from-[#003366] opacity-30 sm:left-[calc(120%-40rem)] sm:w-[72.1875rem]"
           style={{
@@ -49,7 +50,7 @@ const HomePage = () => {
           }}
         />
       </div>
-        <div
+      <div
         className="absolute inset-x-10 top-[-50rem] -z-30 transform-gpu overflow-hidden blur-3xl sm:top-[20rem]"
         aria-hidden="true"
       >
@@ -80,7 +81,7 @@ const HomePage = () => {
             <h4 className="ml-2 text-sm font-bold tracking-widest text-primary uppercase">Explore the latest vacant land and rehab opportunites</h4>
           </div>
           <h1 className="mb-8 text-4xl font-extrabold leading-tight lg:text-6xl text-dark-grey-900"> <span className="text-[#8ba2be]">Flint </span> Property Search</h1>
-          <p className="mb-6 text-base font-normal leading-7 lg:w-3/4 text-grey-900">
+          <p className="mb-6 text-lg font-normal leading-7 lg:w-3/4 text-grey-900">
             Our mission is to restore value to the community by making Flint's abandoned land & properties easy to locate and acquire in cooperation with stakeholders who value responsible land ownership.
           </p>
           <p className="mb-6 text-xs font-semibold leading-7 lg:w-3/4 text-grey-900">
@@ -97,36 +98,31 @@ const HomePage = () => {
           </div>
         </div>
         <div data-aos="fade-up" data-aos-duration="1000">
-        <ImageCarousel />
+          <ImageCarousel />
         </div>
       </div>
-      <div className="bg-transparent max-w-7xl mx-auto py-8 my-10 sm:my-24 sm:py-16 ">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <h2 className="mb-8 text-2xl font-extrabold leading-tight text-center lg:text-4xl text-dark-grey-900 mb-20"> Genesee County Land Bank is taking action!</h2>
-          <dl className="grid grid-cols-1 gap-x-8 gap-y-16 text-center md:grid-cols-3">
-            <div className="relative mx-auto flex max-w-xs flex-col gap-y-4" data-aos="zoom-in-right" data-aos-duration="1000">
-              <div className="absolute right-2 bottom-2 h-3/4 w-full rounded-lg bg-[#8ba2be] z-0"></div>
-              <dl className="relative border border-black order-first z-10 mb-4 rounded-lg bg-white p-6 text-3xl font-semibold tracking-tight text-gray-900 shadow-md lg:text-7xl sm:text-3xl">
-                <dd className="relative z-10 text-base leading-7 text-gray-600 text-xl">Funds Secured for Demolition</dd>
-                $43.7 M
-              </dl>
+      <div className="bg-transparent w-full pt-8 my-10 sm:my-24 sm:pt-16 ">
+        <div className="mx-auto px-6 lg:px-8">
+          <div className="grid grid-cols-2 max-xl:grid-cols-1 gap-x-8 gap-y-16">
+            <div className="hidden xl:block">
+              <CountyStats />
             </div>
-            <div className="relative mx-auto flex max-w-sm flex-col gap-y-4" data-aos="zoom-in-up" data-aos-duration="1000">
-              <div className="absolute right-2 bottom-2 h-3/4 w-full rounded-lg bg-[#8ba2be] z-0"></div>
-              <dl className="relative border border-black order-first z-10 mb-4 rounded-lg bg-white p-6 text-3xl font-semibold tracking-tight text-gray-900 shadow-md lg:text-7xl sm:text-3xl">
-                <dd className="relative z-10 text-base leading-7 text-gray-600 text-xl">Planned Demolitions <span className="hidden sm:inline">( A/O Nov 2023 )</span>     </dd>
-                <dd className="relative z-10 text-base leading-7 text-gray-600 text-xl block sm:hidden">( A/O Nov 2023 )  </dd>
-                1,910
-              </dl>
+            <div className="pl-7">
+              <h2 className="mb-4 text-4xl font-extrabold leading-tight text-left lg:text-5xl text-dark-grey-900"> Genesee County Land Bank is taking action!</h2>
+              <h3 className="mb-8 text-lg leading-tight font-semibold text-left lg:text-2xl text-dark-grey-900 mb-20"> 10,000+ Affordable Properties For Sale</h3>
+              <p className=" w-full mb-10 text-xl font-normal text-left leading-7 text-grey-900 ">
+                The Genesee County Land Bank is a government organization that manages tax-foreclosed properties in Genesee County.
+              </p>
+              <ul className="list-disc pl-5 space-y-2 text-lg">
+                <li>Every year they receive a new inventory of tax-foreclosed properties.</li>
+                <li>The County forecloses on these properties after years of unpaid taxes. The Land Bank then works to put these properties back into productive use.</li>
+                <li>This includes selling and renting out properties, managing blight, greening, and revitalizing the neighborhoods that surround those properties.</li>
+              </ul>
             </div>
-            <div className="relative mx-auto flex max-w-xs flex-col gap-y-4" data-aos="zoom-in-left" data-aos-duration="1000">
-              <div className="absolute right-2 bottom-2 h-3/4 w-full rounded-lg bg-[#8ba2be] z-0"></div>
-              <dl className="relative border border-black order-first z-10 mb-4 rounded-lg bg-white p-6 text-3xl font-semibold tracking-tight text-gray-900 shadow-md lg:text-7xl sm:text-3xl">
-                <dt className="relative z-10 text-base leading-7 text-gray-600 text-xl">Community Feedback Surveys</dt>
-                400+
-              </dl>
+            <div className="xl:hidden block">
+            <CountyStats />
             </div>
-          </dl>
+          </div>
         </div>
       </div>
       <div className="bg-gray-200 mx-auto py-16 sm:py-32 text-sm">
@@ -139,15 +135,15 @@ const HomePage = () => {
           <div className="mx-auto w-full mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
             <dl className="grid max-w-none w-full grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-2 xl:max-w-none xl:grid-cols-4 lg:gap-y-16">
               {isLoading ?
-              <div className="relative">
-              <div className="w-20 h-20 border-purple-200 border-2 rounded-full"></div>
-              <div className="w-20 h-20 border-purple-700 border-t-2 animate-spin rounded-full absolute left-0 top-0"></div>
-          </div>:
-              featuredProperties.map((property, idx) => (
-                <div key={property.id}  data-aos="fade-right" data-aos-duration={`${300 * (idx+1)}`}>
-                <GridItem property={property} />
-                </div>
-              )) }
+                <div className="relative">
+                  <div className="w-20 h-20 border-purple-200 border-2 rounded-full"></div>
+                  <div className="w-20 h-20 border-purple-700 border-t-2 animate-spin rounded-full absolute left-0 top-0"></div>
+                </div> :
+                featuredProperties.map((property, idx) => (
+                  <div key={property.id} data-aos="fade-right" data-aos-duration={`${300 * (idx + 1)}`}>
+                    <GridItem property={property} />
+                  </div>
+                ))}
             </dl>
           </div>
         </div>
@@ -162,31 +158,31 @@ const HomePage = () => {
             {blogs.map((blog) => {
               return (
                 <article key={blog.slug} className="flex max-w-xl flex-col items-start justify-between" data-aos-duration="500" data-aos="fade-in">
-              <div className="flex items-center gap-x-4 text-xs">
-                <span className="text-gray-500">{format(parseISO(blog.created_at), 'yyyy-MM-d')}</span>
-                <a href={`blog/${blog.slug}`} className="relative z-10 rounded-full bg-gray-100 shadow px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">{blog.tag}</a>
-              </div>
-              <div className="group relative">
-                <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                  <a href={`blog/${blog.slug}`}>
-                    <span className="absolute inset-0"></span>
-                    {blog.title}
-                  </a>
-                </h3>
-                <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">{blog.subtitle}</p>
-              </div>
-              <div className="relative mt-8 flex items-center gap-x-4">
-                <img src="DT_BULB_DARK.png" alt="" className="h-16 w-16 rounded-full bg-gray-50" />
-                <div className="text-sm leading-6">
-                  <p className="font-semibold text-gray-900 text-lg">
-                    <span >
-                      <span className="absolute inset-0 text-xl"></span>
-                      {blog.author}
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </article>
+                  <div className="flex items-center gap-x-4 text-xs">
+                    <span className="text-gray-500">{format(parseISO(blog.created_at), 'yyyy-MM-d')}</span>
+                    <a href={`blog/${blog.slug}`} className="relative z-10 rounded-full bg-gray-100 shadow px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">{blog.tag}</a>
+                  </div>
+                  <div className="group relative">
+                    <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+                      <a href={`blog/${blog.slug}`}>
+                        <span className="absolute inset-0"></span>
+                        {blog.title}
+                      </a>
+                    </h3>
+                    <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">{blog.subtitle}</p>
+                  </div>
+                  <div className="relative mt-8 flex items-center gap-x-4">
+                    <img src="DT_BULB_DARK.png" alt="" className="h-16 w-16 rounded-full bg-gray-50" />
+                    <div className="text-sm leading-6">
+                      <p className="font-semibold text-gray-900 text-lg">
+                        <span >
+                          <span className="absolute inset-0 text-xl"></span>
+                          {blog.author}
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </article>
               )
             })}
           </div>
@@ -194,18 +190,18 @@ const HomePage = () => {
       </div>
       <>
         <div className="relative mx-auto flex max-w-6xl flex-col gap-y-4 mb-32 hidden sm:block px-8" data-aos="fade-up" data-aos-duration="1000">
-          <div className="absolute xl:right-1 left-5 top-3 h-full xl:w-[94%] rounded-lg bg-[#8ba2be] z-0 w-[80%]"></div>
+          <div className="absolute xl:right-1 left-5 top-3 h-full xl:w-[94%] rounded-lg bg-[#8ba2be] z-0 w-[90%]"></div>
           <dd className="relative border  border-black flex flex-row sm:gap-8 order-first z-10 mb-4 rounded-lg bg-white p-6 text-3xl font-semibold tracking-tight text-gray-900 shadow-md sm:text-5xl">
             <div className="max-w-xl lg:max-w-lg">
               <h2 className="text-3xl font-bold tracking-tight text-black sm:text-4xl">Subscribe to our newsletter!</h2>
               <p className="mt-4 text-lg leading-8 text-black">Recieve new featured and ready for rehab properties sent to your inbox every Friday.</p>
               <div className="mt-6 flex max-w-md gap-x-4">
                 <label htmlFor="email-address" className="sr-only">Email address</label>
-                {subscribed ? <p className=" text-lg text-green-500">Thank you for subscribing!</p> : 
-                <>
-                <input id="email-address" name="email" type="email" autoComplete="email" required className="min-w-0 flex-auto rounded-md border-0 bg-white/5 px-3.5 py-2 text-black shadow-md ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6" placeholder="Enter your email" />
-                <button type="submit" onClick={() => setSubscribed(true)} className="flex-none rounded-md transition duration-300 bg-gradient-to-br from-[#8ba2be] to-[#A9A9A9] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">Subscribe</button>
-                </>
+                {subscribed ? <p className=" text-lg text-green-500">Thank you for subscribing!</p> :
+                  <>
+                    <input id="email-address" name="email" type="email" autoComplete="email" required className="min-w-0 flex-auto rounded-md border-0 bg-white/5 px-3.5 py-2 text-black shadow-md ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6" placeholder="Enter your email" />
+                    <button type="submit" onClick={() => setSubscribed(true)} className="flex-none rounded-md transition duration-300 bg-gradient-to-br from-[#8ba2be] to-[#A9A9A9] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">Subscribe</button>
+                  </>
                 }
               </div>
             </div>
