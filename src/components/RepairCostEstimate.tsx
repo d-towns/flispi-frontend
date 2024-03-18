@@ -23,7 +23,7 @@ const currencyFormat = new Intl.NumberFormat('en-US', {
 
 const RepairCostEstimate: React.FC<RepairCostEstimateProps> = ({ property }) => {
   return (
-    <div className="h-full md:border-l md:border-b-0 md:border-t-0 border-b border-t border-gray-300 border-solid w-full text-center pb-5 lg:px-5 px-1">
+    <div className="h-full md:border-l md:border-b-0 md:border-t-0 border-b border-t border-gray-300 border-solid w-full text-center pb-5 md:px-5 px-2">
       <div className="border-b border-gray-300 border-solid pb-4">
         <h3 className="lg:text-2xl text-xl font-bold my-4 md:mt-0 text-center w-full mr-2">
           Total Repair Cost Estimate
