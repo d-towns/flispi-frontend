@@ -49,7 +49,9 @@ const LoginPage = () => {
           </p>
           <p className="mb-6  text-base font-normal leading-7 lg:w-3/4 text-grey-900"><LockClosedIcon className='w-6 h-6 inline'/> <strong>Secure Login with Auth0:</strong> We prioritize your security and privacy above all else. <a className="text-[#003366] hover:underline transition ease-in-out duration-200" href='https://auth0.com/'>Auth0</a> is a global leader in identity and access management, offering robust, adaptive security that protects your personal information.</p>
           <p className="mb-6 text-xs font-semibold leading-7 lg:w-3/4 text-grey-900">
-            **Disclaimer: Flint Propterty Search is in no way affiliated with the Genesee County Land Bank. This is a independent project for the purpose of showcasing the properties available for purchase in the City of Flint.**
+            **Disclaimer: Flint Propterty Search is in no way affiliated with the Genesee County Land Bank. This is a independent project for the purpose of showcasing the properties available for purchase in the City of Flint.
+            By creating an account, you agree to our <a className="text-[#003366] hover:underline transition ease-in-out duration-200" href='/terms'>Terms of Service</a> and <a className="text-[#003366] hover:underline transition ease-in-out duration-200" href='/policy'>Privacy Policy</a>
+            **
           </p>
       </div>
       <div className="block max-md:hidden my-6 border-l border-gray-300 h-full w-[1px]" />
