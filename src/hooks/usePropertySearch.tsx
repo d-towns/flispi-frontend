@@ -26,7 +26,7 @@ function usePropertySearch() {
 
   const fetchData = useCallback(async () => {
     setIsLoadingPage(true);
-    const data = await fetchPropertySearchData({ searchParams: searchParams, pageNumber, pageSize: currentTab === 'list-tab' ? 30 : 4 });
+    const data = await fetchPropertySearchData({ searchParams: searchParams, pageNumber, pageSize: 30 });
     if(data.errors) {
         setError(data.errors);
         setIsLoadingPage(false);
@@ -37,7 +37,7 @@ function usePropertySearch() {
     const { startIndex, endIndex, totalPages } = getSlidingWindow(pageNumber, data.metadata.total);
     setPageList(Array.from({ length: totalPages }, (_, index) => index + 1).slice(startIndex - 1, endIndex));
     setIsLoadingPage(false);
-  }, [searchParams, pageNumber, currentTab]);
+  }, [searchParams, pageNumber]);
 
   useEffect(() => {
     fetchData();

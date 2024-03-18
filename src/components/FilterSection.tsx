@@ -364,7 +364,7 @@ const FilterSection: FC = () => {
                       <div className="flex flex-1 justify-between sm:hidden">
                         <button
                           onClick={() => setPageNumber(pageNumber - 1)}
-                          disabled={searchTotal < PAGE_SIZE || (pageNumber === Math.ceil(searchTotal / PAGE_SIZE) - 1 || pageNumber === 0)}
+                          disabled={searchTotal < PAGE_SIZE || (pageNumber === Math.ceil(searchTotal / PAGE_SIZE) || pageNumber === 0)}
                           className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                         >
                           Previous
@@ -535,6 +535,14 @@ const FilterSection: FC = () => {
                             <span className="sr-only">Next</span>
                             <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
                           </button>
+                          <button
+                              onClick={() => setPageNumber(Math.ceil(searchTotal / PAGE_SIZE) - 1)}
+                              disabled={searchTotal < PAGE_SIZE}
+                              className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                            >
+                              <span className="sr-only">Next</span>
+                              <ChevronDoubleRightIcon className="h-5 w-5" aria-hidden="true" />
+                            </button>
                         </nav>
                       </div>
                     </div>

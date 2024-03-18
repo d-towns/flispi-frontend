@@ -213,9 +213,7 @@ const PropertyDetailsPage = () => {
                   </div>
                 }
               </div>
-              {property?.service_items.length ? 
-              <RepairCostEstimate property={property} /> 
-              : null}
+              <RepairCostEstimate property={property ?? undefined} /> 
             </div>
           </div>
         </div>
