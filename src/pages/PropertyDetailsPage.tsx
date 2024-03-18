@@ -10,10 +10,8 @@ import { XMarkIcon, HeartIcon } from '@heroicons/react/20/solid'
 import { favoriteProperty, getSavedProperty, unfavoriteProperty, fetchProperty } from "../services/property.service";
 import { useAuth0 } from "@auth0/auth0-react";
 import { NotLoggedInDialog } from "../components/NotLoggedInDialog";
-import { ServiceItem } from "../models/ServiceItem";
 import CountdownTimer from "../components/CountdownTimer";
-import InfoPopover from "../components/InfoPopover";
-import ServiceItemsTable from "../components/ServiceItemsTable";
+import RepairCostEstimate from "../components/RepairCostEstimate";
 
 const PropertyDetailsPage = () => {
 
@@ -150,7 +148,7 @@ const PropertyDetailsPage = () => {
             </div>
           </div>
         </div>
-        <div className="grid xl:grid-cols-3 xl:grid-rows-1 grid-cols-1 grid-rows-auto gap-2 my-4 col-span-3 md:h-full h-fit">
+        <div className="grid xl:grid-cols-3 xl:grid-rows-2 grid-cols-1 grid-rows-auto gap-2 my-4 col-span-3 md:h-full h-fit">
           <Dialog.Root>
             <Dialog.Trigger asChild>
               <button className="md:h-full h-fit rounded-lg bg-transparent data-[state=open]:opacity-100 relative overflow-hidden" >
@@ -199,36 +197,25 @@ const PropertyDetailsPage = () => {
             </Dialog.Portal>
           </Dialog.Root>
 
-          <div className="lg:col-span-2 col-span-1  lg:h-fit rounded-lg shadow-lg border border-black overflow-hidden">
+          <div className="lg:col-span-2 col-span-1  lg:h-full rounded-lg shadow-lg border border-black overflow-hidden">
             <h1 className="md:text-3xl  text-xl text-center  pl-8 font-semibold rounded-t-lg py-10 bg-gray-100 ">More Information</h1>
             <div className="grid md:grid-cols-2 grid-cols-1 w-full h-full p-4 text-gray-800 overflow-hidden">
-              <div className="h-full w-full text-center flex flex-col px-4 ">
+              <div className="col-span-2 w-full h-fit text-center px-4 ">
                 <div className="border-b border-gray-300 border-solid pb-4 ">
                   <h3 className="text-2xl font-bold mt-3 md:mt-0  mb-4 text-center w-full ">Showtimes</h3>
                   <p className="text-xl font-semibold text-red-700 w-full text-center">{property?.next_showtime ? formatInTimeZone(parseISO(property.next_showtime), 'America/New_York', 'PP p') : 'None scheduled'}</p>
                 </div>
                 {property?.next_showtime &&
-                  <div className="py-10 h-full">
+                  <div className="lg:py-10 pt-10 h-fit">
                     <CountdownTimer targetDate={property?.next_showtime ? parseISO(property.next_showtime) : new Date()} eventTitle={
                       `Property Showing at ${property?.address}, ${property?.city}, ${property?.zip}`
                     } />
                   </div>
                 }
               </div>
-              <div className="h-full md:border-l md:border-b-0 md:border-t-0  border-b border-t border-gray-300 border-solid w-full text-center pb-5 px-5">
-                <div className="border-b border-gray-300 border-soli pb-4">
-                  <h3 className="text-2xl font-bold my-4 md:mt-0 text-center w-full mr-2">Total Repair Cost Estimate
-                    <InfoPopover
-                      title="How do we calculate this?"
-                      content="We calculate our repair estimates using data from the land bank, as well as our own market data for materials and labor prices."
-                      side="top"
-                    />
-                  </h3>
-
-                  <h4 className=" text-xl font-semibold text- w-full text-center text-green-700">{property?.repair_cost_min ? currencyFormat.format(property.repair_cost_min) : 'N/A'} - {property?.repair_cost_max ? currencyFormat.format(property.repair_cost_max) : 'N/A'}</h4>
-                </div>
-                {property?.service_items && <ServiceItemsTable serviceItems={property?.service_items || []} />}
-              </div>
+              {property?.service_items.length ? 
+              <RepairCostEstimate property={property} /> 
+              : null}
             </div>
           </div>
         </div>

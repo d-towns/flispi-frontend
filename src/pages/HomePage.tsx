@@ -108,12 +108,12 @@ const HomePage = () => {
               <CountyStats />
             </div>
             <div className="pl-7 xl:mt-20">
-              <h2 className="mb-4 text-4xl font-extrabold leading-tight text-left lg:text-5xl text-dark-grey-900"> Genesee County Land Bank is taking action!</h2>
+              <h2 className="mb-4 text-3xl font-extrabold leading-tight text-left lg:text-5xl text-dark-grey-900"> Genesee County Land Bank is taking action!</h2>
               <h3 className="mb-8 text-lg leading-tight font-semibold text-left lg:text-2xl text-dark-grey-900 mb-20"> 10,000+ Affordable Properties For Sale</h3>
-              <p className=" w-full mb-10 text-xl font-normal text-left leading-7 text-grey-900 ">
+              <p className=" w-full mb-10 lg:text-xl text-lg font-normal text-left leading-7 text-grey-900 ">
                 The Genesee County Land Bank is a government organization that manages tax-foreclosed properties in Genesee County.
               </p>
-              <ul className="list-disc pl-5 space-y-2 text-lg">
+              <ul className="list-disc pl-5 space-y-2 lg:text-lg text-base">
                 <li>Every year they receive a new inventory of tax-foreclosed properties.</li>
                 <li>The County forecloses on these properties after years of unpaid taxes. The Land Bank then works to put these properties back into productive use.</li>
                 <li>This includes selling and renting out properties, managing blight, greening, and revitalizing the neighborhoods that surround those properties.</li>

@@ -52,8 +52,8 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate, eventTitle}
         <div className={`font-sans ${getColorClass()}`}>
             {timeLeft.isPast ?
                 <div>
-                    <h4 className='text-4xl pb-5 font-bold' > This property's showtime has passed</h4>
-                    <p className='text-2xl'>
+                    <h4 className='lg:text-4xl text-2xl pb-5 font-bold' > This property's showtime has passed</h4>
+                    <p className='lg:text-2xl text-xl'>
                         Please reach out to The Land Bank <a className='underline cursor-pointer' href='https://www.thelandbank.org/contact.asp'>via this form</a> or <a className='underline cursor-pointer' href='tel:8102573088'>phone</a> to schedule a showing.
                     </p>
                 </div>

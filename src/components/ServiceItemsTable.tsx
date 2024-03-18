@@ -13,9 +13,9 @@ const ServiceItemsTable: React.FC<ServiceItemsTableProps> = ({ serviceItems }) =
 
     return (
         <div>
-            <h3 className="font-bold mt-3 text-xl mb-4 text-center">Service Items</h3>
+            <h3 className="font-bold mt-3 lg:text-xl text-base mb-4 text-center">Service Items</h3>
             {serviceItems.length > 0 ? (
-                <table className="w-full text-center">
+                <table className="mb-10 w-full text-xs text-left ">
                     <thead>
                         <tr>
                             <th>Name</th>
