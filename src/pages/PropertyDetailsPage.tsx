@@ -3,15 +3,14 @@ import { Property } from "../models/Property.model"
 import { useParams } from 'react-router-dom';
 import ImageGallery from "../components/ImageGallery";
 import { currencyFormat, parseImages } from "../utils/utils";
-import { parseISO, } from "date-fns";
-import { formatInTimeZone } from "date-fns-tz";
 import * as Dialog from '@radix-ui/react-dialog';
 import { XMarkIcon, HeartIcon } from '@heroicons/react/20/solid'
 import { favoriteProperty, getSavedProperty, unfavoriteProperty, fetchProperty } from "../services/property.service";
 import { useAuth0 } from "@auth0/auth0-react";
 import { NotLoggedInDialog } from "../components/NotLoggedInDialog";
-import CountdownTimer from "../components/CountdownTimer";
+
 import RepairCostEstimate from "../components/RepairCostEstimate";
+import PropertyShowtimes from "../components/PropertyShowtimes";
 
 const PropertyDetailsPage = () => {
 
@@ -200,19 +199,7 @@ const PropertyDetailsPage = () => {
           <div className="lg:col-span-2 col-span-1  lg:h-fit rounded-lg shadow-lg border border-black overflow-hidden">
             <h1 className="md:text-3xl  text-xl text-center  pl-8 font-semibold rounded-t-lg py-10 bg-gray-100 ">More Information</h1>
             <div className="grid md:grid-cols-2 grid-cols-1 w-full h-full p-4 text-gray-800 overflow-hidden">
-              <div className="w-full h-full flex flex-col text-center px-4 ">
-                <div className="border-b border-gray-300 border-solid pb-4 ">
-                  <h3 className="text-2xl font-bold mt-3 md:mt-0  mb-4 text-center w-full ">Showtimes</h3>
-                  <p className="text-xl font-semibold text-red-700 w-full text-center">{property?.next_showtime ? formatInTimeZone(parseISO(property.next_showtime), 'America/New_York', 'PP p') : 'None scheduled'}</p>
-                </div>
-                {property?.next_showtime &&
-                  <div className="lg:py-10 pt-10 h-fit">
-                    <CountdownTimer targetDate={property?.next_showtime ? parseISO(property.next_showtime) : new Date()} eventTitle={
-                      `Property Showing at ${property?.address}, ${property?.city}, ${property?.zip}`
-                    } />
-                  </div>
-                }
-              </div>
+              <PropertyShowtimes property={property ?? undefined} />
               <RepairCostEstimate property={property ?? undefined} /> 
             </div>
           </div>

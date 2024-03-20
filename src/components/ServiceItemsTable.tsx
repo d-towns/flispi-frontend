@@ -26,7 +26,8 @@ const ServiceItemsTable: React.FC<ServiceItemsTableProps> = ({ serviceItems }) =
                         {serviceItems.map((item) => (
                             <tr key={item.name}>
                                 <td>{item.name}</td>
-                                <td>{currencyFormat.format(item.min_price)} - {currencyFormat.format(item.max_price)}</td>
+                                <td>{currencyFormat.format(item.min_price)} - {currencyFormat.format(item.max_price)} / {item.unit !== 1 ? item.unit : null} {item.unit_type.toLowerCase()}
+                                </td>
                             </tr>
                         ))}
                     </tbody>
