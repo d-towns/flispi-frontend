@@ -150,17 +150,17 @@ const PropertyDetailsPage = () => {
         <div className="grid xl:grid-cols-3 xl:grid-rows-1 grid-cols-1 grid-rows-auto gap-2 my-4 col-span-3 md:h-full h-fit">
           <Dialog.Root>
             <Dialog.Trigger asChild>
-              <button className="md:h-full h-fit rounded-lg bg-transparent data-[state=open]:opacity-100 relative overflow-hidden" >
-                <div className="group relative m-0 flex md:h-full h-fit  w-full rounded-xl ring-gray-900/5 xl:mx-auto xl:max-w-lg">
-                  <div className=" md:h-full h-fit w-full overflow-hidden rounded-xl border border-gray-200 opacity-40 transition duration-300 ease-in-out group-hover:opacity-100 dark:border-gray-700 dark:opacity-90">
-                    <img src="/keys_and_hand.jpeg" className="animate-fade-in block lg:h-full h-fit w-full scale-100 transform object-cover object-center opacity-100 transition duration-300 group-hover:scale-110" alt="" />
-                  </div>
-                  <div className="absolute text-left bottom-0 m-0 pb-4 ps-4 transition duration-300 ease-in-out group-hover:-translate-y-1 group-hover:translate-x-3 group-hover:scale-110">
-                    <h1 className="font-serif text-2xl font-bold text-black">Interested in this Property?</h1>
-                    <h1 className="text-sm font-light text-black">Click here Fill out an application now</h1>
+
+              <div className="cursor-pointer rounded-lg shadow-lg border border-black col-span-1 lg:h-full rounded-lg overflow-hidden shadow-lg transform transition duration-500 hover:scale-105">
+                <img src="/keys_and_hand.jpeg" className="w-full " alt="" />
+                <div className="px-6 lg:py-6 py-4 bg-gradient-to-br from-gray-200 to-[#8ba2be] h-full">
+                  <div className="text-left py-6 flex flex-col">
+                    <h1 className="font-serif lg:text-4xl text-2xl font-bold text-black">Interested in this property?</h1>
+                    <p className="mt-2 lg:text-xl text-base font-light text-black">Click here to fill out an application now</p>
                   </div>
                 </div>
-              </button>
+              </div>
+
             </Dialog.Trigger>
             <Dialog.Portal>
               <Dialog.Overlay className="bg-black data-[state=open]:opacity-25 fixed inset-0" />
@@ -200,7 +200,7 @@ const PropertyDetailsPage = () => {
             <h1 className="md:text-3xl  text-xl text-center  pl-8 font-semibold rounded-t-lg py-10 bg-gray-100 ">More Information</h1>
             <div className="grid md:grid-cols-2 grid-cols-1 w-full h-full p-4 text-gray-800 overflow-hidden">
               <PropertyShowtimes property={property ?? undefined} />
-              <RepairCostEstimate property={property ?? undefined} /> 
+              <RepairCostEstimate property={property ?? undefined} />
             </div>
           </div>
         </div>

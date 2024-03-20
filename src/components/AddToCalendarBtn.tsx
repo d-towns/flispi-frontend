@@ -32,7 +32,7 @@ const AddToCalendar: React.FC<AddToCalendarProps> = ({ event }) => {
         href={googleUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex-none rounded-md transition duration-300 bg-gradient-to-br from-[#A9A9A9] to-[#8ba2be] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+        className="border border-gray-300 flex-none rounded-lg transition duration-300 bg-gray-200 hover:bg-gray-300  px-3.5 py-2.5 text-sm font-semibold text-black shadow-sm hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
       >
         <img src="/google.png" className='inline mr-5' alt="Add to Google Calendar" />
         Add to Google Calendar
@@ -41,7 +41,7 @@ const AddToCalendar: React.FC<AddToCalendarProps> = ({ event }) => {
         href={outlookUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex-none rounded-md transition duration-300 bg-gradient-to-br from-[#A9A9A9] to-[#8ba2be] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+        className="border border-gray-300 flex-none rounded-lg transition duration-300 bg-gray-200 hover:bg-gray-300  px-3.5 py-2.5 text-sm font-semibold text-black shadow-sm hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
       >
         <img src="/microsoft.png" className='inline mr-5' alt="Add to Outlook Calendar" />
         Add to Outlook Calendar
