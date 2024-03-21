@@ -154,8 +154,8 @@ const PropertyDetailsPage = () => {
               <div className="cursor-pointer rounded-lg shadow-lg border border-black col-span-1 lg:h-full rounded-lg overflow-hidden shadow-lg transform transition duration-500 hover:scale-105">
                 <img src="/keys_and_hand.jpeg" className="w-full " alt="" />
                 <div className="px-6 lg:py-6 py-4 bg-gradient-to-br from-gray-200 to-[#8ba2be] h-full">
-                  <div className="text-left py-6 flex flex-col">
-                    <h1 className="font-serif lg:text-4xl text-2xl font-bold text-black">Interested in this property?</h1>
+                  <div className="text-left py-3 flex flex-col">
+                    <h1 className="font-serif lg:text-3xl text-2xl font-bold text-black">Interested in this property?</h1>
                     <p className="mt-2 lg:text-xl text-base font-light text-black">Click here to fill out an application now</p>
                   </div>
                 </div>

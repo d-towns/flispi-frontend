@@ -15,6 +15,7 @@ import SelectDropdown from './Select';
 import { subCategories, sortOptions, filtersFormData, PAGE_SIZE } from '../utils/utils';
 import usePropertySearch from '../hooks/usePropertySearch';
 import FilterComponent from './FilterBar';
+import CategoriesFilter from './CategoriesFilter';
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
@@ -95,16 +96,7 @@ const FilterSection: FC = () => {
                     <div>
                       <h3 className="sr-only">Categories</h3>
                     </div>
-
-                    <ul className="px-2 py-3 font-medium text-gray-900">
-                      {subCategories.map((category) => (
-                        <li key={category.name} className={``}>
-                          <Link to={category.href} className={`block px-2 py-3 rounded-lg w-fit ${window.location.toString().includes(category.href) ? 'bg-[#003366] text-white' : ''}`}>
-                            {category.name}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
+                    <CategoriesFilter />
                     {/* Mobile City  */}
                     <FilterComponent
                       title="City"
@@ -229,24 +221,18 @@ const FilterSection: FC = () => {
                     </button>
                   }
                 </div>
-                <ul className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
-                  {subCategories.map((category) => (
-                    <li key={category.name}>
-                      <a href={category.href} className={` p-2 rounded-lg ${window.location.toString().includes(category.href) ? 'bg-[#003366] text-white' : ''}`}>{category.name}</a>
-                    </li>
-                  ))}
-                </ul>
+<CategoriesFilter/>
                 {/* Desktop Price Filter */}
-                <FilterComponent 
-                title="Price" 
-                panelComponent={
-                  <Slider initialValue={[Number(searchParams.get('price')) ?? 50000]} label='Maximum Price' defaultValue={[50000]} max={50000} step={500} unit='' formatter={new Intl.NumberFormat('en-US', {
-                    style: 'currency',
-                    currency: 'USD',
-                  })} onValueCommit={
-                    (price) => setFilterParams('price', price)
-                  } />
-                }
+                <FilterComponent
+                  title="Price"
+                  panelComponent={
+                    <Slider initialValue={[Number(searchParams.get('price')) ?? 50000]} label='Maximum Price' defaultValue={[50000]} max={50000} step={500} unit='' formatter={new Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD',
+                    })} onValueCommit={
+                      (price) => setFilterParams('price', price)
+                    } />
+                  }
                 />
                 {/* Desktop Bedrooms Filter */}
                 <FilterComponent
@@ -316,7 +302,7 @@ const FilterSection: FC = () => {
                   }
                 />
                 {/* Desktop Lot Size Filter */}
-                <FilterComponent 
+                <FilterComponent
                   title="Lot Size"
                   panelComponent={
                     <Slider initialValue={[Number(searchParams.get('lotsize')) ?? 50]} label='Minimum' step={1} max={50} defaultValue={[50]} unit="acres" onValueCommit={
@@ -536,13 +522,13 @@ const FilterSection: FC = () => {
                             <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
                           </button>
                           <button
-                              onClick={() => setPageNumber(Math.ceil(searchTotal / PAGE_SIZE) - 1)}
-                              disabled={searchTotal < PAGE_SIZE}
-                              className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                            >
-                              <span className="sr-only">Next</span>
-                              <ChevronDoubleRightIcon className="h-5 w-5" aria-hidden="true" />
-                            </button>
+                            onClick={() => setPageNumber(Math.ceil(searchTotal / PAGE_SIZE) - 1)}
+                            disabled={searchTotal < PAGE_SIZE}
+                            className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                          >
+                            <span className="sr-only">Next</span>
+                            <ChevronDoubleRightIcon className="h-5 w-5" aria-hidden="true" />
+                          </button>
                         </nav>
                       </div>
                     </div>

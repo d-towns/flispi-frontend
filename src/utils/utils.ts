@@ -38,11 +38,26 @@ export const sortOptions = [
   },
 ];
 
-export const subCategories = [
-  { name: 'Featured Properties ', href: '?featured=true' },
-  { name: 'Ready For Rehab', href: '?propertyClass=Res+Imp&bedrooms=1&featured=true' },
-  { name: 'Commercial Opportunities', href: '?propertyClass=Ind+Imp%2CCom+Vac+Lot%2CCom+Imp%2CInd+Vac+Lot&featured=true' },
-]
+export interface SubCategory {
+  name: string;
+  filterParams: { [key: string]: string | string[] | number[] };
+}
+
+export const subCategories  :SubCategory[] = [
+  { 
+    name: 'Featured Properties',
+    filterParams: { featured: 'true' }
+  },
+  { 
+    name: 'Ready For Rehab',
+    filterParams: { propertyClass: 'Res Imp', bedrooms: '1', featured: 'true' }
+  },
+  { 
+    name: 'Commercial Opportunities',
+    filterParams: { propertyClass: 'Ind Imp,Com Vac Lot,Com Imp,Ind Vac Lot', featured: 'true' }
+  }
+];
+
 
 export const filterIds = [
   'city',
