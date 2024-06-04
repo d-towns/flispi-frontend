@@ -15,7 +15,7 @@ const loader = new Loader({
 
 const mapOptions = {
   center: {
-    lat: -25.344, lng: 131.031
+    lat: 43.014661, lng: -83.676933
   },
   zoom: 11
 };
@@ -36,7 +36,6 @@ const PropertyMap = ({ properties, searchTotal, setPage, pageList, pageNumber }:
   const navigate = useNavigate();
   const [infoWindows, setInfoWindows] = useState<Array<{marker: google.maps.Marker, infoWindow:google.maps.InfoWindow}>>([]);
   const [map, setMap] = useState<google.maps.Map>();
-
 
   useEffect(() => {
     const setupMap = async () => {
@@ -77,6 +76,7 @@ const PropertyMap = ({ properties, searchTotal, setPage, pageList, pageNumber }:
         });
         return {marker, infoWindow}
       }); 
+
       setInfoWindows(localInfoWindows);
       const center = new google.maps.LatLng(properties[0].coords);
       map.setCenter(center);
@@ -126,7 +126,7 @@ const PropertyMap = ({ properties, searchTotal, setPage, pageList, pageNumber }:
               return (
                 <button
                   key={"pgn-" + number}
-                  onClick={() => setPage(number)}
+                  onClick={() => setPage(number - 1)}
                   disabled={searchTotal < PAGE_SIZE}
                   className="relative inline-flex items-center px-4 py-2 text-sm hover:bg-gray-200 font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0"
                   style={
