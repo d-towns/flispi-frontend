@@ -42,7 +42,7 @@ const GridItem: FC<GridItemProps> = ({ property }) => {
           </div>
         </div>
 
-        { property.price && property.price !== 0 ? <span className="absolute left-0 top-0 z-10 ml-3 mt-3 inline-flex select-none rounded-lg bg-[#003366] px-3 py-2 text-sm font-medium text-white"> Featured </span> : null }
+        { property.featured ? <span className="absolute left-0 top-0 z-10 ml-3 mt-3 inline-flex select-none rounded-lg bg-[#003366] px-3 py-2 text-sm font-medium text-white"> Featured </span> : null }
       </div>
 
       <div className="">
