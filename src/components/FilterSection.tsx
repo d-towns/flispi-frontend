@@ -250,7 +250,7 @@ const FilterSection: FC = () => {
                 />
                 {/* Desktop Bathrooms Filter */}
                 <FilterComponent
-                  title="bathrooms"
+                  title="Bathrooms"
                   panelComponent={
                     <SelectDropdown
                       options={Array.from({ length: 5 }, (_, index) => `${index}`)}
