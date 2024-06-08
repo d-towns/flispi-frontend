@@ -51,6 +51,7 @@ export const fetchFeaturedProperties = async (): Promise<PropertyApiResponse> =>
         const response = await axios.get<PropertyApiResponse>('/properties', {
             params: {
                 featured: true,
+                propertyClass: 'Res Imp',
                 limit: 4,
             },
             headers: {
