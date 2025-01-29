@@ -27,13 +27,13 @@ export default function TermsPage() {
         <p className="mb-4">These Terms of Service govern your use of our website located at www.flintpropertysearch.com and any related services provided by Towns Captial-Flint LLC.</p>
         <p className="mb-4">By accessing our website, you agree to abide by these Terms of Service and any amendments to them that we may publish from time to time.</p>
        
-
+        <h2 className="text-xl font-semibold text-gray-900 mb-2">2. Intellectual Property</h2>
+        <p className="mb-4">Towns Captial-Flint LLC does not own any of the content available on the site. All of it is from thelandbank.org and is available for view there</p>
         <h2 className="text-xl font-semibold text-gray-900 mb-2">3. Acceptable Use</h2>
         <p className="mb-4">As a user of our site, you agree to use our site legally, not to use our site for illegal purposes, and not to:</p>
         <ul className="list-disc pl-5 mb-4">
             <li>Harass or mistreat other users of our site;</li>
             <li>Violate the rights of other users of our site;</li>
-            <li>Violate the intellectual property rights of the site owners or any third party to the site;</li>
             <li>Hack into the account of another user of the site;</li>
             <li>Act in any way that could be considered fraudulent; or</li>
             <li>Post any material that may be deemed inappropriate or offensive.</li>
