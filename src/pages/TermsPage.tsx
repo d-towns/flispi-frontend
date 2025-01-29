@@ -26,9 +26,7 @@ export default function TermsPage() {
         <h2 className="text-xl font-semibold text-gray-900 mb-2">1. Introduction</h2>
         <p className="mb-4">These Terms of Service govern your use of our website located at www.flintpropertysearch.com and any related services provided by Towns Captial-Flint LLC.</p>
         <p className="mb-4">By accessing our website, you agree to abide by these Terms of Service and any amendments to them that we may publish from time to time.</p>
-
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">2. Intellectual Property</h2>
-        <p className="mb-4">All content published and made available on our site is the property of Towns Captial-Flint LLC and the site's creators. This includes, but is not limited to images, text, logos, documents, downloadable files and anything that contributes to the composition of our site.</p>
+       
 
         <h2 className="text-xl font-semibold text-gray-900 mb-2">3. Acceptable Use</h2>
         <p className="mb-4">As a user of our site, you agree to use our site legally, not to use our site for illegal purposes, and not to:</p>
