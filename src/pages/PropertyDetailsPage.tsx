@@ -126,7 +126,7 @@ const PropertyDetailsPage = () => {
               </div>
             </div>
             <div className="flex flex-col w-full p-4 text-gray-800 gap-6">
-              No property description available
+              <a href={`https://www.thelandbank.org/property_sheet.asp?pid=${property?.parcel_id}&loc=1&from=main`}>View this property on the offical Genesee County Land Bank website</a>
 
 
               {property?.property_class.includes('Lot') && <p>No land contract offers accepted on vacant land. Please submit proof of funds and feasibility along with your offer form to the Genesee County Land Bank office. Documents can be faxed, emailed or hand delivered. Please follow-up with office to confirm the offer has been received.</p>}
@@ -171,6 +171,8 @@ const PropertyDetailsPage = () => {
                 <Dialog.Description className="text-mauve11 mt-[10px] mb-5 text-[15px] leading-normal">
 
                   This is a <span className="font-bold">{property?.property_class} </span> property, which means you need a <span className="font-bold"> {findProperApplication(property)} </span>to apply.
+
+                  ** THIS FORM MUST THE SENT TO THE GENESEE COUNTY LAND BANK OFFICE, NOT TO TOWNS CAPITAL-FLINT LLC. **
 
                   <p className="mt-5">If you are unsure on the details on how to apply to a purchase a home from the Genesee County Land Bank, please visit <a href="https://www.thelandbank.org/homeownership.asp" target="_blank" rel="noreferrer" className="text-blue-500">The Land Bank's home ownership guide</a> page for more information.</p>
                 </Dialog.Description>
