@@ -85,7 +85,7 @@ const HomePage = () => {
             Our mission is to restore value to the community by making Flint's abandoned land & properties easy to locate and acquire in cooperation with stakeholders who value responsible land ownership.
           </p>
           <p className="mb-6 text-xs font-semibold leading-7 lg:w-3/4 text-grey-900">
-            **Disclaimer: This is an independent project. This is not the official Genesee County Land Bank website -- you can find that  <a href="www.thelandbank.org" className="underline">here</a>**
+            **Disclaimer: This is an independent project. This is not the official Genesee County Land Bank website -- you can find that  <a href="https://www.thelandbank.org" className="underline">here</a>**
           </p>
           <div className="flex items-center gap-4 flex-row ">
             <Link to="/search?featured=true" className="flex items-center md:py-4 py-3 px-5 text-xs sm:text-sm font-bold text-white bg-gradient-to-br from-[#8ba2be] to-[#A9A9A9] focus:ring-4 shadow-lg hover:scale-105 focus:bg-purple-100 transition duration-300 rounded-xl">Find Properties</Link>
