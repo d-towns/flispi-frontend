@@ -126,7 +126,7 @@ const PropertyDetailsPage = () => {
               </div>
             </div>
             <div className="flex flex-col w-full p-4 text-gray-800 gap-6">
-              <a href={`https://www.thelandbank.org/property_sheet.asp?pid=${property?.parcel_id}&loc=1&from=main`}>View this property on the offical Genesee County Land Bank website</a>
+              <a  href={`https://www.thelandbank.org/property_sheet.asp?pid=${property?.parcel_id}&loc=1&from=main`}>Click here to view this property on the offical Genesee County Land Bank website</a>
 
 
               {property?.property_class.includes('Lot') && <p>No land contract offers accepted on vacant land. Please submit proof of funds and feasibility along with your offer form to the Genesee County Land Bank office. Documents can be faxed, emailed or hand delivered. Please follow-up with office to confirm the offer has been received.</p>}
